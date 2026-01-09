@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>獸醫病理複習系統 (專業回傳版)</title>
+    <style>
+        :root { --main: #2c3e50; --accent: #3498db; --success: #27ae60; --danger: #e74c3c; --bg: #f4f7f6; }
+        body { font-family: "PingFang TC", "Microsoft JhengHei", sans-serif; background: var(--bg); margin: 0; padding: 0; }
+        .nav-bar { background: var(--main); color: white; padding: 15px; text-align: center; position: sticky; top: 0; z-index: 1000; box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
+        .container { max-width: 800px; margin: 20px auto; padding: 0 15px; padding-bottom: 50px; }
+        .card { background: white; border-radius: 12px; padding: 25px; box-shadow: 0 4px 10px rgba(0,0,0,0.05); margin-bottom: 20px; }
+        
+        /* 選單樣式 */
+        .menu-grid { display: grid; grid-template-columns: 1fr; gap: 15px; margin-top: 20px; }
+        .btn-chapter { background: white; border: 2px solid var(--accent); color: var(--accent); padding: 20px; border-radius: 10px; cursor: pointer; font-size: 1.1em; font-weight: bold; transition: 0.3s; text-align: center; }
+        .btn-chapter:hover { background: var(--accent); color: white; }
+        .btn-wrong-bank { background: #9b59b6; color: white; border: none; padding: 15px; border-radius: 10px; cursor: pointer; width: 100%; font-size: 1em; font-weight: bold; margin-top: 10px; }
+
+        /* 題目樣式 */
+        .q-block { margin-bottom: 30px; border-bottom: 1px solid #eee; padding-bottom: 20px; }
+        .q-text { font-weight: bold; font-size: 1.1em; display: block; margin-bottom: 15px; line-height: 1.5; }
+        .opt-list { list-style: none; padding: 0; }
+        label { display: block; padding: 12px; border: 1px solid #ddd; border-radius: 8px; margin-bottom: 8px; cursor: pointer; }
+        input[type="radio"] { display: none; }
+        input[type="radio"]:checked + label { background: #e1f0fa; border-color: var(--accent); font-weight: bold; }
+
+        /* 報表與解析 */
+        .report-box { background: #2c3e50; color: #ecf0f1; padding: 15px; border-radius: 8px; font-family: monospace; white-space: pre-wrap; font-size: 0.85em; margin: 15px 0; max-height: 400px; overflow-y: auto; line-height: 1.6; }
+        .feedback { padding: 10px; border-radius: 5px; margin-top: 10px; font-weight: bold; }
+        .correct { background: #eafaf1; color: var(--success); }
+        .wrong { background: #fdedec; color: var(--danger); }
+        .exp { font-size: 0.9em; background: #f9f9f9; padding: 10px; border-left: 4px solid var(--accent); margin-top: 5px; color: #444; }
+
+        .btn-main { background: var(--accent); color: white; border: none; padding: 15px; width: 100%; border-radius: 8px; font-size: 1.1em; cursor: pointer; font-weight: bold; }
+        .btn-secondary { background: #95a5a6; color: white; border: none; padding: 10px; border-radius: 5px; cursor: pointer; margin-top: 20px; width: 100%; }
+        
+        .report-opt-list { margin: 5px 0 5px 20px; padding: 0; list-style-type: circle; }
+    </style>
+</head>
+<body>
+
+<div class="nav-bar"><h2 id="top-title">獸醫病理複習系統</h2></div>
+
+<div class="container">
+    <div id="home-view" class="card">
+        <h3>選擇複習章節：</h3>
+        <div id="chapter-list" class="menu-grid"></div>
+        <hr style="margin: 25px 0; border: 0; border-top: 1px solid #eee;">
+        <button class="btn-wrong-bank" onclick="showWrongBank()">📕 查看個人錯題累積本 (含完整選項)</button>
+    </div>
+
+    <div id="quiz-view" style="display:none;">
+        <div id="quiz-content" class="card"></div>
+        <button class="btn-main" onclick="gradeQuiz()">提交答案並產生成績報表</button>
+        <button class="btn-secondary" onclick="goHome()">取消測驗回首頁</button>
+    </div>
+
+    <div id="result-view" style="display:none;">
+        <div class="card">
+            <h2 id="score-text" style="text-align:center;"></h2>
+            <p><strong>📋 完整錯題詳解報表 (複製回傳)：</strong></p>
+            <div id="report-text" class="report-box"></div>
+            <button class="btn-main" style="background:var(--success);" onclick="copyReport()">一鍵複製完整報表</button>
+            <hr>
+            <h3>🔍 逐題解析</h3>
+            <div id="review-content"></div>
+            <button class="btn-secondary" onclick="goHome()">回首頁</button>
+        </div>
+    </div>
+
+    <div id="bank-view" style="display:none;">
+        <div class="card">
+            <h2>📕 個人錯題累積本</h2>
+            <div id="bank-content"></div>
+            <button class="btn-main" onclick="goHome()">返回首頁</button>
+            <button class="btn-secondary" style="background:var(--danger); margin-top:10px;" onclick="clearBank()">清空紀錄</button>
+        </div>
+    </div>
+</div>
+
+<script>
+const quizDatabase = {
+   "developmental_anomalies": {
+        title: "第一章：發育異常與畸形",
+        questions: [
+            { q: "下列哪一名詞正確描述「器官在出生時完全不存在」？", a: "Agenesis", o: ["Hypoplasia", "Agenesis", "Atrophy", "Dysplasia"], e: "Agenesis（發育不全/缺如）指器官原基未形成，導致器官完全不存在。" },
+            { q: "一隻幼犬出生即有單側腎臟體積明顯較小，但仍具有基本結構，最適當的診斷為：", a: "Renal hypoplasia", o: ["Renal atrophy", "Renal aplasia", "Renal hypoplasia", "Renal degeneration"], e: "Hypoplasia 指器官雖有發育但細胞數量不足，導致體積未達正常。" },
+            { q: "下列哪一病變「最不屬於」神經管閉合異常（Neural tube defects）？", a: "Hydrocephalus", o: ["Spina bifida", "Anencephaly", "Meningocele", "Hydrocephalus"], e: "Hydrocephalus（腦積水）多與腦脊液循環障礙有關，非單純神經管閉合失敗。" },
+            { q: "無腦症（Anencephaly）的主要病理機轉為：", a: "神經管前端未閉合", o: ["顱骨未形成導致腦部暴露", "神經管前端未閉合", "腦室內腦脊液過度累積", "腦組織出生後退化"], e: "Anencephaly 屬於神經管缺陷，主要是神經管前端（頭端）未閉合所致。" },
+            { q: "Persistent right aortic arch (PRAA) 最主要的病理影響位置為：", a: "食道", o: ["氣管", "食道", "肺動脈", "左心室"], e: "PRAA 會形成血管環壓迫食道，導致食道狹窄及近端擴張。" },
+            { q: "PRAA 所導致的 megaesophagus（食道擴張），其形成時間點最可能為：", a: "出生後因食道壓迫逐漸形成", o: ["胚胎期直接形成", "出生後因食道壓迫逐漸形成", "老年退化造成", "感染引起急性變化"], e: "PRAA 本身是先天構造異常，但食道擴張通常是出生進食後因受壓迫而逐漸產生的次發變化。" },
+            { q: "下列哪一發育異常最可能造成新生動物出現肺發育不全？", a: "Congenital diaphragmatic hernia", o: ["Persistent ductus arteriosus", "Congenital diaphragmatic hernia", "Tracheal collapse", "Pulmonary edema"], e: "先天性橫膈膜疝氣導致腹腔臟器進入胸腔，壓迫發育中的肺部，造成肺發育不良（Pulmonary hypoplasia）。" },
+            { q: "多囊腎（Polycystic kidney disease）在病理分類上最適合歸類為：", a: "囊性發育異常", o: ["炎症性疾病", "囊性發育異常", "腫瘤性病變", "退行性病變"], e: "這是腎小管發育瑕疵導致的多發性囊狀結構形成。" },
+            { q: "下列哪一項最符合「Teratogen」的定義？", a: "胚胎或胎兒期造成結構異常的因子", o: ["造成出生後器官退化的因素", "導致腫瘤形成的化學物質", "胚胎或胎兒期造成結構異常的因子", "改變細胞代謝但不影響發育的物質"], e: "Teratogen（致畸胎因子）專指在發育階段造成結構畸形的因子。" },
+            { q: "為何胚胎發育早期暴露於致畸胎因子時，後果通常較嚴重？", a: "因為器官形成與分化正在進行", o: ["因為免疫系統尚未成熟", "因為器官形成與分化正在進行", "因為血液循環尚未建立", "因為細胞數量尚不足"], e: "器官形成期（Organogenesis）是胚胎對致畸胎因子最敏感的時期。" },
+            { q: "下列何者屬於常見的犬先天性心血管發育異常？", a: "Persistent ductus arteriosus", o: ["Cardiomyopathy", "Atherosclerosis", "Persistent ductus arteriosus", "Endocarditis"], e: "Persistent ductus arteriosus（動脈導管未閉, PDA）是常見的先天性心臟病。" },
+            { q: "關於 hypoplasia 與 atrophy 的比較，下列何者正確？", a: "Atrophy 原本器官曾正常發育", o: ["兩者皆為出生後才發生", "Hypoplasia 為後天退化", "Atrophy 原本器官曾正常發育", "兩者在病理上無法區分"], e: "萎縮（Atrophy）是發育完成後才縮小；發育不良（Hypoplasia）是胚胎期發育不足。" },
+            { q: "下列哪一項最符合「Agenesis」的定義？", a: "器官完全未形成", o: ["器官體積縮小", "器官完全未形成", "器官出生後退化", "組織分化異常"], e: "Agenesis 指器官原基完全沒有發育。" },
+            { q: "下列哪一項最符合「hypoplasia」的概念？", a: "胚胎期細胞數量不足", o: ["器官曾正常發育後縮小", "器官完全缺如", "胚胎期細胞數量不足", "組織排列異常"], e: "Hypoplasia 指器官雖有發育但細胞數量不足。" },
+            { q: "下列何者最可能與遺傳性發育異常（Genetic anomaly）有關？", a: "Gene mutation", o: ["Gene mutation", "Bacterial infection", "Mechanical trauma", "Intoxication"], e: "遺傳性異常多源於基因突變或染色體變異。" },
+            { q: "下列哪一項病變最符合「Vascular ring anomaly」的特徵？", a: "Persistent right aortic arch", o: ["Persistent right aortic arch", "Atrial septal defect", "Cardiomyopathy", "Arteritis"], e: "PRAA 是一種典型的血管環異常，會壓迫食道。" },
+            { q: "下列哪一項最能解釋先天性腭裂（Cleft palate）的病理原因？", a: "左右顎突融合失敗", o: ["左右顎突融合失敗", "出生後外傷", "慢性發炎", "腫瘤壓迫"], e: "腭裂（Palatoschisis）主因是兩側顎突（Palatal shelves）融合失敗。" },
+            { q: "下列哪一病變最符合 Dysplasia 的概念？", a: "為細胞排列與分化異常", o: ["為器官出生後退化", "為細胞排列與分化異常", "為器官完全缺如", "為器官體積縮小"], e: "Dysplasia（發育異常）指組織內的細胞分化與排列結構混亂。" },
+            { q: "變異發育（Developmental Pathology）的研究重點為何？", a: "胚胎與胎兒期的結構異常", o: ["胚胎與胎兒期的結構異常", "成熟動物的感染性疾病", "老年退行性病變", "腫瘤形成機轉"], e: "此章節主要研究畸胎學（Teratology）與發育缺陷。" },
+            { q: "關於脊椎裂（Spina bifida）的敘述，下列何者正確？", a: "為脊椎背側弓融合失敗導致神經管暴露", o: ["是脊髓受病毒感染後的液化壞死", "為脊椎背側弓融合失敗導致神經管暴露", "僅發生於老年大型犬", "是維生素 D 過多導致的骨骼變異"], e: "脊椎裂為椎弓融合失敗，屬於神經管缺陷。" }
+        ]
+    },
+    "pigments_calcium": {
+        title: "第二章：色素及鈣代謝障礙",
+        questions: [
+            { q: "下列何種色素與細胞老化及不飽和脂肪酸的過氧化反應有關？", a: "Lipofuscin", o: ["Anthracosis", "Lipofuscin", "Hemosiderin", "Bilirubin"], e: "Lipofuscin（脂褐質）又稱老化色素。" },
+            { q: "在慢性被動性充血的肺臟中，巨噬細胞吞噬紅血球後產生的色素為：", a: "Hemosiderin", o: ["Melanin", "Bilirubin", "Hemosiderin", "Hematin"], e: "Hemosiderin（含鐵血黃素）內含鐵，普魯士藍染色呈藍色陽性。" },
+            { q: "關於轉移性鈣化（Metastatic calcification），下列敘述何者正確？", a: "常與血鈣或血磷濃度異常升高有關", o: ["僅發生於受損組織", "常與血鈣或血磷濃度異常升高有關", "局部環境 pH 低有利沉著", "機能低下引起"], e: "源於全身性代謝異常（如高血鈣）。" },
+            { q: "肺臟中吸入且無法消化的黑色顆粒病名為：", a: "Anthracosis", o: ["Melanosis", "Anthracosis", "Hemosiderosis", "Porphyria"], e: "Anthracosis 為炭末沈著症。" },
+            { q: "黃疸（Icterus）是由於組織中蓄積了過量的何種物質？", a: "Bilirubin", o: ["Hemoglobin", "Bilirubin", "Biliverdin", "Ferritin"], e: "高膽紅素血症導致黃疸。" },
+            { q: "先天性黑色素沉著症（Melanosis）在牛、羊最不常出現於：", a: "心肌", o: ["肺臟", "腦膜", "心肌", "大血管壁"], e: "Melanosis 常見於肺、腦膜、血管。" },
+            { q: "關於營養不良性鈣化（Dystrophic calcification）何者正確？", a: "血鈣濃度通常維持在正常範圍內", o: ["全身性異常", "血鈣濃度通常維持在正常範圍內", "健康胃黏膜好發", "副甲狀腺亢進引起"], e: "營養不良性鈣化僅限受損組織，血鈣正常。" },
+            { q: "下列哪種色素具抗酸性染色陽性 (Acid-fast positive)？", a: "Ceroid", o: ["Melanin", "Ceroid", "Hemosiderin", "Hematin"], e: "Ceroid（類蠟質）具抗酸性，與 Vit E 缺乏有關。" },
+            { q: "酸性福馬林固定液產生的 Artifact 稱為：", a: "Acid hematin", o: ["Acid hematin", "Bilirubin", "Lipofuscin", "Melanin"], e: "即福馬林色素。" },
+            { q: "大型犬肘部壓力點出現的鈣化團塊名稱為：", a: "Calcinosis circumscripta", o: ["Calcinosis cutis", "Calcinosis circumscripta", "Myositis", "Lipoma"], e: "限局性鈣質沉著。" },
+            { q: "(進階) 肝受阻導致葉紅素（Phylloerythrin）排泄障礙會引起哪種光敏感？", a: "Type III photosensitization", o: ["Type I", "Type II", "Type III photosensitization", "Type IV"], e: "第三型光敏感症為肝源性。" },
+            { q: "(進階) Porphyria 受影響的骨骼在紫外光下呈現：", a: "紅色螢光", o: ["綠色螢光", "紅色螢光", "黃色螢光", "無螢光"], e: "卟啉蓄積在硬組織具 UV 螢光性。" },
+            { q: "(進階) 綿羊急性銅中毒導致腎臟槍金屬色主因為：", a: "Hemoglobinuria", o: ["Hemoglobinuria", "Bilirubinuria", "Hematuria", "Ketonuria"], e: "血紅素尿所致。" },
+            { q: "(進階) 禽類痛風沉著於漿膜面的白色物質化學成分：", a: "Urates", o: ["Calcium phosphate", "Calcium oxalate", "Urates", "Bilirubin"], e: "禽類代謝尿酸鹽。" },
+            { q: "(進階) 偽黑色素沉著是 H2S 與鐵離子結合成：", a: "Iron sulfide", o: ["Iron oxide", "Iron sulfide", "Ferric chloride", "Hematin"], e: "產生黑色的硫化鐵。" },
+            { q: "(進階) 維生素 D 中毒引起高血鈣，鈣鹽最常沉著在血管：", a: "Tunica media", o: ["Tunica intima", "Tunica media", "Tunica adventitia", "Endothelium"], e: "嗜彈性纖維，常在血管中層。" },
+            { q: "(進階) 關於馬黑色素瘤（Equine melanoma）何者錯誤？", a: "主要發生在年輕灰毛馬，且病程極短", o: ["好發於老年灰毛馬", "常見於尾根", "主要發生在年輕灰毛馬，且病程極短", "具轉移潛力"], e: "馬黑色素瘤進展緩慢且為老年病。" },
+            { q: "(進階) 區分無黑色素型黑色素瘤可檢測何種酵素？", a: "Tyrosinase", o: ["Tyrosinase", "Alkaline phosphatase", "Acid phosphatase", "Peroxidase"], e: "Tyrosinase 活性是關鍵。" },
+            { q: "(進階) 溶血性黃疸在生化檢查中主要呈現：", a: "Unconjugated bilirubin 增加", o: ["Conjugated bilirubin 增加", "Unconjugated bilirubin 增加", "糞便灰白", "膽管阻塞"], e: "增加的是未結合型膽紅素。" },
+            { q: "(進階) 慢性肌肉壞死病灶中出現的鈣鹽沉著屬於：", a: "Dystrophic calcification", o: ["Metastatic", "Dystrophic calcification", "Calcinosis cutis", "Osteogenesis"], e: "壞死局部的鈣化皆屬營養不良性。" }
+        ]
+    }
+};
+
+let currentKey = "";
+
+function init() {
+    const list = document.getElementById('chapter-list');
+    list.innerHTML = "";
+    for(let key in quizDatabase) {
+        list.innerHTML += `<button class="btn-chapter" onclick="startQuiz('${key}')">${quizDatabase[key].title}</button>`;
+    }
+}
+
+function startQuiz(key) {
+    currentKey = key;
+    document.getElementById('home-view').style.display = "none";
+    document.getElementById('quiz-view').style.display = "block";
+    document.getElementById('top-title').innerText = quizDatabase[key].title;
+    
+    const container = document.getElementById('quiz-content');
+    container.innerHTML = "";
+    quizDatabase[key].questions.forEach((item, i) => {
+        let opts = [...item.o].sort(() => Math.random() - 0.5);
+        container.innerHTML += `
+            <div class="q-block">
+                <span class="q-text">${i+1}. ${item.q}</span>
+                <div class="opt-list">${opts.map(o => `
+                    <input type="radio" name="q${i}" value="${o}" id="q${i}_${o}">
+                    <label for="q${i}_${o}">${o}</label>
+                `).join("")}</div>
+            </div>
+        `;
+    });
+    window.scrollTo(0,0);
+}
+
+function gradeQuiz() {
+    const qs = quizDatabase[currentKey].questions;
+    let score = 0;
+    let wrongReport = "";
+    let wrongBatch = [];
+
+    for(let i=0; i<qs.length; i++) {
+        const sel = document.querySelector(`input[name="q${i}"]:checked`);
+        if(!sel) { alert("尚未完成所有題目！"); return; }
+        
+        const isCorrect = sel.value === qs[i].a;
+        if(isCorrect) score++;
+        else {
+            let optStr = qs[i].o.map(o => `   - ${o}${o === qs[i].a ? ' (正確答案)' : ''}`).join("\n");
+            wrongReport += `【第 ${i+1} 題 錯誤】\n 題目：${qs[i].q}\n 您的選擇：${sel.value}\n 所有選項：\n${optStr}\n 解析：${qs[i].e}\n------------------\n`;
+            wrongBatch.push({ q: qs[i].q, a: qs[i].a, o: qs[i].o, e: qs[i].e, chapter: quizDatabase[currentKey].title });
+        }
+    }
+
+    saveToBank(wrongBatch);
+    document.getElementById('quiz-view').style.display = "none";
+    document.getElementById('result-view').style.display = "block";
+    document.getElementById('score-text').innerText = `得分：${score} / ${qs.length}`;
+    document.getElementById('report-text').innerText = `=== 測驗報表 ===\n章節：${quizDatabase[currentKey].title}\n成績：${score}/${qs.length}\n時間：${new Date().toLocaleString()}\n\n` + (wrongReport || "滿分！");
+
+    const review = document.getElementById('review-content');
+    review.innerHTML = qs.map((item, i) => {
+        const selValue = document.querySelector(`input[name="q${i}"]:checked`).value;
+        const isCorrect = selValue === item.a;
+        let optReview = item.o.map(opt => `<li style="${opt === item.a ? 'color:green;font-weight:bold;' : ''}">${opt}</li>`).join("");
+        
+        return `
+            <div class="q-block" style="border: 1px solid #eee; padding: 15px; border-radius: 8px;">
+                <p><strong>${i+1}. ${item.q}</strong></p>
+                <ul style="list-style-type: circle; font-size: 0.9em; color: #666;">${optReview}</ul>
+                <div class="feedback ${isCorrect ? 'correct' : 'wrong'}">${isCorrect ? '✓ 正確' : '✗ 錯誤，您選：' + selValue}</div>
+                <div class="exp">解析：${item.e}</div>
+            </div>
+        `;
+    }).join("");
+    window.scrollTo(0,0);
+}
+
+function saveToBank(list) {
+    let bank = JSON.parse(localStorage.getItem('vet_wrong_bank')) || [];
+    list.forEach(item => {
+        if(!bank.some(b => b.q === item.q)) bank.push(item);
+    });
+    localStorage.setItem('vet_wrong_bank', JSON.stringify(bank));
+}
+
+function showWrongBank() {
+    document.getElementById('home-view').style.display = "none";
+    document.getElementById('bank-view').style.display = "block";
+    const bank = JSON.parse(localStorage.getItem('vet_wrong_bank')) || [];
+    const content = document.getElementById('bank-content');
+    if(bank.length === 0) {
+        content.innerHTML = "<p style='text-align:center; padding:30px;'>目前尚無紀錄。加油！</p>";
+    } else {
+        content.innerHTML = bank.map((item, i) => {
+            let opts = item.o.map(o => `<li style="${o === item.a ? 'color:green;font-weight:bold;' : ''}">${o}</li>`).join("");
+            return `
+                <div class="q-block">
+                    <p><small>[${item.chapter}]</small><br><strong>${i+1}. ${item.q}</strong></p>
+                    <ul style="list-style-type: disc; font-size: 0.85em; color: #555; margin-left: 20px;">${opts}</ul>
+                    <div class="exp" style="margin-top:10px;">解析：${item.e}</div>
+                </div>
+            `;
+        }).join("");
+    }
+}
+
+function clearBank() {
+    if(confirm("確定要清空所有的錯題紀錄嗎？")) {
+        localStorage.removeItem('vet_wrong_bank');
+        showWrongBank();
+    }
+}
+
+function copyReport() {
+    const txt = document.getElementById('report-text').innerText;
+    navigator.clipboard.writeText(txt).then(() => alert("完整報表已複製！"));
+}
+
+function goHome() {
+    location.reload();
+}
+
+init();
+</script>
+</body>
+</html>
