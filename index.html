@@ -191,6 +191,20 @@ function gradeQuiz() {
     document.getElementById('score-text').innerText = `得分：${score} / ${qs.length}`;
     document.getElementById('report-text').innerText = `=== 測驗報表 ===\n章節：${quizDatabase[currentKey].title}\n成績：${score}/${qs.length}\n時間：${new Date().toLocaleString()}\n\n` + (wrongReport || "滿分！");
 
+	// 在 gradeQuiz 函數內的 saveToBank(wrongBatch); 之後加入：
+    const scriptURL = 'https://script.google.com/macros/s/AKfycbxE9ihjdZDBp4h3ZiKB_1_fpf8OBpgUzR45JjgwjZnmkwAHSXosoGPPlsgM5oAFJKvJ/exec';
+    const payload = {
+        score: score + "/" + qs.length,
+        wrongAnswers: wrongReport,
+        chapter: quizDatabase[currentKey].title
+    };
+
+    fetch(scriptURL, {
+        method: 'POST',
+        mode: 'no-cors', // 避免跨網域錯誤
+        body: JSON.stringify(payload)
+    });
+
     const review = document.getElementById('review-content');
     review.innerHTML = qs.map((item, i) => {
         const selValue = document.querySelector(`input[name="q${i}"]:checked`).value;
