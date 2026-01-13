@@ -89,10 +89,139 @@
  * 預留出題位置：請直接在對應科目的 questions 陣列中貼入題目數據
  */
 const quizDatabase = {
-    "patho": { title: "病理學 Pathology", questions: [] },
-    "phar": { title: "藥理學 Pharmacology", questions: [] },
-    "disease": { title: "疾病學 Disease", questions: [] },
-    "lab": { title: "實驗診斷學 Clinical Path", questions: [] },
+		 // 病理學
+    "patho": { title: "病理學 Pathology", questions: [
+		// 基礎題 (1-10)
+            { q: "下列哪一種壞死類型最常發生於中樞神經系統（CNS）？", a: "Liquefactive necrosis", o: ["Coagulative necrosis", "Liquefactive necrosis", "Caseous necrosis", "Fat necrosis"], e: "液化性壞死（Liquefactive necrosis）常見於腦部，因其脂質含量高且缺乏支撐間質。" },
+            { q: "細胞受到傷害時，水分大量進入細胞內導致胞漿淡染、體積腫大，稱為：", a: "Hydropic degeneration", o: ["Fatty change", "Hydropic degeneration", "Hyaline change", "Amyloidosis"], e: "水變性（Hydropic degeneration）是細胞損傷的最早表現之一。" },
+            { q: "在慢性瘀血的肝臟中，肉眼可見紅黃相間的病變，俗稱為：", a: "Nutmeg liver", o: ["Sago spleen", "Nutmeg liver", "Fatty liver", "Lardaceous liver"], e: "檳榔肝（Nutmeg liver）是由中心靜脈瘀血與周邊脂肪變性交織而成。" },
+            { q: "關於右側主動脈弓持續存在（PRAA），其最主要的臨床後果為何？", a: "食道擴張 (Megaesophagus)", o: ["氣管塌陷", "食道擴張 (Megaesophagus)", "心室中隔缺損", "肺動脈狹窄"], e: "PRAA 形成的血管環會壓迫食道。" },
+            { q: "下列哪種色素使用普魯士藍染色（Prussian blue）會呈現陽性藍色反應？", a: "Hemosiderin", o: ["Melanin", "Lipofuscin", "Hemosiderin", "Bilirubin"], e: "含鐵血黃素（Hemosiderin）含有三價鐵離子。" },
+            { q: "炎症反應早期，血管通透性增加主要是由於下列哪種物質釋放？", a: "Histamine", o: ["Histamine", "Complement", "Interferon", "Albumin"], e: "組織胺（Histamine）是引起早期血管反應的主因。" },
+            { q: "關於發熱（Fever）的敘述，下列何者正確？", a: "是由於下視丘體溫調節中樞的設定點上移", o: ["單純是因為環境溫度過高", "是由於下視丘體溫調節中樞的設定點上移", "與前列腺素釋放無關", "體溫越高對動物越有利"], e: "發熱是內源性熱原（如 IL-1）作用於下視丘所致。" },
+            { q: "下列何者屬於神經管閉合異常（Neural tube defects）？", a: "Spina bifida", o: ["Hydrocephalus", "Spina bifida", "Cleft palate", "Polycystic kidney"], e: "脊椎裂（Spina bifida）是典型的神經管閉合不全。" },
+            { q: "惡性腫瘤與良性腫瘤最主要的區別特徵為何？", a: "具有侵襲性與轉移能力", o: ["生長速度快慢", "細胞核的大小", "具有侵襲性與轉移能力", "是否壓迫周圍組織"], e: "轉移（Metastasis）是惡性腫瘤最明確的特徵。" },
+            { q: "血栓形成（Thrombosis）的機轉中，血管內皮受損會暴露何種物質引發凝血？", a: "Collagen", o: ["Albumin", "Collagen", "Heparin", "Bilirubin"], e: "內皮受損暴露膠原蛋白（Collagen）會啟動血小板黏附。" },
+
+            // 進階題 (11-20)
+            { q: "(進階) 關於類澱粉沉積（Amyloidosis），下列敘述何者正確？", a: "在剛果紅（Congo red）染色下呈現橘紅色", o: ["是細胞內蛋白質過度蓄積", "在剛果紅（Congo red）染色下呈現橘紅色", "僅發生於肝臟", "屬於一種可逆性的細胞變性"], e: "類澱粉是細胞外的異常蛋白質沉積，剛果紅染色具特異性。" },
+            { q: "(進階) 結核病（Tuberculosis）典型的壞死特徵為：", a: "Caseous necrosis", o: ["Liquefactive necrosis", "Coagulative necrosis", "Caseous necrosis", "Gangrenous necrosis"], e: "乾酪樣壞死（Caseous necrosis）是結核肉芽腫的特徵。" },
+            { q: "(進階) 慢性溶血導致肝細胞內出現大量棕色顆粒，此色素為：", a: "Hemosiderin", o: ["Lipofuscin", "Hemosiderin", "Ceroid", "Hematin"], e: "溶血釋放鐵質，儲存為 Hemosiderin。" },
+            { q: "(進階) 關於休克（Shock）的微循環變化，進入失代償期的標誌為：", a: "微血管前括約肌舒張但後括約肌仍收縮", o: ["微血管前後括約肌均強烈收縮", "微血管前括約肌舒張但後括約肌仍收縮", "血流速度加快", "總外周阻力顯著下降"], e: "這會導致血液淤積於微血管床，造成血壓驟降。" },
+            { q: "(進階) 病毒感染細胞後，在胞核或胞漿內出現的特殊結構稱為：", a: "Inclusion bodies", o: ["Psammoma bodies", "Inclusion bodies", "Lines of Zahn", "Russell bodies"], e: "包涵體（Inclusion bodies）是病毒成分或細胞反應產物。" },
+            { q: "(進階) 第三型光敏感症（Type III Photosensitization）與下列何種臟器功能障礙直接相關？", a: "Liver", o: ["Kidney", "Liver", "Spleen", "Pancreas"], e: "肝臟排泄葉紅素障礙導致其進入皮膚。" },
+            { q: "(進階) 腫瘤的分級（Grading）主要是依據：", a: "細胞的分化程度與核分裂相數量", o: ["腫瘤的大小", "淋巴結轉移情況", "細胞的分化程度與核分裂相數量", "是否侵犯鄰近器官"], e: "分級（Grading）看細胞惡性度，分期（Staging）看擴散範圍。" },
+            { q: "(進階) 肉芽組織（Granulation tissue）不包含下列哪種成分？", a: "上皮樣細胞 (Epithelioid cells)", o: ["新生微血管", "纖維母細胞", "上皮樣細胞 (Epithelioid cells)", "細胞外基質"], e: "上皮樣細胞見於肉芽腫（Granuloma），而非肉芽組織。" },
+            { q: "(進階) 所謂「白色梗塞（White infarct）」最常見於：", a: "Kidney", o: ["Lung", "Liver", "Kidney", "Intestine"], e: "實質臟器如腎、脾、心常發生貧血性（白色）梗塞。" },
+            { q: "(進階) 下列何種細胞是慢性炎症（Chronic inflammation）中最主要的特徵細胞？", a: "Macrophages", o: ["Neutrophils", "Macrophages", "Eosinophils", "Basophils"], e: "慢性發炎以單核球、巨噬細胞及淋巴球浸潤為主。" },
+
+            // 綜合題 (21-25) - 跨章節/基本病理
+            { q: "(綜合) 細胞發生凋亡（Apoptosis）時，啟動的核心酵素為：", a: "Caspases", o: ["Amylase", "Caspases", "Lipase", "Polymerase"], e: "Caspases 是執行凋亡的關鍵蛋白酶。" },
+            { q: "(綜合) 關於萎縮（Atrophy）的敘述，下列何者正確？", a: "器官曾發育成熟後因因素縮小", o: ["器官先天發育不全", "器官曾發育成熟後因因素縮小", "細胞數量增加但體積縮小", "僅發生於肌肉組織"], e: "萎縮是後天性的。" },
+            { q: "(綜合) 組織發生壞死後，由周圍結締組織取代並包圍的過程稱為：", a: "Organization", o: ["Calcification", "Organization", "Regeneration", "Metaplasia"], e: "機化（Organization）是指壞死組織被肉芽組織取代的過程。" },
+            { q: "(綜合) 下列哪種狀況最容易引起轉移性鈣化（Metastatic calcification）？", a: "Chronic renal failure", o: ["Chronic renal failure", "Local muscle necrosis", "Tuberculosis", "Viral pneumonia"], e: "慢性腎衰竭引起高血磷及副甲狀腺亢進，導致血鈣代謝異常。" },
+            { q: "(綜合) 下列何者不屬於化生（Metaplasia）的範疇？", a: "神經細胞轉變為肌肉細胞", o: ["氣管粘膜由柱狀上皮轉為鱗狀上皮", "神經細胞轉變為肌肉細胞", "結締組織內出現骨組織", "胃粘膜出現腸上皮特徵"], e: "化生通常發生在同類組織之間（如上皮間）。" }
+	] },
+		 // 藥理學
+    "phar": { title: "藥理學 Pharmacology", questions: [
+// 基礎題
+            { q: "下列關於 Atropine 的機轉敘述，何者正確？", a: "競爭性拮抗 Muscarinic receptors", o: ["興奮副交感神經", "競爭性拮抗 Muscarinic receptors", "興奮 Alpha receptors", "抑制乙醯膽鹼酯酶"], e: "Atropine 是 M 受體拮抗劑。" },
+            { q: "有機磷中毒時，動物出現流涎、縮瞳與震顫，主因是：", a: "抑制 AChE 活性", o: ["抑制 AChE 活性", "阻斷 Nicotinic receptors", "興奮 Beta 受體", "加速 ACh 的代謝"], e: "有機磷抑制乙醯膽鹼酯酶（AChE），導致 ACh 累積。" },
+            { q: "下列何者是交感神經節後神經元釋放的主要神經傳遞物質？", a: "Norepinephrine", o: ["Acetylcholine", "Norepinephrine", "Serotonin", "GABA"], e: "絕大多數交感節後纖維釋放 NE。" },
+            { q: "Pilocarpine 在臨床上主要用於改善何種症狀？", a: "Glaucoma", o: ["Asthma", "Glaucoma", "Tachycardia", "Diarrhea"], e: "Pilocarpine 縮瞳可降低眼壓。" },
+            { q: "下列何種藥物常用於緩解氣喘引起之支氣管收縮（Beta-2 agonist）？", a: "Albuterol", o: ["Propranolol", "Albuterol", "Atropine", "Neostigmine"], e: "Albuterol 是選擇性 Beta-2 興奮劑。" },
+            { q: "Digoxin 主要透過何種機轉增加心肌收縮力？", a: "抑制 Na+/K+-ATPase", o: ["抑制 Na+/K+-ATPase", "興奮 Beta-1 受體", "阻斷鈣離子通道", "活化腺苷酸環化酶"], e: "抑制鈉鉀幫浦增加胞內鈣濃度。" },
+            { q: "下列何種藥物是常用的強效利尿劑（Loop diuretic）？", a: "Furosemide", o: ["Mannitol", "Furosemide", "Spironolactone", "Chlorothiazide"], e: "Furosemide 作用於亨利氏環上升支。" },
+            { q: "Warfarin 的抗凝血作用機轉為：", a: "拮抗 Vitamin K", o: ["活化抗凝血酶 III", "拮抗 Vitamin K", "溶解已形成的血栓", "抑制血小板凝集"], e: "Warfarin 抑制 Vit K 的循環利用。" },
+            { q: "Neostigmine 可用於治療重症肌無力，其機轉為：", a: "可逆性抑制 AChE", o: ["直接興奮 N 受體", "可逆性抑制 AChE", "阻斷副交感神經", "增加鈣離子回收"], e: "增加突觸間隙的 ACh 濃度。" },
+            { q: "Propranolol 屬於何種性質之藥物？", a: "非選擇性 Beta blocker", o: ["選擇性 Alpha-1 blocker", "非選擇性 Beta blocker", "選擇性 Beta-1 agonist", "M 受體興奮劑"], e: "Propranolol 同時阻斷 Beta-1 與 Beta-2。" },
+
+            // 進階題
+            { q: "(進階) 有機磷中毒的專一解毒劑（復能劑）為：", a: "2-PAM (Pralidoxime)", o: ["Atropine", "2-PAM (Pralidoxime)", "Naloxone", "Diazepam"], e: "2-PAM 可將被結合的 AChE 重新活化。" },
+            { q: "(進階) 下列何者為選擇性 Alpha-1 受體興奮劑，常用於鼻粘膜消腫？", a: "Phenylephrine", o: ["Phenylephrine", "Prazosin", "Yohimbine", "Dobutamine"], e: "Phenylephrine 引起血管收縮。" },
+            { q: "(進階) Enalapril 屬於何種分類之強心/降壓藥？", a: "ACE inhibitor", o: ["Beta blocker", "ACE inhibitor", "Calcium channel blocker", "Phosphodiesterase inhibitor"], e: "Enalapril 抑制血管收縮素轉化酶。" },
+            { q: "(進階) 下列何種藥物常用於治療貓的肥大性心肌病（HCM）以降低心率？", a: "Diltiazem", o: ["Epinephrine", "Diltiazem", "Dopamine", "Lidocaine"], e: "Diltiazem 是鈣離子通道阻斷劑，具負性頻率作用。" },
+            { q: "(進階) Lidocaine 在心血管系統中主要用於：", a: "治療心室性心律不整", o: ["治療心衰竭", "治療心室性心律不整", "增加血壓", "預防血栓"], e: "Lidocaine 是 Ib 類抗心律不整藥。" },
+            { q: "(進階) 關於 Spironolactone 的敘述，何者正確？", a: "為保鉀型利尿劑且具醛固酮拮抗作用", o: ["作用於亨利氏環", "會導致嚴重的低血鉀", "為保鉀型利尿劑且具醛固酮拮抗作用", "屬於滲透性利尿劑"], e: "Spironolactone 是醛固酮拮抗劑，具保鉀效果。" },
+            { q: "(進階) 綿羊最容易發生何種微量元素中毒導致溶血危象？", a: "Copper", o: ["Iron", "Copper", "Selenium", "Zinc"], e: "羊對銅（Copper）極為敏感。" },
+            { q: "(進階) 下列哪種抗生素對馬具有嚴重心肌毒性（離子型抗生素中毒）？", a: "Monensin", o: ["Penicillin", "Monensin", "Enrofloxacin", "Gentamicin"], e: "Monensin 對馬屬動物具有致命毒性。" },
+            { q: "(進階) 治療心臟停止（Cardiac arrest）的首選急救藥物為：", a: "Epinephrine", o: ["Atropine", "Epinephrine", "Lidocaine", "Heparin"], e: "腎上腺素（Epinephrine）具強心與升壓作用。" },
+            { q: "(進階) 下列何者是 Alpha-2 受體興奮劑，常用於小動物鎮靜？", a: "Dexmedetomidine", o: ["Acepromazine", "Dexmedetomidine", "Pancuronium", "Naloxone"], e: "Dexmedetomidine 是高度選擇性 Alpha-2 興奮劑。" },
+
+            // 綜合題
+            { q: "(綜合) 關於藥物的治療指數（Therapeutic Index），下列敘述何者正確？", a: "數值越大代表藥物越安全", o: ["數值越小代表藥物越安全", "數值越大代表藥物越安全", "與毒性無關", "指數固定為 1 代表最理想"], e: "TI = LD50 / ED50，比值越大安全範圍越廣。" },
+            { q: "(綜合) 藥物在肝臟中進行代謝，最主要的氧化酶系統為：", a: "Cytochrome P450", o: ["Amylase", "Cytochrome P450", "Cholinesterase", "Polymerase"], e: "CYP450 是藥物代謝核心。" },
+            { q: "(綜合) 藥物的半衰期（t1/2）是指：", a: "血漿藥物濃度下降一半所需時間", o: ["藥物完全排除所需時間", "血漿藥物濃度下降一半所需時間", "藥物達到最高濃度的時間", "藥物開始產生作用的時間"], e: "半衰期決定給藥間隔。" },
+            { q: "(綜合) 下列哪種給藥途徑的生物可用率（Bioavailability）理論上為 100%？", a: "IV", o: ["PO", "IM", "SC", "IV"], e: "靜脈注射（IV）直接進入血液循環。" },
+            { q: "(綜合) 所謂「首渡效應（First-pass effect）」最主要發生在何種給藥途徑？", a: "PO", o: ["PO", "IV", "IM", "Topical"], e: "口服藥物經門脈進入肝臟會先被代謝。" }
+	] },
+		 // 疾病學
+    "disease": { title: "疾病學 Disease", questions: [
+// 基礎題
+            { q: "家禽馬立克病（Marek's Disease）的主要病原為何？", a: "Herpesvirus", o: ["Retrovirus", "Herpesvirus", "Coronavirus", "Poxvirus"], e: "馬立克病由疱疹病毒引起。" },
+            { q: "豬瘟（Classical Swine Fever）在脾臟典型的解剖病變為：", a: "Infarction", o: ["Abscess", "Infarction", "Atrophy", "Hypertrophy"], e: "豬瘟常見脾邊緣梗塞（Infarction）。" },
+            { q: "下列哪種家禽疾病會導致小雞出現明顯的法氏囊（Bursa of Fabricius）腫大與出血？", a: "IBD (Gumboro)", o: ["ND", "AI", "IBD (Gumboro)", "ILT"], e: "傳染性華氏囊病（IBD）。" },
+            { q: "豬呼吸道綜合症中，所謂的「藍耳病」正式名稱為：", a: "PRRS", o: ["PRRS", "PCV2", "FMD", "APP"], e: "豬繁殖與呼吸綜合症（PRRS）。" },
+            { q: "口蹄疫（FMD）主要感染下列哪類動物？", a: "偶蹄類", o: ["單蹄類", "偶蹄類", "家禽", "犬貓"], e: "FMD 感染豬、牛、羊等偶蹄獸。" },
+            { q: "家禽流行性感冒（Avian Influenza）的病原屬於哪一科？", a: "Orthomyxoviridae", o: ["Paramyxoviridae", "Orthomyxoviridae", "Picorna", "Reoviridae"], e: "AI 屬於正黏液病毒科。" },
+            { q: "豬赤痢（Swine Dysentery）的主要病原為：", a: "Brachyspira hyodysenteriae", o: ["E. coli", "Salmonella", "Brachyspira hyodysenteriae", "Clostridium"], e: "豬赤痢螺旋體引起血便。" },
+            { q: "下列哪種豬隻疾病會導致嚴重的萎縮性鼻炎（AR）？", a: "Pasteurella multocida", o: ["Streptococcus", "Pasteurella multocida", "Staphylococcus", "Erysipelas"], e: "AR 由產毒素的敗血性巴氏桿菌與支氣管敗血波氏桿菌引起。" },
+            { q: "家禽新城病（Newcastle Disease）的特徵性病變包括：", a: "腺胃乳頭出血", o: ["腺胃乳頭出血", "法氏囊萎縮", "羽毛囊腫瘤", "關節腫大"], e: "ND 常見腺胃乳頭出血。" },
+            { q: "豬丹毒（Swine Erysipelas）在皮膚典型的病變呈現：", a: "鑽石形紅斑", o: ["水泡", "鑽石形紅斑", "黑色結痂", "黃膿皰"], e: "特徵性的菱形（鑽石形）疹塊。" },
+
+            // 進階題
+            { q: "(進階) 豬圓環病毒（PCV2）引起的離乳後多系統消耗綜合症（PMWS），其組織病理特徵為：", a: "淋巴組織出現多核巨細胞與包涵體", o: ["支氣管肺炎", "淋巴組織出現多核巨細胞與包涵體", "化膿性腦炎", "纖維素性心包炎"], e: "PCV2 造成淋巴細胞流失與肉芽腫性反應。" },
+            { q: "(進階) 傳染性喉氣管炎（ILT）與傳染性支氣管炎（IB）的區別點在於，前者可見：", a: "核內包涵體", o: ["質內包涵體", "核內包涵體", "關節炎", "腎腫大"], e: "ILT 具核內包涵體，且氣管出血較嚴重。" },
+            { q: "(進階) 豬傳染性胸膜肺炎（APP）典型的病理解剖位置為：", a: "肺臟背側葉發生纖維素性胸膜肺炎", o: ["肺臟前下葉壞死", "肺臟背側葉發生纖維素性胸膜肺炎", "心外膜炎", "全肺氣腫"], e: "APP 好發於肺後葉（背側）。" },
+            { q: "(進階) 豬副嗜血桿菌病（Glasser's disease）典型的三漿膜炎是指：", a: "心包炎、胸膜炎、腹膜炎", o: ["肺炎、腸炎、腎炎", "心包炎、胸膜炎、腹膜炎", "關節炎、腦炎、皮炎", "中耳炎、鼻炎、喉炎"], e: "特徵為多發性纖維素性漿膜炎。" },
+            { q: "(進階) 下列何者是雞隻重要的免疫抑制疾病，且會導致貧血與造血組織萎縮？", a: "CAV (Chicken Anemia Virus)", o: ["ND", "CAV (Chicken Anemia Virus)", "IB", "AI"], e: "家禽貧血病毒。" },
+            { q: "(進階) 豬偽狂犬病（Pseudorabies）在懷孕母豬最主要的臨床表現為：", a: "流產、死產或木乃伊胎", o: ["嚴重腹瀉", "流產、死產或木乃伊胎", "皮膚疹塊", "後肢癱瘓"], e: "PR 病毒（疱疹病毒）會導致生殖障礙。" },
+            { q: "(進階) 家禽白血病（Avian Leukosis）主要由哪類病毒引起？", a: "Retrovirus", o: ["Poxvirus", "Retrovirus", "Herpesvirus", "Adenovirus"], e: "反轉錄病毒引起淋巴細胞增生。" },
+            { q: "(進階) 下列哪種豬隻疾病會出現「扣狀潰瘍（Button ulcers）」在盲腸或結腸？", a: "豬霍亂（豬副傷寒）", o: ["豬丹毒", "豬瘟", "豬霍亂（豬副傷寒）", "豬赤痢"], e: "Salmonella Choleraesuis 感染特徵。" },
+            { q: "(進階) 雞隻感染傳染性支氣管炎（IB）的變異株，常會出現何種臟器受損？", a: "Kidney", o: ["Kidney", "Spleen", "Liver", "Bursa"], e: "腎型 IB 會導致腎腫大與尿酸鹽沉著。" },
+            { q: "(進階) 豬流行性腹瀉（PED）對何種年齡層的豬隻致死率最高？", a: "1週齡內仔豬", o: ["1週齡內仔豬", "肥育豬", "母豬", "公豬"], e: "PED 對新生仔豬具極高死亡率。" },
+
+            // 綜合題
+            { q: "(綜合) 狂犬病（Rabies）在組織病理下可見的特徵結構為：", a: "Negri bodies", o: ["Guarnieri bodies", "Negri bodies", "Bollinger bodies", "Cowdry type A"], e: "神經細胞質內的 Negri 小體。" },
+            { q: "(綜合) 人畜共通傳染病中，會引起牛羊流產且人類出現波浪熱的是：", a: "Brucellosis", o: ["Tuberculosis", "Brucellosis", "Leptospirosis", "Listeriosis"], e: "布氏桿菌病。" },
+            { q: "(綜合) 弓蟲病（Toxoplasmosis）的最終宿主為何？", a: "貓科動物", o: ["豬", "人類", "貓科動物", "囓齒類"], e: "貓是弓蟲的唯一終宿主。" },
+            { q: "(綜合) 下列何種病原會引起「結核病」，且具抗酸性染色特性？", a: "Mycobacterium", o: ["Brucella", "Mycobacterium", "Pasteurella", "Salmonella"], e: "分枝桿菌（Mycobacterium）。" },
+            { q: "(綜合) 鉤端螺旋體（Leptospirosis）主要透過何種途徑傳播？", a: "尿液污染", o: ["空氣飛沫", "尿液污染", "傷口直接接觸", "蚊蟲叮咬"], e: "受感染動物（如老鼠）的尿液污染環境是主因。" }
+	] },
+		 // 實驗診斷學
+    "lab": { title: "實驗診斷學 Clinical Path", questions: [
+// 基礎題
+            { q: "在犬貓，下列哪一個酵素是診斷「肝細胞受損」最敏感的指標？", a: "ALT", o: ["ALP", "ALT", "GGT", "CK"], e: "ALT（丙胺酸轉胺酶）對犬貓肝細胞損傷具高度特異性。" },
+            { q: "當血液中出現高濃度的 CK（肌酸激酶）時，代表何處受損？", a: "肌肉組織", o: ["肝臟", "肌肉組織", "腎臟", "胰臟"], e: "CK 是骨骼肌與心肌受損的專一指標。" },
+            { q: "診斷「膽汁滯留（Cholestasis）」時，血液生化會觀察到下列何者顯著上升？", a: "ALP 與 GGT", o: ["ALT 與 AST", "ALP 與 GGT", "BUN 與 CREA", "Albumin"], e: "ALP 與 GGT 是膽管上皮相關酵素。" },
+            { q: "氮質血症（Azotemia）是指血中何種數值異常升高？", a: "BUN 與 Creatinine", o: ["ALT 與 AST", "BUN 與 Creatinine", "Glucose", "Bilirubin"], e: "含氮代謝廢物累積。" },
+            { q: "尿液檢查中，尿比重（USG）主要用於評估何種器官功能？", a: "腎臟濃縮功能", o: ["肝臟代謝功能", "腎臟濃縮功能", "心臟收縮功能", "胰臟外分泌"], e: "評估腎小管濃縮稀釋能力。" },
+            { q: "下列關於 AST 的敘述，何者正確？", a: "存在於肌肉與肝臟，特異性較 ALT 低", o: ["僅存在於肝臟", "僅存在於肌肉", "存在於肌肉與肝臟，特異性較 ALT 低", "是膽管受損指標"], e: "AST 在肌肉與肝細胞均有。" },
+            { q: "反芻獸發生肝病時，ALT 並不敏感，應改看哪種酵素？", a: "GLDH", o: ["ALT", "GLDH", "ALP", "CK"], e: "反芻獸肝細胞缺乏 ALT。" },
+            { q: "低白蛋白血症（Hypoalbuminemia）可能的原因不包括：", a: "嚴重脫水", o: ["肝衰竭", "嚴重的蛋白尿", "嚴重的腸道失蛋白", "嚴重脫水"], e: "脫水會造成白蛋白相對性「升高」。" },
+            { q: "血液檢體採集後，若發生「溶血」，會導致下列何種數值假性升高？", a: "K+ (鉀離子)", o: ["Na+ (鈉離子)", "K+ (鉀離子)", "Cl- (氯離子)", "Glucose"], e: "紅血球內富含鉀。" },
+            { q: "尿試紙檢查中，「潛血反應」陽性，可能代表：", a: "血尿、血紅素尿或肌紅素尿", o: ["膽紅素尿", "尿糖", "血尿、血紅素尿過肌紅素尿", "蛋白尿"], e: "試紙對過氧化酶活性有反應。" },
+
+            // 進階題
+            { q: "(進階) 關於「腎前性氮質血症」與「腎性氮質血症」的區別，前者通常伴隨：", a: "高尿比重 (USG > 1.030)", o: ["低尿比重 (USG < 1.008)", "高尿比重 (USG > 1.030)", "等張尿 (USG 1.008-1.012)", "血尿"], e: "腎前性代表腎濃縮功能尚好，只是灌流量不足。" },
+            { q: "(進階) 犬隻發生糖皮質酵素（Steroid）誘導時，會使下列哪種酵素大幅上升？", a: "ALP", o: ["ALT", "AST", "ALP", "GGT"], e: "犬有特殊的類固醇誘導型 ALP 異構酶。" },
+            { q: "(進階) 評估腎絲球濾過率（GFR）最常用的臨床指標為：", a: "Creatinine", o: ["BUN", "Creatinine", "Uric acid", "Ammonia"], e: "Creatinine 較 BUN 不受飲食影響。" },
+            { q: "(進階) 肌肉營養不良或過度運動後，尿液呈現紅褐色但離心後上清液仍紅，且不見紅血球，此為：", a: "Myoglobinuria", o: ["Hematuria", "Hemoglobinuria", "Myoglobinuria", "Bilirubinuria"], e: "肌紅素尿來自肌肉破壞。" },
+            { q: "(進階) 下列哪種抗凝固劑最適合用於「血液生化檢查」？", a: "Heparin (綠頭管)", o: ["EDTA (紫頭管)", "Heparin (綠頭管)", "Citrate (藍頭管)", "Fluoride (灰頭管)"], e: "EDTA 會螯合鈣離子影響生化數值。" },
+            { q: "(進階) 貓隻發生「脂肪肝（Hepatic lipidosis）」時，血液生化特徵常為：", a: "ALP 顯著升高但 GGT 正常或微升", o: ["ALP 正常但 GGT 顯著升高", "ALP 顯著升高但 GGT 正常或微升", "ALT 正常", "CK 顯著升高"], e: "貓脂肪肝的特徵性 ALP-GGT 分離現象。" },
+            { q: "(進階) 下列何種蛋白質是區分「漏出液（Transudate）」與「滲出液（Exudate）」的關鍵？", a: "總蛋白質含量與比重", o: ["膽固醇", "總蛋白質含量與比重", "葡萄糖濃度", "鉀離子"], e: "滲出液通常蛋白質 > 3.0 g/dL 且比重高。" },
+            { q: "(進階) 當動物發生胰臟炎時，臨床上常用來輔助診斷的酵素為：", a: "Amylase 與 Lipase", o: ["ALT 與 AST", "Amylase 與 Lipase", "ALP 與 GGT", "BUN 與 CREA"], e: "澱粉酶與脂肪酶。" },
+            { q: "(進階) 關於「等張尿（Isosthenuria）」，其尿比重範圍為：", a: "1.008 - 1.012", o: ["1.001 - 1.007", "1.008 - 1.012", "1.015 - 1.025", "> 1.035"], e: "與原尿比重相同，代表腎臟失去濃縮與稀釋能力。" },
+            { q: "(進階) 肝功能受損時，下列哪項數值會傾向於「下降」？", a: "Albumin 與 BUN", o: ["Bilirubin", "Albumin 與 BUN", "Ammonia", "Bile acids"], e: "肝臟合成功能下降。" },
+
+            // 綜合題
+            { q: "(綜合) 血液中血小板數量減少，主要會引起：", a: "點狀出血 (Petechiae)", o: ["大片血腫", "點狀出血 (Petechiae)", "貧血", "黃疸"], e: "血小板負責初期止血。" },
+            { q: "(綜合) 在貧血分類中，「再生性貧血」在血片檢查中最顯著的特徵是出現：", a: "Reticulocytes (網織球)", o: ["Target cells", "Reticulocytes (網織球)", "Heinz bodies", "Spherocytes"], e: "骨髓代償反應。" },
+            { q: "(綜合) 所謂的「左偏反應（Left shift）」是指血液中何種細胞增加？", a: "不成熟的中性球 (Band cells)", o: ["單核球", "淋巴球", "不成熟的中性球 (Band cells)", "嗜酸性球"], e: "代表嚴重的急性發炎。" },
+            { q: "(綜合) 糖尿病動物的尿液檢查中，除了尿糖外，還常出現：", a: "Ketone bodies", o: ["Ketone bodies", "Bilirubin", "Crystals", "Hemoglobin"], e: "脂肪代謝產生酮體。" },
+            { q: "(綜合) 下列何種電解質異常最容易引起致死性的心律不整？", a: "Hyperkalemia", o: ["Hyponatremia", "Hyperkalemia", "Hypocalcemia", "Hyperchloremia"], e: "高血鉀（Hyperkalemia）對心臟極度危險。" }
+	] },
+		 // 綜合模擬測驗
     "comp": { title: "綜合模擬測驗", questions: [] }
 };
 
