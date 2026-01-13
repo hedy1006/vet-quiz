@@ -3,25 +3,25 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>2/26 獸醫執照考全科複習系統</title>
+    <title>2/26 獸醫執照考複習系統</title>
     <style>
         :root { --main: #2c3e50; --accent: #3498db; --success: #27ae60; --danger: #e74c3c; --bg: #f4f7f6; --patho: #e67e22; --phar: #9b59b6; --disease: #c0392b; --lab: #16a085; --comp: #34495e; }
         body { font-family: "PingFang TC", "Microsoft JhengHei", sans-serif; background: var(--bg); margin: 0; padding: 0; }
         .nav-bar { background: var(--main); color: white; padding: 15px; text-align: center; position: sticky; top: 0; z-index: 1000; box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
-        .container { max-width: 850px; margin: 20px auto; padding: 0 15px; padding-bottom: 50px; }
+        .container { max-width: 800px; margin: 20px auto; padding: 0 15px; padding-bottom: 50px; }
         .card { background: white; border-radius: 12px; padding: 25px; box-shadow: 0 4px 10px rgba(0,0,0,0.05); margin-bottom: 20px; }
         
-        .sub-header { border-left: 5px solid #ccc; padding-left: 10px; margin-bottom: 15px; font-weight: bold; font-size: 1.2em; }
-        .patho-title { border-color: var(--patho); color: var(--patho); }
-        .phar-title { border-color: var(--phar); color: var(--phar); }
-        .disease-title { border-color: var(--disease); color: var(--disease); }
-        .lab-title { border-color: var(--lab); color: var(--lab); }
-        .comp-title { border-color: var(--comp); color: var(--comp); }
-
-        .menu-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 20px; }
-        .btn-chapter { background: white; border: 1px solid #ddd; padding: 15px; border-radius: 8px; cursor: pointer; text-align: left; transition: 0.2s; font-size: 0.95em; }
-        .btn-chapter:hover { background: #f0f7fd; border-color: var(--accent); }
+        .menu-grid { display: grid; grid-template-columns: 1fr; gap: 15px; margin-top: 10px; }
+        .btn-subject { background: white; border: 2px solid #ddd; padding: 25px; border-radius: 12px; cursor: pointer; text-align: center; transition: 0.3s; font-size: 1.2em; font-weight: bold; color: var(--main); }
+        .btn-subject:hover { transform: translateY(-3px); box-shadow: 0 5px 15px rgba(0,0,0,0.1); }
         
+        /* 各科邊框顏色 */
+        .btn-patho { border-color: var(--patho); color: var(--patho); }
+        .btn-phar { border-color: var(--phar); color: var(--phar); }
+        .btn-disease { border-color: var(--disease); color: var(--disease); }
+        .btn-lab { border-color: var(--lab); color: var(--lab); }
+        .btn-comp { border-color: var(--comp); color: var(--comp); background: #f8f9fa; }
+
         .q-block { margin-bottom: 30px; border-bottom: 1px solid #eee; padding-bottom: 20px; }
         .opt-list { list-style: none; padding: 0; }
         label { display: block; padding: 12px; border: 1px solid #ddd; border-radius: 8px; margin-bottom: 8px; cursor: pointer; }
@@ -36,39 +36,30 @@
 
         .btn-main { background: var(--accent); color: white; border: none; padding: 15px; width: 100%; border-radius: 8px; font-size: 1.1em; cursor: pointer; font-weight: bold; }
         .btn-secondary { background: #95a5a6; color: white; border: none; padding: 10px; border-radius: 5px; cursor: pointer; margin-top: 20px; width: 100%; }
-        
-        @media (max-width: 600px) { .menu-grid { grid-template-columns: 1fr; } }
     </style>
 </head>
 <body>
 
-<div class="nav-bar"><h2>2/26 獸醫執照考全科複習系統</h2></div>
+<div class="nav-bar"><h2>2/26 獸醫執照考全科複習</h2></div>
 
 <div class="container">
     <div id="home-view">
         <div class="card">
-            <div class="sub-header patho-title">病理學 Pathology</div>
-            <div id="list-patho" class="menu-grid"></div>
-
-            <div class="sub-header phar-title">藥理學 Pharmacology</div>
-            <div id="list-phar" class="menu-grid"></div>
-
-            <div class="sub-header disease-title">疾病學 Disease</div>
-            <div id="list-disease" class="menu-grid"></div>
-
-            <div class="sub-header lab-title">實驗診斷學 Clinical Path</div>
-            <div id="list-lab" class="menu-grid"></div>
-
-            <div class="sub-header comp-title">綜合測驗 Comprehensive Exam</div>
-            <div id="list-comp" class="menu-grid"></div>
+            <div class="menu-grid">
+                <button class="btn-subject btn-patho" onclick="startQuiz('patho')">病理學 Pathology</button>
+                <button class="btn-subject btn-phar" onclick="startQuiz('phar')">藥理學 Pharmacology</button>
+                <button class="btn-subject btn-disease" onclick="startQuiz('disease')">疾病學 Disease</button>
+                <button class="btn-subject btn-lab" onclick="startQuiz('lab')">實驗診斷學 Clinical Path</button>
+                <button class="btn-subject btn-comp" onclick="startQuiz('comp')">🏆 綜合模擬測驗</button>
+            </div>
         </div>
         <button class="btn-main" style="background:#9b59b6;" onclick="showWrongBank()">📕 查看個人錯題累積本</button>
     </div>
 
     <div id="quiz-view" style="display:none;">
         <div id="quiz-content" class="card"></div>
-        <button class="btn-main" onclick="gradeQuiz()">提交答案並同步至雲端</button>
-        <button class="btn-secondary" onclick="goHome()">回首頁</button>
+        <button class="btn-main" onclick="gradeQuiz()">提交所有答案</button>
+        <button class="btn-secondary" onclick="goHome()">返回首頁</button>
     </div>
 
     <div id="result-view" style="display:none;">
@@ -77,7 +68,7 @@
             <div id="report-text" class="report-box"></div>
             <button class="btn-main" style="background:var(--success);" onclick="copyReport()">複製成績報表</button>
             <hr>
-            <h3>解析回顧</h3>
+            <h3>解析與回顧</h3>
             <div id="review-content"></div>
             <button class="btn-secondary" onclick="goHome()">返回首頁</button>
         </div>
@@ -95,60 +86,24 @@
 
 <script>
 /**
- * 預留出題位置：直接在對應的 questions: [] 內貼入題目數據
+ * 預留出題位置：請直接在對應科目的 questions 陣列中貼入題目數據
  */
 const quizDatabase = {
-    // --- 病理學 ---
-    "patho_01": { subject: "patho", title: "01 壞死", questions: [] },
-    "patho_02": { subject: "patho", title: "02 細胞變性", questions: [] },
-    "patho_03": { subject: "patho", title: "03 色素及鈣代謝", questions: [] },
-    "patho_04": { subject: "patho", title: "04 發育異常", questions: [] },
-    "patho_05": { subject: "patho", title: "05 循環障礙", questions: [] },
-    "patho_06": { subject: "patho", title: "06 炎症", questions: [] },
-    "patho_07": { subject: "patho", title: "07 癒合/發熱/免疫", questions: [] },
-    "patho_08": { subject: "patho", title: "08 病毒性病理", questions: [] },
-    "patho_09": { subject: "patho", title: "09 腫瘤", questions: [] },
-
-    // --- 藥理學 ---
-    "phar_01": { subject: "phar", title: "01 自主神經 1", questions: [] },
-    "phar_02": { subject: "phar", title: "02 自主神經 2.0", questions: [] },
-    "phar_03": { subject: "phar", title: "02.1 自主神經 2.1", questions: [] },
-    "phar_04": { subject: "phar", title: "03 ANS 4/循環 1", questions: [] },
-    "phar_05": { subject: "phar", title: "04 循環 2/營養中毒 1", questions: [] },
-    "phar_06": { subject: "phar", title: "05 營養中毒 2", questions: [] },
-
-    // --- 疾病學 ---
-    "dis_01": { subject: "disease", title: "家禽疾病", questions: [] },
-    "dis_02": { subject: "disease", title: "豬病", questions: [] },
-
-    // --- 實驗診斷學 ---
-    "lab_01": { subject: "lab", title: "臨床酵素", questions: [] },
-    "lab_02": { subject: "lab", title: "肝膽系統", questions: [] },
-    "lab_03": { subject: "lab", title: "肌肉系統", questions: [] },
-    "lab_04": { subject: "lab", title: "泌尿系統", questions: [] },
-
-    // --- 綜合考區塊 ---
-    "final_01": { subject: "comp", title: "2/26 範圍綜合考 (一)", questions: [] },
-    "final_02": { subject: "comp", title: "2/26 範圍綜合考 (二)", questions: [] }
+    "patho": { title: "病理學 Pathology", questions: [] },
+    "phar": { title: "藥理學 Pharmacology", questions: [] },
+    "disease": { title: "疾病學 Disease", questions: [] },
+    "lab": { title: "實驗診斷學 Clinical Path", questions: [] },
+    "comp": { title: "綜合模擬測驗", questions: [] }
 };
 
 let currentKey = "";
 const scriptURL = '您的GOOGLE_SCRIPT_URL'; 
 
-function init() {
-    for(let key in quizDatabase) {
-        const item = quizDatabase[key];
-        const btn = document.createElement('button');
-        btn.className = "btn-chapter";
-        btn.innerText = item.title + (item.questions.length > 0 ? ` (${item.questions.length}題)` : " (待更新)");
-        btn.onclick = () => item.questions.length > 0 ? startQuiz(key) : alert("該章節尚未填入題目！");
-        
-        const container = document.getElementById('list-' + item.subject);
-        if(container) container.appendChild(btn);
-    }
-}
-
 function startQuiz(key) {
+    if (quizDatabase[key].questions.length === 0) {
+        alert("該科目尚未填入題目！");
+        return;
+    }
     currentKey = key;
     document.getElementById('home-view').style.display = "none";
     document.getElementById('quiz-view').style.display = "block";
@@ -177,9 +132,8 @@ function gradeQuiz() {
 
     for(let i=0; i<qs.length; i++) {
         const sel = document.querySelector(`input[name="q${i}"]:checked`);
-        if(!sel) { alert("請回答完所有題目！"); return; }
-        const isCorrect = sel.value === qs[i].a;
-        if(isCorrect) score++;
+        if(!sel) { alert("尚未完成所有題目！"); return; }
+        if(sel.value === qs[i].a) score++;
         else {
             let optStr = qs[i].o.map(o => `  - ${o}${o === qs[i].a ? ' (正確)' : ''}`).join("\n");
             wrongReport += `【第 ${i+1} 題】\n題目：${qs[i].q}\n您的選擇：${sel.value}\n選項：\n${optStr}\n解析：${qs[i].e}\n------------------\n`;
@@ -195,7 +149,7 @@ function gradeQuiz() {
     document.getElementById('quiz-view').style.display = "none";
     document.getElementById('result-view').style.display = "block";
     document.getElementById('score-text').innerText = `得分：${score} / ${qs.length}`;
-    document.getElementById('report-text').innerText = `=== 測驗報表 ===\n章節：${quizDatabase[currentKey].title}\n成績：${score}/${qs.length}\n時間：${new Date().toLocaleString()}\n\n` + (wrongReport || "滿分通過！");
+    document.getElementById('report-text').innerText = `=== 測驗報表 ===\n科目：${quizDatabase[currentKey].title}\n成績：${score}/${qs.length}\n時間：${new Date().toLocaleString()}\n\n` + (wrongReport || "滿分通過！");
 
     const review = document.getElementById('review-content');
     review.innerHTML = qs.map((item, i) => {
@@ -238,7 +192,6 @@ function showWrongBank() {
 function clearBank() { if(confirm("確定清空？")) { localStorage.removeItem('vet_wrong_bank'); showWrongBank(); } }
 function copyReport() { const txt = document.getElementById('report-text').innerText; navigator.clipboard.writeText(txt).then(() => alert("已複製！")); }
 function goHome() { location.reload(); }
-init();
 </script>
 </body>
 </html>
