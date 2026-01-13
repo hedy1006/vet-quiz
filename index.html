@@ -40,11 +40,11 @@
     <div id="home-view">
         <div class="card">
             <div class="menu-grid">
-                <button class="btn-subject btn-patho" onclick="startQuiz('patho')">病理學 Pathology (整合卷)</button>
-                <button class="btn-subject btn-phar" onclick="startQuiz('phar')">藥理學 Pharmacology (整合卷)</button>
-                <button class="btn-subject btn-disease" onclick="startQuiz('disease')">疾病學 Disease (整合卷)</button>
-                <button class="btn-subject btn-lab" onclick="startQuiz('lab')">實驗診斷學 Clinical Path (整合卷)</button>
-                <button class="btn-subject btn-comp" onclick="startQuiz('comp')">🏆 2/26 綜合模擬測驗 (40題)</button>
+                <button class="btn-subject btn-patho" onclick="startQuiz('patho')">病理學 Pathology)</button>
+                <button class="btn-subject btn-phar" onclick="startQuiz('phar')">藥理學 Pharmacology</button>
+                <button class="btn-subject btn-disease" onclick="startQuiz('disease')">疾病學 Disease</button>
+                <button class="btn-subject btn-lab" onclick="startQuiz('lab')">實驗診斷學 Clinical Path</button>
+                <button class="btn-subject btn-comp" onclick="startQuiz('comp')">🏆 2/26 綜合模擬測驗</button>
             </div>
         </div>
         <button class="btn-main" style="background:#9b59b6;" onclick="showWrongBank()">📕 查看我的錯題累積本</button>
@@ -254,6 +254,7 @@ let currentKey = "";
 const scriptURL = 'https://script.google.com/macros/s/AKfycbxE9ihjdZDBp4h3ZiKB_1_fpf8OBpgUzR45JjgwjZnmkwAHSXosoGPPlsgM5oAFJKvJ/exec'; 
 
 function init() {
+    document.querySelector('.menu-grid').innerHTML = ""; // 新增這行：先清空再生成
     for(let key in quizDatabase) {
         const item = quizDatabase[key];
         const btn = document.createElement('button');
