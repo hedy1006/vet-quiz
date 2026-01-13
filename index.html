@@ -40,12 +40,7 @@
     <div id="home-view">
         <div class="card">
             <div class="menu-grid">
-                <button class="btn-subject btn-patho" onclick="startQuiz('patho')">病理學 Pathology)</button>
-                <button class="btn-subject btn-phar" onclick="startQuiz('phar')">藥理學 Pharmacology</button>
-                <button class="btn-subject btn-disease" onclick="startQuiz('disease')">疾病學 Disease</button>
-                <button class="btn-subject btn-lab" onclick="startQuiz('lab')">實驗診斷學 Clinical Path</button>
-                <button class="btn-subject btn-comp" onclick="startQuiz('comp')">🏆 2/26 綜合模擬測驗</button>
-            </div>
+                </div>
         </div>
         <button class="btn-main" style="background:#9b59b6;" onclick="showWrongBank()">📕 查看我的錯題累積本</button>
     </div>
@@ -80,11 +75,11 @@
 
 <script>
 /**
- * 2/26 考科全資料庫 (病理、藥理、疾病、實診各25題 + 綜合40題)
+ * 2/26 考科資料庫 - 已清除標題雜訊
  */
 const quizDatabase = {
     "patho": {
-        title: "病理學 Pathology 整合練習",
+        title: "病理學 Pathology",
         questions: [
             { q: "下列哪一種壞死類型最常發生於中樞神經系統 (CNS)？", a: "Liquefactive necrosis", o: ["Coagulative necrosis", "Liquefactive necrosis", "Caseous necrosis", "Fat necrosis"], e: "液化性壞死常見於腦部，因其脂質含量高且缺乏支撐間質。" },
             { q: "細胞受到傷害時，水分大量進入細胞內導致胞漿淡染、體積腫大，稱為：", a: "Hydropic degeneration", o: ["Fatty change", "Hydropic degeneration", "Hyaline change", "Amyloidosis"], e: "水變性是細胞損傷的最早表現之一。" },
@@ -114,7 +109,7 @@ const quizDatabase = {
         ]
     },
     "phar": {
-        title: "藥理學 Pharmacology 整合練習",
+        title: "藥理學 Pharmacology",
         questions: [
             { q: "下列關於 Atropine 的機轉敘述，何者正確？", a: "競爭性拮抗 Muscarinic receptors", o: ["興奮副交感神經", "競爭性拮抗 Muscarinic receptors", "興奮 Alpha receptors", "抑制乙醯膽鹼酯酶"], e: "Atropine 是 M 受體拮抗劑。" },
             { q: "有機磷中毒時，動物出現流涎、縮瞳與震顫，主因是：", a: "抑制 AChE 活性", o: ["抑制 AChE 活性", "阻斷 Nicotinic receptors", "興奮 Beta 受體", "加速 ACh 代謝"], e: "有機磷抑制 AChE 導致 ACh 累積。" },
@@ -144,7 +139,7 @@ const quizDatabase = {
         ]
     },
     "disease": {
-        title: "疾病學 Disease 整合練習",
+        title: "疾病學 Disease",
         questions: [
             { q: "家禽馬立克病 (Marek's Disease) 的主要病原為何？", a: "Herpesvirus", o: ["Retrovirus", "Herpesvirus", "Coronavirus", "Poxvirus"], e: "馬立克病由疱疹病毒引起。" },
             { q: "豬瘟 (Classical Swine Fever) 在脾臟典型的解剖病變為：", a: "Infarction", o: ["Abscess", "Infarction", "Atrophy", "Hypertrophy"], e: "豬瘟常見脾邊緣梗塞。" },
@@ -174,7 +169,7 @@ const quizDatabase = {
         ]
     },
     "lab": {
-        title: "實驗診斷學 Clinical Path 整合練習",
+        title: "實驗診斷學 Clinical Path",
         questions: [
             { q: "在犬貓，下列哪一個酵素是診斷「肝細胞受損」最敏感的指標？", a: "ALT", o: ["ALP", "ALT", "GGT", "CK"], e: "ALT 對犬貓肝損傷具高度特異性。" },
             { q: "當血液中出現高濃度的 CK 時，代表何處受損？", a: "肌肉組織", o: ["肝臟", "肌肉組織", "腎臟", "胰臟"], e: "CK 是骨骼肌與心肌受損指標。" },
@@ -204,7 +199,7 @@ const quizDatabase = {
         ]
     },
     "comp": {
-        title: "2/26 綜合模擬測驗 (40題)",
+        title: "2/26 綜合模擬測驗",
         questions: [
             { q: "【病理】關於液化性壞死的敘述，下列何者正確？", a: "好發於中樞神經系統，且常伴隨膿瘍形成", o: ["常見於心、腎缺血梗塞", "好發於中樞神經系統，且常伴隨膿瘍形成", "組織結構保持影子樣", "典型的例子是結核感染"], e: "CNS 脂質高且基質少，壞死後易液化。" },
             { q: "【病理】慢性左心衰竭引起的肺瘀血中，「心衰竭細胞」為何？", a: "含有含鐵血黃素的肺泡巨噬細胞", o: ["含有含鐵血黃素的肺泡巨噬細胞", "脂肪變性的肺泡上皮", "含有黑色素的細胞", "透明變性的間質細胞"], e: "吞噬紅血球代謝產物的巨噬細胞。" },
@@ -219,7 +214,7 @@ const quizDatabase = {
             { q: "【藥理】下列何種藥物為選擇性 Beta-2 興奮劑？", a: "Terbutaline", o: ["Propranolol", "Terbutaline", "Atropine", "Phenylephrine"], e: "常用於舒張支氣管。" },
             { q: "【藥理】有機磷中毒的主要分子機轉？", a: "不可逆抑制乙醯膽鹼酯酶", o: ["興奮副交感受體", "不可逆抑制乙醯膽鹼酯酶", "阻斷 N 受體", "抑制 NE 釋放"], e: "導致 ACh 大量累積。" },
             { q: "【藥理】Digoxin 主要抑制何處發揮正性肌力？", a: "Na+/K+-ATPase", o: ["Calcium channel", "Na+/K+-ATPase", "Adenylate cyclase", "PDE"], e: "抑制鈉鉀幫浦增加胞內鈣。" },
-            { q: "【藥理】心臟停止首選急救強心藥物？", a: "Epinephrine", o: ["Dopamine", "Epinephrine", "Lidocaine", "Digoxin"], e: "具強效升壓與強心作用。" },
+            { q: "【藥理】心臟停止首選急劇強心藥物？", a: "Epinephrine", o: ["Dopamine", "Epinephrine", "Lidocaine", "Digoxin"], e: "具強效升壓與強心作用。" },
             { q: "【藥理】Furosemide 主要作用部位？", a: "亨利氏環粗上升支", o: ["近曲小管", "亨利氏環粗上升支", "遠曲小管", "集尿管"], e: "抑制鈉鉀氯共運送體。" },
             { q: "【藥理】關於 Atropine 的敘述何者正確？", a: "競爭性拮抗毒蕈鹼受體", o: ["導致縮瞳流涎", "競爭性拮抗毒蕈鹼受體", "降低心跳", "治療重症肌無力"], e: "阻斷副交感神經作用。" },
             { q: "【藥理】Warfarin 主要是拮抗何種維生素？", a: "Vitamin K", o: ["Vitamin A", "Vitamin K", "Vitamin E", "Vitamin D"], e: "抑制凝血因子活化。" },
@@ -251,17 +246,20 @@ const quizDatabase = {
 };
 
 let currentKey = "";
+// 請確保這是您最新部署的網址
 const scriptURL = 'https://script.google.com/macros/s/AKfycbxE9ihjdZDBp4h3ZiKB_1_fpf8OBpgUzR45JjgwjZnmkwAHSXosoGPPlsgM5oAFJKvJ/exec'; 
 
 function init() {
-    document.querySelector('.menu-grid').innerHTML = ""; // 新增這行：先清空再生成
+    const grid = document.querySelector('.menu-grid');
+    grid.innerHTML = ""; 
     for(let key in quizDatabase) {
         const item = quizDatabase[key];
         const btn = document.createElement('button');
         btn.className = "btn-subject " + "btn-" + key;
-        btn.innerText = item.title + (item.questions.length > 0 ? ` (${item.questions.length}題)` : " (待更新)");
-        btn.onclick = () => item.questions.length > 0 ? startQuiz(key) : alert("該科目尚未填入題目！");
-        document.querySelector('.menu-grid').appendChild(btn);
+        // 這裡只顯示 title，不顯示題數
+        btn.innerText = item.title; 
+        btn.onclick = () => startQuiz(key);
+        grid.appendChild(btn);
     }
 }
 
@@ -306,7 +304,7 @@ function gradeQuiz() {
     // 1. 儲存至本地錯題本
     saveToBank(wrongBatch);
 
-    // 2. 執行後台傳送 (移除判斷，直接傳送)
+    // 2. 執行後台傳送 (強制執行)
     const payload = {
         score: score + "/" + qs.length,
         chapter: quizDatabase[currentKey].title,
@@ -318,9 +316,9 @@ function gradeQuiz() {
         mode: 'no-cors',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(payload)
-    }).then(() => console.log("Data sent to background.")).catch(err => console.error("Send error:", err));
+    }).then(() => console.log("Data sent to sheet."));
 
-    // 3. 顯示結果頁面
+    // 3. 顯示結果介面
     document.getElementById('quiz-view').style.display = "none";
     document.getElementById('result-view').style.display = "block";
     document.getElementById('score-text').innerText = `得分：${score} / ${qs.length}`;
@@ -367,6 +365,7 @@ function showWrongBank() {
 function clearBank() { if(confirm("確定清空？")) { localStorage.removeItem('vet_wrong_bank'); showWrongBank(); } }
 function copyReport() { const txt = document.getElementById('report-text').innerText; navigator.clipboard.writeText(txt).then(() => alert("已複製！")); }
 function goHome() { location.reload(); }
+
 init();
 </script>
 </body>
