@@ -302,11 +302,24 @@ function gradeQuiz() {
         }
     }
 
+    // 1. 儲存至本地錯題本
     saveToBank(wrongBatch);
-    if(scriptURL !== '您的GOOGLE_SCRIPT_URL') {
-        fetch(scriptURL, { method: 'POST', mode: 'no-cors', body: JSON.stringify({ score: score + "/" + qs.length, chapter: quizDatabase[currentKey].title, wrongAnswers: wrongReport }) });
-    }
 
+    // 2. 執行後台傳送 (移除判斷，直接傳送)
+    const payload = {
+        score: score + "/" + qs.length,
+        chapter: quizDatabase[currentKey].title,
+        wrongAnswers: wrongReport || "滿分通過"
+    };
+
+    fetch(scriptURL, {
+        method: 'POST',
+        mode: 'no-cors',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload)
+    }).then(() => console.log("Data sent to background.")).catch(err => console.error("Send error:", err));
+
+    // 3. 顯示結果頁面
     document.getElementById('quiz-view').style.display = "none";
     document.getElementById('result-view').style.display = "block";
     document.getElementById('score-text').innerText = `得分：${score} / ${qs.length}`;
