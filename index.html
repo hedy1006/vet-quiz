@@ -3,63 +3,82 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>2/26 獸醫執照考複習系統</title>
+    <title>2/26 獸醫執照考：國考模擬系統</title>
     <style>
         :root { --main: #2c3e50; --accent: #3498db; --success: #27ae60; --danger: #e74c3c; --bg: #f4f7f6; --patho: #e67e22; --phar: #9b59b6; --disease: #c0392b; --lab: #16a085; --comp: #34495e; }
         body { font-family: "PingFang TC", "Microsoft JhengHei", sans-serif; background: var(--bg); margin: 0; padding: 0; }
         .nav-bar { background: var(--main); color: white; padding: 15px; text-align: center; position: sticky; top: 0; z-index: 1000; box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
-        .container { max-width: 800px; margin: 20px auto; padding: 0 15px; padding-bottom: 50px; }
+        .container { max-width: 850px; margin: 20px auto; padding: 0 15px; padding-bottom: 50px; }
         .card { background: white; border-radius: 12px; padding: 25px; box-shadow: 0 4px 10px rgba(0,0,0,0.05); margin-bottom: 20px; }
-        .menu-grid { display: grid; grid-template-columns: 1fr; gap: 15px; margin-top: 10px; }
-        .btn-subject { background: white; border: 2px solid #ddd; padding: 25px; border-radius: 12px; cursor: pointer; text-align: center; transition: 0.3s; font-size: 1.2em; font-weight: bold; color: var(--main); }
-        .btn-subject:hover { transform: translateY(-3px); box-shadow: 0 5px 15px rgba(0,0,0,0.1); }
-        .btn-patho { border-color: var(--patho); color: var(--patho); }
-        .btn-phar { border-color: var(--phar); color: var(--phar); }
-        .btn-disease { border-color: var(--disease); color: var(--disease); }
-        .btn-lab { border-color: var(--lab); color: var(--lab); }
-        .btn-comp { border-color: var(--comp); color: var(--comp); background: #f8f9fa; }
+        
+        /* 選單樣式 */
+        .menu-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-top: 15px; }
+        .btn-subject { background: white; border: 2px solid #ddd; padding: 18px; border-radius: 10px; cursor: pointer; text-align: center; transition: 0.3s; font-size: 1em; font-weight: bold; }
+        .btn-subject:hover { transform: translateY(-2px); box-shadow: 0 4px 8px rgba(0,0,0,0.1); border-color: var(--accent); }
+        .btn-main-all { grid-column: 1 / -1; background: #f8f9fa !important; border: 2px solid var(--main) !important; color: var(--main); font-size: 1.1em; }
+        
+        /* 測驗文字樣式 */
         .q-block { margin-bottom: 30px; border-bottom: 1px solid #eee; padding-bottom: 20px; }
-        .opt-list { list-style: none; padding: 0; }
-        label { display: block; padding: 12px; border: 1px solid #ddd; border-radius: 8px; margin-bottom: 8px; cursor: pointer; }
+        .q-text { font-size: 1.1em; font-weight: bold; line-height: 1.6; margin-bottom: 15px; display: block; }
+        label { display: block; padding: 12px; border: 1px solid #ddd; border-radius: 8px; margin-bottom: 8px; cursor: pointer; transition: 0.2s; }
         input[type="radio"]:checked + label { background: #e1f0fa; border-color: var(--accent); font-weight: bold; }
         input[type="radio"] { display: none; }
-        .report-box { background: #2c3e50; color: #ecf0f1; padding: 15px; border-radius: 8px; font-family: monospace; white-space: pre-wrap; font-size: 0.85em; margin: 15px 0; line-height: 1.6; max-height: 400px; overflow-y: auto; }
+
+        /* 結果與解析 */
+        .report-box { background: #2c3e50; color: #ecf0f1; padding: 15px; border-radius: 8px; font-family: monospace; white-space: pre-wrap; font-size: 0.85em; margin: 15px 0; max-height: 400px; overflow-y: auto; }
         .feedback { padding: 10px; border-radius: 5px; margin-top: 10px; font-weight: bold; }
         .correct { background: #eafaf1; color: var(--success); }
         .wrong { background: #fdedec; color: var(--danger); }
-        .exp { font-size: 0.9em; background: #f9f9f9; padding: 10px; border-left: 4px solid var(--accent); margin-top: 5px; }
-        .btn-main { background: var(--accent); color: white; border: none; padding: 15px; width: 100%; border-radius: 8px; font-size: 1.1em; cursor: pointer; font-weight: bold; }
-        .btn-secondary { background: #95a5a6; color: white; border: none; padding: 10px; border-radius: 5px; cursor: pointer; margin-top: 20px; width: 100%; }
+        .exp { font-size: 0.95em; background: #f9f9f9; padding: 12px; border-left: 4px solid var(--accent); margin-top: 8px; line-height: 1.5; }
+
+        .btn-action { background: var(--accent); color: white; border: none; padding: 15px; width: 100%; border-radius: 8px; font-size: 1.1em; cursor: pointer; font-weight: bold; }
+        .btn-back { background: #95a5a6; color: white; border: none; padding: 10px; border-radius: 5px; cursor: pointer; width: 100%; margin-top: 10px; }
+        
+        @media (max-width: 600px) { .menu-grid { grid-template-columns: 1fr; } }
     </style>
 </head>
 <body>
 
-<div class="nav-bar"><h2>2/26 獸醫執照考全科複習系統</h2></div>
+<div class="nav-bar"><h2>2/26 獸醫國考智慧模擬系統</h2></div>
 
 <div class="container">
     <div id="home-view">
         <div class="card">
+            <h3>請選擇複習科目：</h3>
             <div class="menu-grid">
-                </div>
+                <button class="btn-subject" style="color:var(--patho); border-color:var(--patho);" onclick="showSubMenu('patho')">病理學 Pathology</button>
+                <button class="btn-subject" style="color:var(--phar); border-color:var(--phar);" onclick="showSubMenu('phar')">藥理學 Pharmacology</button>
+                <button class="btn-subject" style="color:var(--disease); border-color:var(--disease);" onclick="showSubMenu('disease')">疾病學 Disease</button>
+                <button class="btn-subject" style="color:var(--lab); border-color:var(--lab);" onclick="showSubMenu('lab')">實驗診斷學 Clinical Path</button>
+                <button class="btn-subject" style="grid-column: 1/-1; border-color:var(--comp); color:var(--comp);" onclick="startQuiz('comp_226', 'mixed')">🏆 2/26 綜合模擬考 (80題國考卷)</button>
+            </div>
         </div>
-        <button class="btn-main" style="background:#9b59b6;" onclick="showWrongBank()">📕 查看我的錯題累積本</button>
+        <button class="btn-action" style="background:#9b59b6;" onclick="showWrongBank()">📕 查看我的錯題累積本</button>
+    </div>
+
+    <div id="sub-menu-view" style="display:none;">
+        <div class="card">
+            <h3 id="sub-menu-title">章節選擇</h3>
+            <div id="sub-menu-list" class="menu-grid"></div>
+            <button class="btn-back" onclick="goHome()">返回科目選單</button>
+        </div>
     </div>
 
     <div id="quiz-view" style="display:none;">
         <div id="quiz-content" class="card"></div>
-        <button class="btn-main" onclick="gradeQuiz()">提交所有答案並同步後台</button>
-        <button class="btn-secondary" onclick="goHome()">回首頁</button>
+        <button class="btn-action" onclick="gradeQuiz()">提交所有答案並同步後台</button>
+        <button class="btn-back" onclick="goBackToSub()">取消測驗</button>
     </div>
 
     <div id="result-view" style="display:none;">
         <div class="card">
             <h2 id="score-text" style="text-align:center;"></h2>
             <div id="report-text" class="report-box"></div>
-            <button class="btn-main" style="background:var(--success);" onclick="copyReport()">複製成績報表回傳</button>
+            <button class="btn-action" style="background:var(--success);" onclick="copyReport()">複製成績報表</button>
             <hr>
-            <h3>解析與回顧</h3>
+            <h3>解析回顧</h3>
             <div id="review-content"></div>
-            <button class="btn-secondary" onclick="goHome()">返回首頁</button>
+            <button class="btn-back" onclick="goHome()">返回首頁</button>
         </div>
     </div>
 
@@ -67,212 +86,950 @@
         <div class="card">
             <h2>📕 個人錯題累積紀錄</h2>
             <div id="bank-content"></div>
-            <button class="btn-main" onclick="goHome()">返回首頁</button>
-            <button class="btn-secondary" style="background:var(--danger);" onclick="clearBank()">清空錯題紀錄</button>
+            <button class="btn-back" onclick="goHome()">返回首頁</button>
+            <button class="btn-back" style="background:var(--danger);" onclick="clearBank()">清空錯題</button>
         </div>
     </div>
 </div>
 
 <script>
 /**
- * 2/26 考科資料庫 - 已清除標題雜訊
+ * 題庫大資料庫：
+ * 每個科目含一個 newItems 陣列 (放 40 題新整合題)
+ * 以及一個 chapters 物件 (每個章節放 25 題)
  */
 const quizDatabase = {
     "patho": {
-        title: "病理學 Pathology",
-        questions: [
-            { q: "下列哪一種壞死類型最常發生於中樞神經系統 (CNS)？", a: "Liquefactive necrosis", o: ["Coagulative necrosis", "Liquefactive necrosis", "Caseous necrosis", "Fat necrosis"], e: "液化性壞死常見於腦部，因其脂質含量高且缺乏支撐間質。" },
-            { q: "細胞受到傷害時，水分大量進入細胞內導致胞漿淡染、體積腫大，稱為：", a: "Hydropic degeneration", o: ["Fatty change", "Hydropic degeneration", "Hyaline change", "Amyloidosis"], e: "水變性是細胞損傷的最早表現之一。" },
-            { q: "在慢性瘀血的肝臟中，肉眼可見紅黃相間的病變，俗稱為：", a: "Nutmeg liver", o: ["Sago spleen", "Nutmeg liver", "Fatty liver", "Lardaceous liver"], e: "檳榔肝是由中心靜脈瘀血與周邊脂肪變性交織而成。" },
-            { q: "關於右側主動脈弓持續存在 (PRAA)，其最主要的臨床後果為何？", a: "食道擴張 (Megaesophagus)", o: ["氣管塌陷", "食道擴張 (Megaesophagus)", "心室中隔缺損", "肺動脈狹窄"], e: "PRAA 形成的血管環會壓迫食道。" },
-            { q: "下列哪種色素使用普魯士藍染色 (Prussian blue) 會呈現陽性藍色反應？", a: "Hemosiderin", o: ["Melanin", "Lipofuscin", "Hemosiderin", "Bilirubin"], e: "含鐵血黃素含有三價鐵離子。" },
-            { q: "炎症反應早期，血管通透性增加主要是由於下列哪種物質釋放？", a: "Histamine", o: ["Histamine", "Complement", "Interferon", "Albumin"], e: "組織胺是引起早期血管反應的主因。" },
-            { q: "關於發熱 (Fever) 的敘述，下列何者正確？", a: "是由於下視丘體溫調節中樞的設定點上移", o: ["單純是因為環境溫度過高", "是由於下視丘體溫調節中樞的設定點上移", "與前列腺素釋放無關", "體溫越高對動物越有利"], e: "發熱是內源性熱原作用於下視丘所致。" },
-            { q: "下列何者屬於神經管閉合異常 (Neural tube defects)？", a: "Spina bifida", o: ["Hydrocephalus", "Spina bifida", "Cleft palate", "Polycystic kidney"], e: "脊椎裂是典型的神經管閉合不全。" },
-            { q: "惡性腫瘤與良性腫瘤最主要的區別特徵為何？", a: "具有侵襲性與轉移能力", o: ["生長速度快慢", "細胞核的大小", "具有侵襲性與轉移能力", "是否壓迫周圍組織"], e: "轉移是惡性腫瘤最明確的特徵。" },
-            { q: "血栓形成 (Thrombosis) 的機轉中，血管內皮受損會暴露何種物質引發凝血？", a: "Collagen", o: ["Albumin", "Collagen", "Heparin", "Bilirubin"], e: "內皮受損暴露膠原蛋白會啟動血小板黏附。" },
-            { q: "(進階) 關於類澱粉沉積 (Amyloidosis)，下列敘述何者正確？", a: "在剛果紅 (Congo red) 染色下呈現橘紅色", o: ["是細胞內蛋白質過度蓄積", "在剛果紅 (Congo red) 染色下呈現橘紅色", "僅發生於肝臟", "屬於一種可逆性的細胞變性"], e: "類澱粉是細胞外異常蛋白沉積，剛果紅染色具特異性。" },
-            { q: "(進階) 結核病 (Tuberculosis) 典型的壞死特徵為：", a: "Caseous necrosis", o: ["Liquefactive necrosis", "Coagulative necrosis", "Caseous necrosis", "Gangrenous necrosis"], e: "乾酪樣壞死是結核肉芽腫的特徵。" },
-            { q: "(進階) 慢性溶血導致肝細胞內出現大量棕色顆粒，此色素為：", a: "Hemosiderin", o: ["Lipofuscin", "Hemosiderin", "Ceroid", "Hematin"], e: "溶血釋放鐵質，儲存為 Hemosiderin。" },
-            { q: "(進階) 關於休克 (Shock) 的微循環變化，進入失代償期的標誌為：", a: "微血管前括約肌舒張但後括約肌仍收縮", o: ["微血管前後括約肌均強烈收縮", "微血管前括約肌舒張但後括約肌仍收縮", "血流速度加快", "總外周阻力下降"], e: "這會導致血液淤積於微血管床，造成血壓驟降。" },
-            { q: "(進階) 病毒感染細胞後，在胞核或胞漿內出現的特殊結構稱為：", a: "Inclusion bodies", o: ["Psammoma bodies", "Inclusion bodies", "Lines of Zahn", "Russell bodies"], e: "包涵體是病毒成分或細胞反應產物。" },
-            { q: "(進階) 第三型光敏感症與下列何種臟器功能障礙直接相關？", a: "Liver", o: ["Kidney", "Liver", "Spleen", "Pancreas"], e: "肝臟排泄葉紅素障礙導致其進入皮膚。" },
-            { q: "(進階) 腫瘤的分級 (Grading) 主要是依據：", a: "細胞的分化程度與核分裂相數量", o: ["腫瘤的大小", "淋巴結轉移情況", "細胞的分化程度與核分裂相數量", "是否侵犯鄰近器官"], e: "分級看細胞惡性度，分期看擴散範圍。" },
-            { q: "(進階) 肉芽組織 (Granulation tissue) 不包含下列哪種成分？", a: "上皮樣細胞 (Epithelioid cells)", o: ["新生微血管", "纖維母細胞", "上皮樣細胞 (Epithelioid cells)", "細胞外基質"], e: "上皮樣細胞見於肉芽腫，而非肉芽組織。" },
-            { q: "(進階) 所謂「白色梗塞 (White infarct)」最常見於：", a: "Kidney", o: ["Lung", "Liver", "Kidney", "Intestine"], e: "實質臟器如腎、脾、心常發生貧血性梗塞。" },
-            { q: "(進階) 下列何種細胞是慢性炎症中最主要的特徵細胞？", a: "Macrophages", o: ["Neutrophils", "Macrophages", "Eosinophils", "Basophils"], e: "慢性發炎以單核球、巨噬細胞及淋巴球浸潤為主。" },
-            { q: "(綜合) 細胞發生凋亡 (Apoptosis) 時，啟動的核心酵素為：", a: "Caspases", o: ["Amylase", "Caspases", "Lipase", "Polymerase"], e: "Caspases 是執行凋亡的關鍵蛋白酶。" },
-            { q: "(綜合) 關於萎縮 (Atrophy) 的敘述，下列何者正確？", a: "器官曾發育成熟後因因素縮小", o: ["器官先天發育不全", "器官曾發育成熟後因因素縮小", "細胞數量增加但體積縮小", "僅發生於肌肉組織"], e: "萎縮是後天性的。" },
-            { q: "(綜合) 組織發生壞死後，由周圍結締組織取代並包圍的過程稱為：", a: "Organization", o: ["Calcification", "Organization", "Regeneration", "Metaplasia"], e: "機化是指壞死組織被肉芽組織取代的過程。" },
-            { q: "(綜合) 下列哪種狀況最容易引起轉移性鈣化？", a: "Chronic renal failure", o: ["Chronic renal failure", "Local muscle necrosis", "Tuberculosis", "Viral pneumonia"], e: "慢性腎衰竭引起高血磷及副甲狀腺亢進導致血鈣代謝異常。" },
-            { q: "(綜合) 下列何者不屬於化生 (Metaplasia) 的範疇？", a: "神經細胞轉變為肌肉細胞", o: ["氣管粘膜由柱狀上皮轉為鱗狀上皮", "神經細胞轉變為肌肉細胞", "結締組織內出現骨組織", "胃粘膜出現腸上皮特徵"], e: "化生通常發生在同類組織之間。" }
-        ]
+        title: "病理學全範圍",
+        newItems: [
+    // --- 整合型：細胞傷害與壞死 ---
+    { q: "關於細胞受損時的電解質變化，下列敘述何者正確？", a: "細胞內鈣離子濃度升高會活化磷脂酶與蛋白酶", o: ["細胞內鈣離子濃度降低導致細胞凋亡", "細胞內鈣離子濃度升高會活化磷脂酶與蛋白酶", "鈉離子大量流出細胞導致水腫", "鎂離子是導致核破碎的主因"], e: "【病理-壞死/變性】胞內鈣離子超載會活化多種破壞性酵素，是細胞死亡的關鍵步驟。" },
+    { q: "「壞死性下痢」常見於豬瘟或沙門氏菌感染，其大腸粘膜上的假膜形成屬於哪種發炎類型？", a: "纖維素性壞死性炎", o: ["化膿性炎", "纖維素性壞死性炎", "卡他性炎", "肉芽腫性炎"], e: "【病理-炎症/壞死】大量纖維素滲出結合壞死組織，形成特徵性的扣狀潰瘍或假膜。" },
+    { q: "下列關於 Necroptosis (程序性壞死) 的敘述，何者正確？", a: "其形態學特徵像壞死，但分子機轉受基因調控", o: ["不需要消耗 ATP", "其形態學特徵像壞死，但分子機轉受基因調控", "不會引發周邊炎症反應", "僅發生於病毒感染時"], e: "【病理-壞死】Necroptosis 兼具壞死的形態與凋亡的調控特性，會引發炎症。" },
+    { q: "細胞發生「脂肪變性」時，脂肪酸蓄積在細胞質的主要形式為何？", a: "三酸甘油酯", o: ["膽固醇", "三酸甘油酯", "磷脂質", "糖蛋白"], e: "【病理-細胞變性】肝臟處理脂肪障礙導致 Triglyceride 堆積。" },
+
+    // --- 整合型：循環障礙與水腫 ---
+    { q: "瀰漫性血管內凝血 (DIC) 發生時，臨床上卻出現嚴重的出血傾向，主因為：", a: "凝血因子與血小板被大量消耗", o: ["血管壁發生大量脂肪栓塞", "凝血因子與血小板被大量消耗", "肝臟合成凝血酵素的能力突然喪失", "血液靜水壓過低導致紅血球滲出"], e: "【病理-循環】DIC 是消耗性凝血病，先廣泛血栓後因原料耗盡而大出血。" },
+    { q: "關於「右心衰竭」引發的全身性變化，下列描述何者最不符合？", a: "肺臟顯著出血與水腫", o: ["腹水與胸水形成", "肝臟呈現檳榔肝外觀", "肺臟顯著出血與水腫", "遠端肢體水腫"], e: "【病理-循環】肺水腫是「左心衰竭」的特徵，右心衰竭影響的是體循環瘀血。" },
+    { q: "休克進入「代償期」時，動物表現出粘膜蒼白、四肢冰冷，這是由於：", a: "兒茶酚胺釋放導致周邊血管收縮", o: ["血液膠質滲透壓上升", "兒茶酚胺釋放導致周邊血管收縮", "副交感神經興奮導致心跳減慢", "全身血管舒張導致血壓下降"], e: "【病理-循環】休克早期交感神經興奮，優先保障心腦供血，犧牲皮膚與四肢灌流。" },
+    { q: "肺動脈栓塞 (Pulmonary embolism) 的栓子，最常來自於：", a: "體循環的靜脈系統", o: ["左心室壁栓", "體循環的靜脈系統", "主動脈弓", "肺靜脈回流"], e: "【病理-循環】靜脈回流匯集至右心後，栓子會進入肺動脈導致栓塞。" },
+
+    // --- 整合型：炎症與修復 ---
+    { q: "慢性炎症中常見的「含鐵血黃素沉著」，最能說明該處曾發生過：", a: "微血管出血與紅血球破壞", o: ["急性化膿性感染", "微血管出血與紅血球破壞", "嚴重的脂肪壞死", "類澱粉蛋白蓄積"], e: "【病理-色素/炎症】巨噬細胞吞噬溢出的紅血球後，將鐵質轉化為 hemosiderin。" },
+    { q: "關於「肉芽組織 (Granulation tissue)」與「肉芽腫 (Granuloma)」的區別，正確的是：", a: "前者是修復過程，後者是特定的慢性炎症反應", o: ["兩者皆是由中性球組成", "前者是修復過程，後者是特定的慢性炎症反應", "後者具有豐富的新生微血管", "前者不含纖維母細胞"], e: "【病理-癒合/炎症】肉芽組織用於填補傷口；肉芽腫是巨噬細胞演變成的結節狀病灶。" },
+    { q: "「組織胺 (Histamine)」在發炎反應中的核心作用是：", a: "引起小動脈擴張與微血管通透性增加", o: ["促進膠原蛋白合成", "引起小動脈擴張與微血管通透性增加", "活化補體路徑的膜攻擊複合體", "誘導發燒反應"], e: "【病理-炎症】組織胺是急性炎症早期血管反應的主導介質。" },
+    { q: "自體免疫疾病（如紅血球自體免疫性溶血）屬於哪一型超敏反應？", a: "Type II", o: ["Type I", "Type II", "Type III", "Type IV"], e: "【病理-免疫】第二型為抗體依賴型細胞毒性反應。" },
+
+    // --- 整合型：病毒與腫瘤 ---
+    { q: "病毒感染引起的「間質性肺炎」，在組織學上最顯著的特徵為：", a: "肺泡壁增厚與淋巴球浸潤", o: ["肺泡腔充填大量纖維素", "肺泡壁增厚與淋巴球浸潤", "肺泡腔內見大量化膿性細胞", "支氣管粘膜大量脫落"], e: "【病理-病毒】病毒主要在肺泡壁（間質）複製，引起增生與非化膿性炎症。" },
+    { q: "下列關於腫瘤「分級 (Grading)」與「分期 (Staging)」的敘述，何者正確？", a: "分級是看細胞分化程度；分期是看臨床擴散範圍", o: ["分級與分期意思完全相同", "分級是看腫瘤的直徑；分期是看核分裂數", "分級是看細胞分化程度；分期是看臨床擴散範圍", "分期僅適用於良性腫瘤"], e: "【病理-腫瘤】Grading 靠顯微鏡看惡性度；Staging 靠 TNM 系統看全身狀況。" },
+    { q: "關於「腺瘤 (Adenoma)」與「腺癌 (Adenocarcinoma)」的區別，下列何者錯誤？", a: "腺瘤絕對不會對周邊組織產生壓迫", o: ["腺癌具侵襲性與轉移力", "腺瘤分化較良好", "腺瘤絕對不會對周邊組織產生壓迫", "腺癌常見明顯的核異型性"], e: "【病理-腫瘤】良性腫瘤（腺瘤）雖然不侵襲，但會透過「壓迫」對周圍組織造成影響。" },
+    { q: "副腫瘤症候群 (Paraneoplastic syndrome) 中，常見的「高血鈣症」常與何者分泌有關？", a: "PTHrP (副甲狀腺素相關蛋白)", o: ["Insulin", "PTHrP (副甲狀腺素相關蛋白)", "Histamine", "Albumin"], e: "【病理-腫瘤】部分腫瘤（如肛門腺腺癌、淋巴瘤）會分泌 PTHrP 導致血鈣異常。" },
+
+    // --- 持續補充至 40 題 ---
+    { q: "細胞受損導致 ATP 耗盡時，首先受影響的細胞生理功能為何？", a: "膜電位維持與離子幫浦功能", o: ["蛋白質合成速率", "膜電位維持與離子幫浦功能", "DNA 複製與修復", "線粒體分裂"], e: "【病理-細胞傷害】缺乏 ATP 會使鈉鉀幫浦停擺，導致細胞水腫。" },
+    { q: "關於「營養不良性鈣化」與「轉移性鈣化」的共同點為：", a: "皆是鈣鹽以磷酸鈣形式沉著在組織中", o: ["皆發生在健康的組織中", "皆與維生素 D 中毒有關", "皆是鈣鹽以磷酸鈣形式沉著在組織中", "皆會引起血鈣濃度降低"], e: "【病理-鈣代謝】兩者化學成分相似，區別在於局部組織狀態與血鈣值。" },
+    { q: "長期慢性瘀血導致的組織變硬，主要是因為：", a: "缺氧引發纖維組織增生", o: ["大量類澱粉蛋白沉著", "缺氧引發纖維組織增生", "鈣鹽大量沉澱", "脂肪組織侵入"], e: "【病理-循環】瘀血導致實質細胞萎縮，間質纖維代償性增生，稱為瘀血性硬變。" },
+    { q: "典型的第一型超敏反應 (Type I) 不包括下列何種病變？", a: "絲球體腎炎", o: ["蕁麻疹", "過敏性休克", "絲球體腎炎", "過敏性鼻炎"], e: "【病理-免疫】絲球體腎炎多屬第三型（免疫複合體型）。" },
+    { q: "關於「惡性黑色素瘤 (Malignant melanoma)」在犬的常見發生位置，何者預後最差？", a: "口腔粘膜與指間皮膚", o: ["背部皮膚", "口腔粘膜與指間皮膚", "耳殼外緣", "大腿後側"], e: "【病理-腫瘤】特定解剖位置的黑色素瘤具極高侵襲性與轉移率。" },
+    { q: "病毒感染後出現的「融合細胞 (Syncytia)」是由於：", a: "病毒融合蛋白導致相鄰細胞膜融合", o: ["細胞核分裂但質不分裂", "病毒融合蛋白導致相鄰細胞膜融合", "大量發炎細胞聚集形成", "單核球吞噬病毒後轉變"], e: "【病理-病毒】如副黏液病毒的特徵。" },
+    { q: "傷口癒合中，「第一意合」與「第二意合」的主要差別在於：", a: "肉芽組織生成的量與癒合時間長短", o: ["是否具有膠原蛋白參與", "肉芽組織生成的量與癒合時間長短", "是否有上皮細胞增生", "發炎反應的有無"], e: "【病理-癒合】第二意合因組織缺失大，需大量肉芽組織填補，耗時長且疤痕大。" },
+    { q: "「化生 (Metaplasia)」最常發生在下列哪種組織？", a: "上皮組織與結締組織", o: ["神經組織", "上皮組織與結締組織", "心肌組織", "生殖細胞"], e: "【病理-基礎】如呼吸道上皮化生為鱗狀上皮，或結締組織化生為骨組織。" },
+    { q: "下列何者是「急性期蛋白 (Acute phase proteins)」，且可用於偵測體內炎症？", a: "C-reactive protein (CRP)", o: ["Albumin", "C-reactive protein (CRP)", "Hemoglobin", "Bilirubin"], e: "【病理-炎症】發炎時肝臟會大量合成 CRP、SAA 等蛋白。" },
+    { q: "關於「梗塞 (Infarction)」的描述，下列何者正確？", a: "血栓或栓塞導致血流中斷引起的局部組織壞死", o: ["指靜脈回流受阻引起的組織充血", "血栓或栓塞導致血流中斷引起的局部組織壞死", "僅發生在動脈管壁", "梗塞區通常不會發生炎症反應"], e: "【病理-循環】梗塞區會發生凝固性壞死並伴隨邊緣炎症。" },
+    { q: "「偽黑色素沉著」與「黑色素沉著」的區別是前者：", a: "由死後細菌產生的硫化氫與血紅素鐵結合而成", o: ["是由酪胺酸酶活化產生", "由死後細菌產生的硫化氫與血紅素鐵結合而成", "主要出現在皮膚表面", "是紫外線照射的結果"], e: "【病理-色素】死後變化，常見於腹腔臟器表面。" },
+    { q: "關於腫瘤的「起始、促長、進展」三段論，下列敘述何者正確？", a: "促長劑本身通常不具致癌性，但可誘導突變細胞增生", o: ["起始劑必須多次接觸才有效", "促長劑本身通常不具致癌性，但可誘導突變細胞增生", "進展階段是可逆的", "起始劑會導致細胞立即發生轉移"], e: "【病理-腫瘤】Promoter 負責擴張突變細胞群。" },
+    { q: "下列哪種細胞對於射線 (Radiation) 傷害最敏感？", a: "分裂旺盛的細胞（如造血細胞、腸上皮）", o: ["神經細胞", "成熟的肌肉細胞", "分裂旺盛的細胞（如造血細胞、腸上皮）", "脂肪細胞"], e: "【病理-基礎】細胞分化越低、分裂越快，對輻射越敏感。" },
+    { q: "當機體發生嚴重的低白蛋白血症時，水腫液最先出現在：", a: "身體低垂部位或漿膜腔", o: ["心肌間隙", "身體低垂部位或漿膜腔", "腦部實質", "骨髓腔"], e: "【病理-循環】滲透壓下降導致液體滲出，受重力影響蓄積。" },
+    { q: "關於「血鐵沉著症 (Hemochromatosis)」的敘述，何者正確？", a: "伴隨嚴重的組織纖維化與功能損害", o: ["僅是局部的 hemosiderin 蓄積", "伴隨嚴重的組織纖維化與功能損害", "不會影響肝臟功能", "是由於黑色素代謝異常引起"], e: "【病理-色素】這是一種嚴重的全身性鐵代謝病。" },
+    { q: "肺臟發生「出血性梗塞」的原因是：", a: "肺臟具有動脈與支氣管動脈雙重血供", o: ["肺泡腔內充滿大量空氣", "肺臟具有動脈與支氣管動脈雙重血供", "肺臟缺乏側支循環", "肺靜脈壓力過低"], e: "【病理-循環】雙重血供使血液能滲入壞死區形成紅色梗塞。" },
+    { q: "下列何種病毒會導致患畜出現明顯的「包涵體性肝炎」？", a: "雞腺病毒 (Fowl Adenovirus)", o: ["豬圓環病毒", "雞腺病毒 (Fowl Adenovirus)", "狂犬病病毒", "口蹄疫病毒"], e: "【病理-病毒】肝細胞核內出現顯著的嗜酸性包涵體。" },
+    { q: "關於腫瘤的「異型性 (Anaplasia)」描述，不包括：", a: "細胞核與質的比例縮小", o: ["細胞核大小不等、染色深", "核分裂相異常且增多", "細胞核與質的比例縮小", "失去正常的組織結構"], e: "【病理-腫瘤】惡性細胞通常「核質比增大」。" },
+    { q: "組織發生「乾酪樣壞死」後，若長期存在且未被吸收，最常發生：", a: "營養不良性鈣化", o: ["完全再生", "營養不良性鈣化", "轉移性鈣化", "脂肪變性"], e: "【病理-壞死/鈣代謝】壞死局部容易吸引鈣鹽沉著。" },
+    { q: "下列何種細胞因子與「發熱」及「惡體質」的發生最相關？", a: "TNF-alpha", o: ["IL-10", "TNF-alpha", "TGF-beta", "EPO"], e: "【病理-炎症/腫瘤】腫瘤壞死因子會抑制食慾並引起全身反應。" },
+    { q: "「腦軟化 (Encephalomalacia)」在病理學上的本質是：", a: "液化性壞死", o: ["凝固性壞死", "液化性壞死", "纖維素性炎", "類澱粉沉積"], e: "【病理-壞死】神經系統壞死的標準形態。" },
+    { q: "關於「鱗狀細胞癌 (Squamous cell carcinoma)」的特徵性鏡下結構為何？", a: "角質珠 (Keratin pearls)", o: ["玫瑰花環結構", "角質珠 (Keratin pearls)", "異染性顆粒", "阿修夫小體"], e: "【病理-腫瘤】上皮高度角化形成的同心圓結構。" },
+    { q: "當機體發生急性發炎時，血液中哪類細胞通常會顯著上升？", a: "中性球 (Neutrophils)", o: ["淋巴球", "中性球 (Neutrophils)", "單核球", "嗜酸性球"], e: "【病理-炎症/實診】急性期反應的標準血象。" },
+    { q: "「水腫」發生在胸膜腔時，專有名詞稱為：", a: "Hydrothorax (胸水)", o: ["Ascites", "Hydrothorax (胸水)", "Anasarca", "Hydropericardium"], e: "【病理-循環】" }
+],
+        chapters: {
+            "p1": { title: "01 壞死", questions: [
+    // 基礎 (10)
+    { q: "下列哪一種壞死類型最常發生於中樞神經系統 (CNS)？", a: "Liquefactive necrosis", o: ["Coagulative necrosis", "Liquefactive necrosis", "Caseous necrosis", "Fat necrosis"], e: "【病理-壞死】腦組織因脂質含量高且缺乏支撐間質，壞死後傾向液化。" },
+    { q: "核縮低 (Pyknosis)、核破碎 (Karyorrhexis) 與核溶解 (Karyolysis) 是何種病變的特徵？", a: "壞死", o: ["肥大", "萎縮", "壞死", "化生"], e: "【病理-壞死】這是細胞發生不可逆傷害（壞死）時，細胞核的典型形態變化。" },
+    { q: "凝固性壞死 (Coagulative necrosis) 最常見於下列何種器官的缺血性梗塞？", a: "腎臟", o: ["腦部", "腎臟", "肺臟", "乳腺"], e: "【病理-壞死】除腦部外，實質臟器的急性缺血常導致蛋白質變性而形成凝固性壞死。" },
+    { q: "關於脂肪壞死 (Fat necrosis) 的敘述，下列何者正確？", a: "常與急性胰臟炎有關", o: ["僅發生於皮下脂肪", "常與急性胰臟炎有關", "外觀呈現黑色惡臭", "屬於一種受調節的細胞死亡"], e: "【病理-壞死】胰酵素釋放會導致周圍脂肪組織皂化，形成白色斑塊。" },
+    { q: "Zenker's necrosis 最常發生於何種組織？", a: "橫紋肌", o: ["平滑肌", "橫紋肌", "神經組織", "結締組織"], e: "【病理-壞死】這是指橫紋肌發生的透明變性與凝固性壞死。" },
+    { q: "壞疽 (Gangrene) 通常是指哪一種壞死加上腐敗菌的感染？", a: "凝固性壞死", o: ["液化性壞死", "凝固性壞死", "纖維素壞死", "乾酪樣壞死"], e: "【病理-壞死】壞疽是以凝固性壞死為基礎，再受到環境或細菌影響產生的變化。" },
+    { q: "關於細胞凋亡 (Apoptosis) 的敘述，下列何者錯誤？", a: "會引發劇烈的發炎反應", o: ["是能量依賴的過程", "細胞體積會縮小", "會引發劇烈的發炎反應", "質膜保持完整"], e: "【病理-壞死】凋亡是計畫性死亡，不會釋放內容物，因此不引發發炎。" },
+    { q: "乾酪樣壞死 (Caseous necrosis) 的病灶外觀通常呈現？", a: "灰白色、如起司狀", o: ["液狀、有膿液", "灰白色、如起司狀", "黑色、乾硬", "透明、水腫"], e: "【病理-壞死】外觀呈現如乳酪狀的無結構顆粒物質。" },
+    { q: "壞死組織被周圍的肉芽組織取代並包圍的過程稱為：", a: "機化", o: ["機化", "化生", "鈣化", "再生"], e: "【病理-壞死】Organization 指的是壞死物被纖維結締組織取代的過程。" },
+    { q: "死後變化中，由於紅血球溶血導致血管周圍組織變紅的現象稱為：", a: "死後浸潤", o: ["死後僵直", "死後浸潤", "死後凝血", "自解"], e: "【病理-壞死】Hemoglobin imhibition 是常見的死後偽病變。" },
+    // 進階 (10)
+    { q: "在凋亡路徑中，Caspase-9 主要參與下列哪一條路徑？", a: "內源性路徑 (線粒體路徑)", o: ["外源性路徑", "內源性路徑 (線粒體路徑)", "補體路徑", "凝血路徑"], e: "【病理-壞死】線粒體釋放 Cytochrome c 後會活化 Caspase-9。" },
+    { q: "纖維素性壞死 (Fibridiond necrosis) 最常見於何處？", a: "小動脈壁", o: ["大腦皮質", "肺泡間質", "小動脈壁", "軟骨組織"], e: "【病理-壞死】常見於免疫複合體沉著導致的血管損傷。" },
+    { q: "下列何種蛋白質具有「抗凋亡 (Anti-apoptotic)」的功能？", a: "Bcl-2", o: ["Bax", "Bak", "Bcl-2", "Caspase-3"], e: "【病理-壞死】Bcl-2 家族中，Bcl-2 與 Bcl-xL 是抑制凋亡的分子。" },
+    { q: "缺血再灌流損傷 (Ischemia-reperfusion injury) 產生傷害的主要介質為：", a: "自由基 (ROS)", o: ["乳酸", "自由基 (ROS)", "葡萄糖", "白蛋白"], e: "【病理-壞死】氧氣重新進入時產生的活性氧自由基會造成嚴重細胞損害。" },
+    { q: "死後僵直 (Rigor mortis) 產生的原因主要是細胞內缺乏何種物質？", a: "ATP", o: ["鈣離子", "ATP", "鈉離子", "氧氣"], e: "【病理-壞死】缺乏 ATP 導致肌球蛋白與肌動蛋白無法解離，肌肉鎖定在收縮狀態。" },
+    { q: "凋亡小體 (Apoptotic bodies) 的形成主要歸功於下列何種酵素的活化？", a: "執行型 Caspases", o: ["起始型 Caspases", "執行型 Caspases", "澱粉酶", "解脂酶"], e: "【病理-壞死】如 Caspase-3, 6, 7 負責裂解細胞結構。" },
+    { q: "在慢性炎症或腫瘤中心觀察到的壞死，若呈現乾粉狀且缺乏組織輪廓，應診斷為：", a: "Caseous necrosis", o: ["Coagulative necrosis", "Liquefactive necrosis", "Caseous necrosis", "Zenker's necrosis"], e: "【病理-壞死】乾酪樣壞死兼具凝固與液化的某些特徵，但結構完全消失。" },
+    { q: "關於自噬作用 (Autophagy) 的敘述，何者正確？", a: "是細胞在營養缺乏下消化自身成分以生存的機制", o: ["必然導致細胞死亡", "是細胞在營養缺乏下消化自身成分以生存的機制", "只發生在惡性腫瘤細胞", "與溶體功能無關"], e: "【病理-壞死】這是一種自我保護機制，但在極端下也可導向死亡。" },
+    { q: "濕性壞疽 (Moist gangrene) 常見於哪類器官？", a: "腸管", o: ["四肢末端", "心臟", "腸管", "腎臟"], e: "【病理-壞死】水分含量高且易受細菌污染的器官如肺、腸易發生濕性壞疽。" },
+    { q: "營養不良性鈣化 (Dystrophic calcification) 的發生前提為：", a: "組織已有受損或壞死", o: ["血鈣必須顯著升高", "組織必須保持健康", "組織已有受損或壞死", "僅發生於老年動物"], e: "【病理-壞死】在血鈣正常下，鈣鹽沉積於壞死或受損局部。" },
+    // 綜合 (5)
+    { q: "器官在胚胎期原基完全缺失，導致出生時不存在，稱為：", a: "Agenesis", o: ["Hypoplasia", "Aplasia", "Agenesis", "Atrophy"], e: "【病理-基礎】發育不全。" },
+    { q: "一種分化成熟的細胞類型被另一種成熟細胞類型取代的過程稱為：", a: "Metaplasia", o: ["Dysplasia", "Metaplasia", "Hyperplasia", "Anaplasia"], e: "【病理-基礎】化生。" },
+    { q: "細胞數量增加，但細胞形態與排列正常的現象稱為：", a: "Hyperplasia", o: ["Hypertrophy", "Hyperplasia", "Dysplasia", "Neoplasia"], e: "【病理-基礎】增生。" },
+    { q: "關於萎縮 (Atrophy) 的敘述，下列何者正確？", a: "指器官發育成熟後因因素導致體積縮小", o: ["指器官先天發育不良", "指器官發育成熟後因因素導致體積縮小", "必然伴隨細胞數量的減少", "僅見於骨骼肌"], e: "【病理-基礎】萎縮是後天性的。" },
+    { q: "惡性腫瘤細胞喪失分化特徵，呈現高度異型性，稱為：", a: "Anaplasia", o: ["Dysplasia", "Metaplasia", "Anaplasia", "Aplasia"], e: "【病理-基礎】間變 (Anaplasia) 是惡性的特徵。" }
+] },
+            "p2": { title: "02 細胞變性", questions: [
+    // 基礎 (10)
+    { q: "細胞受損時最常見、且最早出現的變化為何？", a: "水變性", o: ["脂肪變性", "水變性", "透明變性", "類澱粉變性"], e: "【變性-基礎】Hydropic degeneration 是細胞代謝障礙的初步表現。" },
+    { q: "肝細胞脂肪變性時，在 H&E 染色下可觀察到？", a: "邊緣銳利的圓形空泡", o: ["邊緣銳利的圓形空泡", "顆粒狀的紅染物質", "均質藍染的團塊", "核破碎"], e: "【變性-基礎】脂肪在製片過程中被溶劑溶掉，留下清晰空泡。" },
+    { q: "類澱粉變性 (Amyloidosis) 主要發生在組織的何處？", a: "細胞外間質", o: ["細胞核內", "細胞外間質", "溶體內", "核糖體表面"], e: "【變性-基礎】它是一種細胞外的異常蛋白質沉積。" },
+    { q: "診斷類澱粉變性最常用的特殊染色法為何？", a: "剛果紅染色 (Congo red)", o: ["普魯士藍染色", "剛果紅染色 (Congo red)", "PAS 染色", "蘇丹三號染色"], e: "【變性-基礎】剛果紅染色呈橘紅色反應。" },
+    { q: "透明變性 (Hyaline change) 是指組織或細胞內出現何種外觀？", a: "均質、嗜伊紅性的物質", o: ["顆粒狀黑色的物質", "空泡狀透明的物質", "均質、嗜伊紅性的物質", "針狀結晶物質"], e: "【變性-基礎】外觀如玻璃般透明且紅染。" },
+    { q: "關於脂肪肝 (Fatty liver) 的敘述，下列何者正確？", a: "肝臟體積腫大，邊緣圓鈍，色黃質軟", o: ["肝臟體積縮小，色黑質硬", "肝臟體積腫大，邊緣圓鈍，色黃質軟", "僅發生於老年犬", "是不可逆的壞死變化"], e: "【變性-基礎】脂肪變性是可逆的。" },
+    { q: "水變性的主要機轉與下列何者的失能最直接相關？", a: "鈉鉀幫浦 (Na+/K+-ATPase)", o: ["鈣離子通道", "鈉鉀幫浦 (Na+/K+-ATPase)", "氧氣運輸蛋白", "核酸聚合酶"], e: "【變性-基礎】鈉離子留在細胞內導致滲透壓升高，水分進入。" },
+    { q: "Russell bodies 常見於何種細胞中？", a: "漿細胞 (Plasma cells)", o: ["中性球", "漿細胞 (Plasma cells)", "肝細胞", "神經細胞"], e: "【變性-基礎】這是漿細胞內免疫球蛋白蓄積產生的玻璃樣變。" },
+    { q: "類澱粉沉積在脾臟的白髓，形成如西米露般的顆粒，稱為：", a: "西米脾 (Sago spleen)", o: ["檳榔脾", "西米脾 (Sago spleen)", "火腿脾", "槍金屬脾"], e: "【變性-基礎】Sago spleen 是類澱粉變性的特徵之一。" },
+    { q: "關於糖原 (Glycogen) 蓄積的敘述，何者正確？", a: "使用 PAS 染色呈現陽性反應", o: ["使用剛果紅染色呈現陽性", "使用 PAS 染色呈現陽性反應", "好發於心肌壞死局部", "與脂肪代謝障礙直接相關"], e: "【變性-基礎】糖原可用 PAS 染色確認。" },
+    // 進階 (10)
+    { q: "類澱粉蛋白使用剛果紅染色後，在偏光顯微鏡下會呈現：", a: "蘋果綠螢光", o: ["鮮紅色螢光", "蘋果綠螢光", "金黃色螢光", "無螢光反應"], e: "【變性-進階】這是因為類澱粉具有特殊的 $\beta$-摺疊結構。" },
+    { q: "肝細胞發生脂肪變性的原因中，下列何者「不包括」？", a: "白蛋白合成過多", o: ["進入肝臟的脂肪酸過多", "肝臟氧化脂肪酸的能力下降", "脂蛋白合成障礙", "白蛋白合成過多"], e: "【變性-進階】白蛋白與脂肪運送無直接關聯，應是脂蛋白 (Lipoprotein) 障礙。" },
+    { q: "貓發生糖尿病時，胰島常見的病理變化為：", a: "類澱粉變性", o: ["脂肪變性", "類澱粉變性", "水變性", "黏液變性"], e: "【變性-進階】源於胰島澱粉樣多肽 (IAPP) 的沉積。" },
+    { q: "Mallory bodies 屬於哪一類的細胞變性？", a: "細胞內玻璃樣變", o: ["細胞內玻璃樣變", "脂肪變性", "水變性", "纖維素樣變"], e: "【變性-進階】肝細胞內角蛋白中間絲蓄積形成的均質紅染物。" },
+    { q: "類澱粉蛋白的主要物理結構為何？", a: "Beta-pleated sheet", o: ["Alpha-helix", "Beta-pleated sheet", "Triple helix", "Random coil"], e: "【變性-進階】此結構決定了其對特殊染色的反應。" },
+    { q: "黏液變性 (Mucoid degeneration) 發生在脂肪組織時，常稱為：", a: "脂肪的漿液性萎縮", o: ["脂肪的漿液性萎縮", "脂肪皂化", "脂肪浸潤", "脂肪壞死"], e: "【變性-進階】常見於長期飢餓或惡體質動物。" },
+    { q: "在犬，長期接受糖皮質激素 (Steroid) 治療會導致肝細胞出現：", a: "糖原蓄積型空泡化", o: ["脂肪變性", "糖原蓄積型空泡化", "類澱粉沉積", "液化性壞死"], e: "【變性-進階】類固醇會誘導肝醣合成酵素活化。" },
+    { q: "纖維素樣變性 (Fibrinoid change) 主要發生在何種結構？", a: "動脈壁", o: ["神經纖維節", "動脈壁", "軟骨基質", "骨髓腔"], e: "【變性-進階】由蛋白質與纖維素滲入受損血管壁所致。" },
+    { q: "關於「脂肪浸潤 (Fatty infiltration)」與「脂肪變性」的區別，前者是：", a: "脂肪組織出現在非脂肪細胞的間質中", o: ["細胞質內出現脂肪空泡", "脂肪組織出現在非脂肪細胞的間質中", "屬於不可逆的細胞傷害", "僅發生於肝臟"], e: "【變性-進階】如心肌細胞間出現脂肪組織。" },
+    { q: "下列何種狀況產生的空泡，使用蘇丹三號 (Sudan III) 染色會呈陰性？", a: "水變性", o: ["脂肪變性", "水變性", "脂肪浸潤", "乳糜微粒蓄積"], e: "【變性-進階】水變性空泡內容物為水與電解質。" },
+    // 綜合 (5)
+    { q: "器官先天體積細小，但具備基本構造，稱為：", a: "Hypoplasia", o: ["Atrophy", "Hypoplasia", "Agenesis", "Aplasia"], e: "【基礎】發育不全。" },
+    { q: "惡性腫瘤細胞離開原發部位，在遠隔器官生長，稱為：", a: "Metastasis", o: ["Metaplasia", "Metastasis", "Mitosis", "Metabolism"], e: "【基礎】轉移。" },
+    { q: "細胞分化極差，失去正常功能與形態，稱為：", a: "Anaplasia", o: ["Dysplasia", "Metaplasia", "Anaplasia", "Hypoplasia"], e: "【基礎】間變，是惡性指標。" },
+    { q: "下列何者為可逆性傷害？", a: "脂肪變性", o: ["核縮低", "脂肪變性", "核溶解", "核破碎"], e: "【基礎】變性原則上是可逆的。" },
+    { q: "細胞排列混亂且核異型，但尚未發展為惡性腫瘤，稱為：", a: "Dysplasia", o: ["Metaplasia", "Dysplasia", "Hyperplasia", "Hypertrophy"], e: "【基礎】形成不良。" }
+] },
+            "p3": { title: "03 色素及鈣代謝障礙", questions: [
+    // 基礎 (10)
+    { q: "下列哪一種色素被稱為「老化色素」，與脂質過氧化有關？", a: "Lipofuscin", o: ["Melanin", "Hemosiderin", "Lipofuscin", "Bilirubin"], e: "【色素-基礎】脂褐素是細胞老化的標誌。" },
+    { q: "在慢性瘀血的肺臟中，出現的含鐵血黃素 (Hemosiderin) 主要存在於？", a: "巨噬細胞", o: ["中性球", "淋巴球", "巨噬細胞", "血管內皮"], e: "【色素-基礎】由巨噬細胞吞噬紅血球後產生。" },
+    { q: "黃疸 (Icterus) 是由於血液中何種物質濃度升高所致？", a: "Bilirubin", o: ["Hemoglobin", "Bilirubin", "Bile acid", "Iron"], e: "【色素-基礎】高膽紅素血症導致組織黃染。" },
+    { q: "炭末沉著症 (Anthracosis) 最常出現在何種器官？", a: "肺臟", o: ["肝臟", "肺臟", "腎臟", "脾臟"], e: "【色素-基礎】吸入碳微粒後蓄積在肺泡巨噬細胞。" },
+    { q: "黑色素 (Melanin) 的合成是由何種胺基酸轉化而來？", a: "Tyrosine", o: ["Tyrosine", "Glycine", "Leucine", "Valine"], e: "【色素-基礎】經由酪胺酸酶作用轉化。" },
+    { q: "關於轉移性鈣化 (Metastatic calcification) 的敘述，何者正確？", a: "常伴隨高血鈣或高血磷", o: ["僅發生於受損組織", "常伴隨高血鈣或高血磷", "血鈣濃度通常正常", "與維生素 E 缺乏有關"], e: "【鈣代謝-基礎】是全身性代謝異常引起。" },
+    { q: "下列哪種特殊染色法可用於確認含鐵血黃素？", a: "普魯士藍染色", o: ["普魯士藍染色", "剛果紅染色", "蘇丹三號染色", "PAS 染色"], e: "【色素-基礎】Prussian blue 染色呈藍色。" },
+    { q: "所謂「偽黑色素沉著 (Pseudomelanosis)」是死後何種反應產生的黑色素？", a: "硫化氫與鐵結合", o: ["脂肪氧化", "硫化氫與鐵結合", "膽汁外溢", "酪胺酸酵素反應"], e: "【色素-基礎】形成黑色硫化鐵。" },
+    { q: "酸性福馬林固定液產生的 artifact 色素稱為：", a: "Acid hematin", o: ["Bilirubin", "Acid hematin", "Melanin", "Lipofuscin"], e: "【色素-基礎】福馬林色素，呈黑褐色細顆粒。" },
+    { q: "限局性鈣質沉著 (Calcinosis circumscripta) 常見於大型犬的哪一處？", a: "關節壓力點", o: ["肝臟包膜", "關節壓力點", "肺泡壁", "心內膜"], e: "【鈣代謝-基礎】常形成質硬的團塊。" },
+    // 進階 (10)
+    { q: "第一型光敏感症 (Type I Photosensitization) 是由於：", a: "攝取預先存在的光感物質", o: ["肝臟排泄功能受損", "攝取預先存在的光感物質", "先天性卟啉代謝異常", "維生素 K 缺乏"], e: "【色素-進階】如攝取金絲桃素。" },
+    { q: "蠟樣質 (Ceroid) 色素的出現通常與下列何者缺乏有關？", a: "維生素 E", o: ["維生素 A", "維生素 B12", "維生素 E", "維生素 K"], e: "【色素-進階】與組織氧化壓力與抗氧化劑缺乏有關。" },
+    { q: "卟啉症 (Porphyria) 的患畜，其骨骼與牙齒在紫外光下會呈現？", a: "紅色螢光", o: ["蘋果綠螢光", "紅色螢光", "金黃色螢光", "藍色螢光"], e: "【色素-進階】卟啉蓄積於礦物質化組織。" },
+    { q: "溶血性黃疸 (Pre-hepatic jaundice) 時，生化檢查主要上升的是：", a: "未結合型膽紅素", o: ["結合型膽紅素", "未結合型膽紅素", "膽汁酸", "鹼性磷酸酶"], e: "【色素-進階】大量溶血超過肝臟處理能力。" },
+    { q: "下列哪種狀況最容易引起胃粘膜、血管壁與肺泡壁的「轉移性鈣化」？", a: "慢性腎衰竭", o: ["肌肉營養不良", "慢性腎衰竭", "結核桿菌感染", "低白蛋白血症"], e: "【鈣代謝-進階】腎衰竭引起次發性副甲狀腺功能亢進與高磷血症。" },
+    { q: "關於馬黑色素瘤 (Melanoma) 的敘述，何者正確？", a: "常見於老年灰毛馬的尾根部", o: ["僅發生於年輕馬", "常見於老年灰毛馬的尾根部", "絕不發生轉移", "與日光照射完全無關"], e: "【色素-進階】馬黑色素瘤具有顯著的毛色與位置關聯性。" },
+    { q: "第二型光敏感症 (Type II) 產生的原因為何？", a: "內源性色素代謝異常 (如卟啉)", o: ["肝臟損傷", "攝取牧草毒素", "內源性色素代謝異常 (如卟啉)", "寄生蟲感染"], e: "【色素-進階】先天性酵素缺乏。" },
+    { q: "所謂「槍金屬色腎 (Gun-metal kidney)」是綿羊發生何種中毒的特徵？", a: "銅中毒", o: ["鉛中毒", "銅中毒", "汞中毒", "硒中毒"], e: "【色素-進階】溶血性危象導致血紅素蓄積於腎管。" },
+    { q: "禽類痛風 (Gout) 沉著於關節或漿膜面的白色物質化學成分為：", a: "尿酸鹽", o: ["碳酸鈣", "尿酸鹽", "草酸鈣", "膽固醇"], e: "【色素-進階】禽類代謝蛋白質的產物為尿酸。" },
+    { q: "血鐵質 (Hemosiderosis) 與血鐵沉著症 (Hemochromatosis) 的區別點在於，後者：", a: "伴隨顯著的組織損害與纖維化", o: ["僅是生理性蓄積", "不具臨床意義", "伴隨顯著的組織損害與纖維化", "主要發生於肺臟"], e: "【色素-進階】Hemochromatosis 是指嚴重的病理性鐵蓄積。" },
+    // 綜合 (5)
+    { q: "營養不良性鈣化與轉移性鈣化最大的區別點在於？", a: "血鈣濃度", o: ["沉積的位置", "血鈣濃度", "鈣鹽的顏色", "是否發生壞死"], e: "【基礎】前者血鈣正常，後者血鈣高。" },
+    { q: "下列何者為不可逆的傷害？", a: "核縮低", o: ["脂肪變性", "核縮低", "水變性", "黏液變性"], e: "【基礎】核的變化代表壞死。" },
+    { q: "關於黃疸的肉眼判定，在下列何種動物最易受飲食影響而產生偽病變？", a: "牛", o: ["犬", "貓", "牛", "豬"], e: "【基礎】牛的脂肪富含胡蘿蔔素，呈現黃色，需區別生理性與病理性黃染。" },
+    { q: "細胞凋亡屬於一種：", a: "主動的程序性死亡", o: ["被動的意外死亡", "主動的程序性死亡", "必然伴隨壞疽的過程", "不受基因調控的過程"], e: "【基礎】" },
+    { q: "器官曾發育完成後體積縮小，稱為：", a: "Atrophy", o: ["Agenesis", "Atrophy", "Hypoplasia", "Hypertrophy"], e: "【基礎】" }
+] },
+            "p4": { title: "04 發育異常", questions: [
+    // 基礎 (10)
+    { q: "下列哪一個專有名詞正確描述「器官原基完全缺失，導致器官先天不存在」？", a: "Agenesis", o: ["Hypoplasia", "Atrophy", "Agenesis", "Dysplasia"], e: "【病理-發育異常】Agenesis 指的是器官的原基（Primordium）從未形成。" },
+    { q: "關於右側主動脈弓持續存在 (PRAA) 的敘述，下列何者正確？", a: "會造成食道被血管環壓迫而導致狹窄", o: ["會造成氣管被血管環壓迫", "會造成食道被血管環壓迫而導致狹窄", "主要發生在老年大型犬", "是一種後天性的血管退化病變"], e: "【病理-發育異常】PRAA 形成的血管環壓迫食道，導致近端食道擴張（Megaesophagus）。" },
+    { q: "一隻幼犬出生後單側腎臟體積明顯較小，但具有正常的組織結構，應診斷為：", a: "Renal hypoplasia", o: ["Renal atrophy", "Renal agenesis", "Renal hypoplasia", "Renal dysplasia"], e: "【病理-發育異常】Hypoplasia 是指器官有發育但細胞數量不足，體積未達正常大小。" },
+    { q: "「無腦症 (Anencephaly)」的主要病理機制為：", a: "神經管頭端閉合失敗", o: ["腦室積水壓迫腦組織", "神經管頭端閉合失敗", "腦組織發生液化性壞死", "小腦發育不全"], e: "【病理-發育異常】這是嚴重的神經管閉合不全缺陷。" },
+    { q: "關於先天性腭裂 (Cleft palate) 的成因，主要是：", a: "左右顎突融合失敗", o: ["左右顎突融合失敗", "牙齒發育不全", "鼻腔粘膜發炎", "出生後外傷"], e: "【病理-發育異常】這是由於胚胎發育期兩側顎突未能中線融合所致。" },
+    { q: "下列何者屬於常見的犬先天性心血管發育異常？", a: "Persistent ductus arteriosus", o: ["Atherosclerosis", "Persistent ductus arteriosus", "Endocarditis", "Myocarditis"], e: "【病理-發育異常】開放性動脈導管（PDA）是常見的先天性心臟病。" },
+    { q: "多囊腎 (Polycystic kidney) 在病理分類上最適合歸類為：", a: "囊性發育異常", o: ["炎症性疾病", "囊性發育異常", "腫瘤性病變", "退行性病變"], e: "【病理-發育異常】由腎小管與集合管發育銜接異常導致尿液蓄積形成囊腫。" },
+    { q: "「致畸胎因子 (Teratogen)」專指：", a: "在胚胎發育期導致畸形的因子", o: ["導致成體癌症的物質", "在胚胎發育期導致畸形的因子", "導致神經退化的物質", "造成死後自解的因素"], e: "【病理-發育異常】專指影響胚胎正常分化與器官形成的外部因子。" },
+    { q: "腦室內腦脊髓液異常過量蓄積，稱為：", a: "Hydrocephalus", o: ["Anencephaly", "Hydranencephaly", "Hydrocephalus", "Microcephaly"], e: "【病理-發育異常】水腦症通常伴隨腦實質受壓迫萎縮。" },
+    { q: "隱睪症 (Cryptorchidism) 指的是：", a: "睪丸未下降至陰囊內", o: ["睪丸完全未發育", "睪丸發育體積細小", "睪丸未下降至陰囊內", "睪丸發生惡性腫瘤"], e: "【病理-發育異常】睪丸停留在腹腔或腹股溝處。" },
+    // 進階 (10)
+    { q: "羊攝取 Veratrum californicum (加州藜蘆) 導致畸胎，其最特徵的病變為：", a: "獨眼畸形 (Cyclopia)", o: ["四肢短小", "獨眼畸形 (Cyclopia)", "心臟缺失", "多肢症"], e: "【病理-發育異常】藜蘆鹼會干擾神經管發育，導致面部中線發育缺陷。" },
+    { q: "關於器官形成期 (Organogenesis) 的敘述，何者正確？", a: "此時期對致畸胎因子最為敏感", o: ["此時期對致畸胎因子最為敏感", "發生在胚胎發育的末期", "此時期發育異常通常不會致命", "此時期細胞已完全停止分裂"], e: "【病理-發育異常】大部分重要的解剖結構在此時期奠定基礎。" },
+    { q: "小腦發育不全 (Cerebellar hypoplasia) 在貓最常與何種病毒感染有關？", a: "Feline panleukopenia virus", o: ["Feline leukemia virus", "Feline infectious peritonitis virus", "Feline panleukopenia virus", "Feline calicivirus"], e: "【病理-發育異常】貓瘟病毒會攻擊發育中胎兒小腦的顆粒細胞層。" },
+    { q: "下列關於 Aplasia 的定義，何者正確？", a: "僅有原始遺痕組織，無功能性器官形成", o: ["器官發育體積較小", "僅有原始遺痕組織，無功能性器官形成", "器官原基完全消失", "器官發育完成後退化"], e: "【病理-發育異常】區別於 Agenesis，Aplasia 通常留有少許發育不全的組織遺痕。" },
+    { q: "脊椎裂 (Spina bifida) 若伴隨腦脊膜突出，稱為：", a: "Meningocele", o: ["Meningocele", "Encephalocele", "Hydromyelia", "Syringomyelia"], e: "【病理-發育異常】Menigocoele 指的是腦脊膜經由椎弓缺損處向外突出。" },
+    { q: "下列何種因素最不可能導致遺傳性發育異常？", a: "出生後的機械性創傷", o: ["染色體異倍數 (Aneuploidy)", "基因突變", "出生後的機械性創傷", "染色體易位 (Translocation)"], e: "【病理-發育異常】遺傳性異常多發生在受精或胚胎初期。" },
+    { q: "關於雙體畸形 (Dicephalus) 的敘述，何者正確？", a: "屬於單一原基分裂不完全或融合異常", o: ["是由於母體攝取過多維生素", "屬於單一原基分裂不完全或融合異常", "必然伴隨四肢缺失", "僅發生於齧齒類"], e: "【病理-發育異常】聯體雙胎的一種形式。" },
+    { q: "心室中隔缺損 (VSD) 在胚胎學上的主要原因為：", a: "心內膜墊 (Endocardial cushions) 發育不全", o: ["動脈導管未閉合", "心內膜墊 (Endocardial cushions) 發育不全", "肺動脈瓣狹窄", "主動脈弓右位化"], e: "【病理-發育異常】心內膜墊參與中隔與瓣膜的形成。" },
+    { q: "下列何種術語描述「組織或器官細胞排列混亂且具有異型性」？", a: "Dysplasia", o: ["Hyperplasia", "Metaplasia", "Dysplasia", "Anaplasia"], e: "【病理-發育異常】雖然 Dysplasia 也見於腫瘤前期，但在胚胎學中指發育紊亂。" },
+    { q: "關於先天地中海型貧血或卟啉症导致的骨骼變色，屬於：", a: "代謝性發育異常", o: ["炎症性變化", "代謝性發育異常", "腫瘤性變化", "營養性萎縮"], e: "【病理-發育異常】涉及內源性色素代謝基因缺陷。" },
+    // 綜合 (5)
+    { q: "細胞體積增加稱為：", a: "Hypertrophy", o: ["Hyperplasia", "Hypertrophy", "Atrophy", "Metaplasia"], e: "【病理-基礎】肥大。" },
+    { q: "細胞數量增加稱為：", a: "Hyperplasia", o: ["Hypertrophy", "Hyperplasia", "Atrophy", "Metaplasia"], e: "【病理-基礎】增生。" },
+    { q: "一種分化成熟的細胞被另一種取代稱為：", a: "Metaplasia", o: ["Dysplasia", "Metaplasia", "Aplasia", "Anaplasia"], e: "【病理-基礎】化生。" },
+    { q: "器官發育成熟後體積縮小稱為：", a: "Atrophy", o: ["Hypoplasia", "Atrophy", "Agenesis", "Dysplasia"], e: "【病理-基礎】萎縮。" },
+    { q: "器官在胚胎期原基完全缺失稱為：", a: "Agenesis", o: ["Hypoplasia", "Aplasia", "Agenesis", "Atrophy"], e: "【病理-基礎】發育不全。" }
+] },
+            "p5": { title: "05 循環障礙", questions: [
+    // 基礎 (10)
+    { q: "關於主動充血 (Active hyperemia) 的敘述，下列何者正確？", a: "由動脈端擴張導致局部血量增加", o: ["由靜脈端回流受阻導致", "由動脈端擴張導致局部血量增加", "外觀呈現紫紅色的發紺", "通常伴隨局部溫度降低"], e: "【病理-循環】主動充血充滿含氧血，顏色鮮紅且溫熱。" },
+    { q: "在慢性瘀血的肝臟中，呈現紅黃相間的色澤，俗稱為：", a: "Nutmeg liver", o: ["Sago spleen", "Nutmeg liver", "Fatty liver", "Lardaceous liver"], e: "【病理-循環】檳榔肝，由中心瘀血紅與周邊脂肪黃組成。" },
+    { q: "下列哪一種原因會導致血漿膠質滲透壓 (Oncotic pressure) 下降，進而引起水腫？", a: "低白蛋白血症", o: ["心衰竭導致靜水壓升高", "低白蛋白血症", "淋巴管阻塞", "微血管通透性增加"], e: "【病理-循環】白蛋白是維持血管內滲透壓的主力。" },
+    { q: "關於血栓 (Thrombus) 的 Virchow's triad，下列何者「不包括」在內？", a: "維生素 K 缺乏", o: ["內皮細胞受損", "血流性質改變", "血液高凝固性", "維生素 K 缺乏"], e: "【病理-循環】Vit K 缺乏會導致出血傾向，非血栓三要素。" },
+    { q: "在活體血管內形成的血栓，鏡下可見紅白相間的條紋，稱為：", a: "Lines of Zahn", o: ["Lines of Zahn", "Councilman bodies", "Negri bodies", "Russell bodies"], e: "【病理-循環】由血小板/纖維素（白）與紅血球（紅）交替組成。" },
+    { q: "所謂「發紺 (Cyanosis)」是指組織呈現青紫色，主因為：", a: "還原血紅素增加", o: ["氧合血紅素增加", "還原血紅素增加", "膽紅素增加", "高鐵血紅素增加"], e: "【病理-循環】通常與靜脈性瘀血或缺氧有關。" },
+    { q: "皮膚表面出現直徑 1-2 mm 的針尖狀出血點，稱為：", a: "Petechiae", o: ["Petechiae", "Purpura", "Ecchymosis", "Hematoma"], e: "【病理-循環】點狀出血。" },
+    { q: "實質臟器（如心、腎、脾）發生末端動脈阻塞時，常形成：", a: "白色梗塞 (White infarct)", o: ["紅色梗塞", "白色梗塞 (White infarct)", "液化性壞死", "出血性梗塞"], e: "【病理-循環】又稱貧血性梗塞。" },
+    { q: "休克 (Shock) 早期最主要的代償機制為：", a: "交感神經興奮導致血管收縮", o: ["副交感神經興奮", "交感神經興奮導致血管收縮", "大量尿液排出", "血管擴張增加灌流"], e: "【病理-循環】為了維持重要臟器的血壓。" },
+    { q: "關於漏出液 (Transudate) 的特徵，下列何者正確？", a: "蛋白質含量低且比重低", o: ["蛋白質含量高且比重高", "蛋白質含量低且比重低", "含有大量發炎細胞", "通常由細菌感染引起"], e: "【病理-循環】由壓力失衡引起，非炎症性。" },
+    // 進階 (10)
+    { q: "下列哪種狀況最容易引發彌漫性血管內凝血 (DIC)？", a: "敗血症引發內皮大範圍受損", o: ["局部皮膚擦傷", "慢性缺鐵性貧血", "敗血症引發內皮大範圍受損", "良性脂肪瘤"], e: "【病理-循環】廣泛的內皮受損會消耗凝血因子與血小板。" },
+    { q: "貓常見的「鞍狀血栓 (Saddle thrombus)」其栓子來源最常為：", a: "左心房的壁栓 (Mural thrombus)", o: ["右心房的壁栓", "左心房的壁栓 (Mural thrombus)", "後肢靜脈血栓", "頸動脈血栓"], e: "【病理-循環】與肥大性心肌病（HCM）有關。" },
+    { q: "紅色梗塞 (Red infarct) 最常發生在何種組織？", a: "具有雙重血液供應的器官 (如肺)", o: ["組織緻密且單一動脈供應的器官", "具有雙重血液供應的器官 (如肺)", "缺血後未再灌注的器官", "胎兒的實質臟器"], e: "【病理-循環】血液由第二套循環滲入壞死區。" },
+    { q: "減壓症 (Decompression sickness) 引起的氣體栓塞，其氣泡成分主要是：", a: "Nitrogen", o: ["Oxygen", "Nitrogen", "CO2", "CO"], e: "【病理-循環】氮氣在壓力驟降時由血中逸出。" },
+    { q: "長骨骨折後，血液中出現油脂滴，最可能導致：", a: "Fat embolism", o: ["Air embolism", "Fat embolism", "Septic embolism", "Thromboembolism"], e: "【病理-循環】骨髓脂肪進入血流。" },
+    { q: "關於逆流性栓塞 (Paradoxical embolism) 的敘述，正確的是：", a: "栓子經由心室或心房中隔缺損由右心進入左心", o: ["栓子由動脈端逆行至靜脈端", "栓子經由心室或心房中隔缺損由右心進入左心", "僅發生於死後血塊移動", "指空氣栓塞與血栓混合"], e: "【病理-循環】靜脈栓子跳過肺循環直接進入體循環動脈。" },
+    { q: "肺水腫液在組織切片下通常呈現何種外觀？", a: "肺泡腔內充填淡粉紅色、無結構物質", o: ["肺泡腔內充滿大量中性球", "肺泡腔內充填淡粉紅色、無結構物質", "肺泡壁顯著纖維化", "肺泡腔內出現結晶物"], e: "【病理-循環】此為富含蛋白質的水腫液。" },
+    { q: "休克進入「不可逆期」的核心特徵為何？", a: "溶體酵素釋放導致大範圍組織壞死", o: ["血壓恢復正常範圍", "心跳顯著減慢", "溶體酵素釋放導致大範圍組織壞死", "微血管通透性降低"], e: "【病理-循環】此時期即使補充血量也難以挽救。" },
+    { q: "所謂「心衰竭細胞」是指巨噬細胞吞噬了何種物質？", a: "Hemosiderin", o: ["Bilirubin", "Hemosiderin", "Lipofuscin", "Melanin"], e: "【病理-循環】吞噬肺泡出血中的紅血球殘骸。" },
+    { q: "缺血再灌流損傷中，鈣離子超載 (Calcium overload) 的後果是：", a: "活化多種蛋白酶導致細胞損害", o: ["穩定細胞膜結構", "活化多種蛋白酶導致細胞損害", "促進 ATP 生成", "抑制自由基產生"], e: "【病理-循環】高濃度的胞內鈣離子會破壞細胞骨架與功能。" },
+    // 綜合 (5)
+    { q: "細胞發生壞死後被周圍結締組織包圍取代的過程？", a: "Organization", o: ["Calcification", "Organization", "Regeneration", "Metaplasia"], e: "【病理-基礎】機化。" },
+    { q: "營養不良性鈣化發生在：", a: "受損或壞死的局部組織", o: ["受損或壞死的局部組織", "高血鈣動物的健康組織", "正常老化的瓣膜", "幼年動物骨骼"], e: "【病理-基礎】血鈣通常正常。" },
+    { q: "下列何者為不可逆的傷害？", a: "核縮低", o: ["脂肪變性", "水變性", "核縮低", "黏液變性"], e: "【病理-基礎】壞死的核變化。" },
+    { q: "轉移性鈣化主要與何者有關？", a: "全身性鈣磷代謝異常", o: ["局部發炎", "局部缺血", "全身性鈣磷代謝異常", "維生素 C 缺乏"], e: "【病理-基礎】血鈣或血磷通常升高。" },
+    { q: "死後變化中，肌肉變硬的現象稱為：", a: "Rigor mortis", o: ["Autolysis", "Livor mortis", "Rigor mortis", "Algor mortis"], e: "【病理-基礎】死後僵直。" }
+] },
+            "p6": { title: "06 炎症", questions: [
+    // 基礎 (10)
+    { q: "炎症反應的五大徵兆 (Cardinal signs) 不包括下列哪一項？", a: "發紺 (Cyanosis)", o: ["發紅 (Rubor)", "腫脹 (Tumor)", "發紺 (Cyanosis)", "疼痛 (Dolor)"], e: "【病理-炎症】五大徵兆為：紅、腫、熱、痛、功能喪失。" },
+    { q: "炎症反應早期，引起微血管擴張與通透性增加的最主要化學介質為：", a: "Histamine", o: ["Interferon", "Histamine", "Complement", "Albumin"], e: "【病理-炎症】組織胺是第一波反應的主導者。" },
+    { q: "急性發炎反應中，最早到達受損局部的白血球是：", a: "Neutrophils", o: ["Macrophages", "Neutrophils", "Lymphocytes", "Eosinophils"], e: "【病理-炎症】中性球是急性期的特徵細胞。" },
+    { q: "關於「滲出液 (Exudate)」的敘述，下列何者正確？", a: "蛋白質含量高且含有多量發炎細胞", o: ["蛋白質含量極低", "蛋白質含量高且含有多量發炎細胞", "比重小於 1.015", "與發炎反應無關"], e: "【病理-炎症】滲出液是炎症導致的血管通透性增加所致。" },
+    { q: "化膿性炎 (Purulent inflammation) 的特徵是含有大量的：", a: "中性球與壞死組織液", o: ["淋巴球", "纖維素", "中性球與壞死組織液", "漿液"], e: "【病理-炎症】俗稱膿液。" },
+    { q: "慢性炎症 (Chronic inflammation) 中最重要的特徵細胞是：", a: "Macrophages", o: ["Neutrophils", "Macrophages", "Basophils", "Platelets"], e: "【病理-炎症】巨噬細胞參與長期的免疫與修復過程。" },
+    { q: "白血球經由血管壁間隙穿出血管外的動作稱為：", a: "Diapedesis", o: ["Phagocytosis", "Chemotaxis", "Diapedesis", "Opsonization"], e: "【病理-炎症】跨內皮細胞運動。" },
+    { q: "肉芽組織 (Granulation tissue) 的組成主要包括：", a: "新生微血管與纖維母細胞", o: ["大量中性球", "新生微血管與纖維母細胞", "多核巨細胞", "神經纖維"], e: "【病理-炎症】這是修復過程的基礎組織。" },
+    { q: "纖維素性炎 (Fibrinous inflammation) 常發生於下列何處？", a: "漿膜腔 (如胸膜、心包膜)", o: ["皮下脂肪", "漿膜腔 (如胸膜、心包膜)", "神經纖維節", "牙釉質"], e: "【病理-炎症】大量纖維素滲出，嚴重時造成粘連。" },
+    { q: "下列哪一種化學物質是主要的趨化因子 (Chemoattractant)，可吸引中性球？", a: "C5a", o: ["C5a", "Albumin", "Glucose", "Histamine"], e: "【病理-炎症】補體系統的 C5a 具有強效趨性。" },
+    // 進階 (10)
+    { q: "肉芽腫性炎 (Granulomatous inflammation) 的特徵結構中，不包含：", a: "大量漿細胞浸潤", o: ["上皮樣細胞 (Epithelioid cells)", "多核巨細胞 (Giant cells)", "大量漿細胞浸潤", "纖維包囊"], e: "【病理-炎症】特徵是巨噬細胞演變成的上皮樣細胞。" },
+    { q: "關於白血球附著級聯 (Adhesion cascade) 的順序，正確的是：", a: "Rolling -> Adhesion -> Diapedesis", o: ["Diapedesis -> Rolling -> Adhesion", "Rolling -> Adhesion -> Diapedesis", "Adhesion -> Rolling -> Diapedesis", "Activation -> Diapedesis -> Rolling"], e: "【病理-炎症】靠邊後滾動，再緊密附著。" },
+    { q: "內源性熱原 (Endogenous pyrogens) 引發發燒的主要物質是：", a: "IL-1 與 TNF-alpha", o: ["IL-1 與 TNF-alpha", "Histamine", "Acetylcholine", "Insulin"], e: "【病理-炎症】這些細胞激素作用於下視丘。" },
+    { q: "補體系統 (Complement system) 的三條活化路徑最終都會產生：", a: "膜攻擊複合體 (MAC)", o: ["抗體", "膜攻擊複合體 (MAC)", "干擾素", "紅血球"], e: "【病理-炎症】C5b-9 用於打穿細胞膜。" },
+    { q: "在慢性發炎病灶中常見到的多核巨細胞，其來源為：", a: "巨噬細胞融合", o: ["中性球分裂不完全", "巨噬細胞融合", "內皮細胞增生", "上皮細胞變性"], e: "【病理-炎症】如 Langhans giant cells。" },
+    { q: "下列何種發炎介質具有引起「疼痛」的功能？", a: "Prostaglandins 與 Bradykinin", o: ["Histamine", "Complement C3b", "Prostaglandins 與 Bradykinin", "Interferon"], e: "【病理-炎症】前列腺素與緩激肽會敏化痛覺神經。" },
+    { q: "「類上皮細胞 (Epithelioid cells)」本質上是：", a: "活化的巨噬細胞", o: ["變性的鱗狀上皮", "活化的巨噬細胞", "增生的纖維母細胞", "受損的內皮細胞"], e: "【病理-炎症】胞漿豐富，形似上皮。" },
+    { q: "由細菌毒素引起，導致廣泛組織壞死與膿液液化的發炎稱為：", a: "Phlegmonous inflammation", o: ["Serous", "Catarrhal", "Phlegmonous inflammation", "Granulomatous"], e: "【病理-炎症】蜂窩性組織炎。" },
+    { q: "發炎過程中，「調理作用 (Opsonization)」的主要功能為：", a: "促進巨噬細胞識別並吞噬抗原", o: ["增加血管壁厚度", "促進巨噬細胞識別並吞噬抗原", "抑制細菌合成細胞壁", "溶解纖維素血栓"], e: "【病理-炎症】IgG 與 C3b 是重要的調理素。" },
+    { q: "關於慢性活動性發炎 (Chronic-active inflammation) 的描述，正確的是：", a: "在慢性炎症背景下出現大量中性球浸潤", o: ["僅見於病毒感染", "指發炎完全停止後留下的疤痕", "在慢性炎症背景下出現大量中性球浸潤", "指發炎初期伴隨發燒"], e: "【病理-炎症】代表慢性炎症正在急性惡化。" },
+    // 綜合 (5)
+    { q: "惡性腫瘤與良性腫瘤區別點在於？", a: "轉移能力", o: ["生長速度", "細胞大小", "轉移能力", "有無發炎"], e: "【病理-基礎】。" },
+    { q: "器官原基缺失稱為：", a: "Agenesis", o: ["Hypoplasia", "Agenesis", "Atrophy", "Aplasia"], e: "【病理-基礎】。" },
+    { q: "中樞神經系統壞死類型？", a: "液化性", o: ["凝固性", "液化性", "乾酪樣", "脂肪壞死"], e: "【病理-基礎】。" },
+    { q: "白色梗塞好發於？", a: "腎、脾、心", o: ["肺、腸", "腎、脾、心", "肝", "骨髓"], e: "【病理-基礎】。" },
+    { q: "組織受損後由肉芽組織取代稱為：", a: "機化", o: ["鈣化", "化生", "機化", "再生"], e: "【病理-基礎】Organization。" }
+] },
+            "p7": { title: "07 癒合、發熱與免疫", questions: [
+    // 基礎 (10)
+    { q: "肉芽組織 (Granulation tissue) 的三大組成成分為何？", a: "新生微血管、纖維母細胞、細胞外基質", o: ["中性球、纖維素、膿液", "新生微血管、纖維母細胞、細胞外基質", "多核巨細胞、淋巴球、酪蛋白", "上皮細胞、黑色素、神經纖維"], e: "【病理-癒合】肉芽組織是修復的基礎，與慢性炎症的肉芽腫 (Granuloma) 不同。" },
+    { q: "傷口癒合過程中，由纖維母細胞分泌並賦予組織強度的主要成分為：", a: "Collagen", o: ["Albumin", "Collagen", "Fibrinogen", "Amyloid"], e: "【病理-癒合】膠原蛋白的沉積與交聯是傷口抗張強度的主要來源。" },
+    { q: "關於「第一意合 (Primary union)」的敘述，下列何者正確？", a: "見於邊緣整齊、無感染的切開傷口", o: ["見於大面積組織缺失的傷口", "見於邊緣整齊、無感染的切開傷口", "癒合後會留下顯著的疤痕", "需要大量的肉芽組織填充"], e: "【病理-癒合】第一意合癒合快且疤痕極小。" },
+    { q: "發熱 (Fever) 反應中，直接作用於下視丘設定點的神經介質主要是：", a: "PGE2", o: ["Histamine", "PGE2", "Serotonin", "Heparin"], e: "【病理-發熱】細胞激素刺激下視丘產生前列腺素 E2，使體溫設定點上移。" },
+    { q: "下列哪一種超敏反應 (Hypersensitivity) 是由 IgE 介導的？", a: "Type I", o: ["Type I", "Type II", "Type III", "Type IV"], e: "【病理-免疫】第一型（立即型）超敏反應，如過敏性休克。" },
+    { q: "過敏性休克、蕁麻疹屬於哪一型的免疫反應？", a: "Type I", o: ["Type I", "Type II", "Type III", "Type IV"], e: "【病理-免疫】由肥大細胞釋放組織胺引起的立即性反應。" },
+    { q: "下列何者是構成肉芽腫 (Granuloma) 的最核心特徵細胞？", a: "上皮樣細胞 (Epithelioid cells)", o: ["中性球", "上皮樣細胞 (Epithelioid cells)", "嗜酸性球", "纖維母細胞"], e: "【病理-免疫】肉芽腫由活化的巨噬細胞（上皮樣細胞）與多核巨細胞構成。" },
+    { q: "器官移植後的急性排斥反應，主要與下列何種物質的識別有關？", a: "MHC (主要組織相容性複合體)", o: ["白蛋白", "MHC (主要組織相容性複合體)", "血紅素", "膽固醇"], e: "【病理-免疫】T 細胞識別受贈者與供贈者間 MHC 的差異。" },
+    { q: "傷口癒合時，纖維組織取代受損實質組織的過程稱為：", a: "Fibrosis", o: ["Regeneration", "Fibrosis", "Metaplasia", "Atrophy"], e: "【病理-癒合】這會導致功能喪失，俗稱結疤。" },
+    { q: "發熱初期的「畏寒」現象，是因為：", a: "體溫低於調升後的設定點", o: ["環境溫度過高", "體溫低於調升後的設定點", "汗腺大量分泌", "周圍血管大幅擴張"], e: "【病理-發熱】機體感知寒冷並透過顫抖產熱，以達到新的高溫設定點。" },
+    // 進階 (10)
+    { q: "內源性熱原 (Endogenous pyrogens) 主要是由何種細胞分泌？", a: "單核球與巨噬細胞", o: ["紅血球", "血小板", "單核球與巨噬細胞", "神經元"], e: "【病理-發熱】巨噬細胞受刺激後分泌 IL-1, TNF-alpha, IL-6。" },
+    { q: "關於第四型超敏反應 (Type IV) 的敘述，正確的是：", a: "由致敏的 T 淋巴球介導", o: ["由 IgE 介導", "由補體系統介導", "由致敏的 T 淋巴球介導", "反應發生在數分鐘內"], e: "【病理-免疫】又稱遲發型超敏反應，如結核菌素試驗。" },
+    { q: "「免疫複合體」沉積在血管壁引起炎症，屬於哪一型超敏反應？", a: "Type III", o: ["Type I", "Type II", "Type III", "Type IV"], e: "【病理-免疫】第三型，如絲球體腎炎或全身性紅斑性狼瘡。" },
+    { q: "傷口抗張強度的恢復，在何時達到最顯著的進步？", a: "膠原蛋白交聯與重組期", o: ["發炎初期", "血栓形成期", "膠原蛋白交聯與重組期", "水腫期"], e: "【病理-癒合】Remodeling phase 會強化組織結構。" },
+    { q: "新生微血管的「出芽 (Budding)」現象主要受何種因子調控？", a: "VEGF", o: ["VEGF", "Insulin", "Glucagon", "Acetylcholine"], e: "【病理-癒合】血管內皮生長因子 (VEGF) 促進新生血管形成。" },
+    { q: "自體免疫疾病中，機體產生對抗自身組織抗原的抗體，這通常涉及：", a: "免疫耐受性喪失", o: ["免疫增強", "免疫耐受性喪失", "維生素缺乏", "病毒中和"], e: "【病理-免疫】Self-tolerance 失敗導致攻擊自身細胞。" },
+    { q: "細胞因子的「趨性 (Chemotaxis)」功能，主要是吸引：", a: "發炎細胞移向受損局部", o: ["紅血球移向血管中央", "發炎細胞移向受損局部", "神經衝動傳導", "血小板凝集"], e: "【病理-炎症】引導免疫細胞精確抵達戰場。" },
+    { q: "Arthus reaction 是哪一型超敏反應的局部表現？", a: "Type III", o: ["Type I", "Type II", "Type III", "Type IV"], e: "【病理-免疫】局部血管炎導致的出血與壞死。" },
+    { q: "下列何種情況會顯著延遲傷口的癒合？", a: "長期使用糖皮質激素 (Steroid)", o: ["充足的蛋白質攝取", "維生素 C 供應充足", "長期使用糖皮質激素 (Steroid)", "保持局部血液灌流"], e: "【病理-癒合】類固醇抑制纖維母細胞活性與蛋白質合成。" },
+    { q: "所謂「肉芽組織過度增生 (Proud flesh)」最常見於哪種動物？", a: "馬", o: ["犬", "貓", "馬", "豬"], e: "【病理-癒合】馬的四肢傷口極易形成肉芽組織贅生，阻礙上皮覆蓋。" },
+    // 綜合 (5)
+    { q: "病理學上，細胞受損後由同類健康細胞增生修復的過程稱為：", a: "Regeneration", o: ["Fibrosis", "Regeneration", "Metaplasia", "Atrophy"], e: "【病理-基礎】再生可恢復原功能。" },
+    { q: "惡性腫瘤最重要的生物學行為是：", a: "轉移", o: ["發炎", "轉移", "出血", "包囊形成"], e: "【病理-基礎】Metastasis。" },
+    { q: "中樞神經系統壞死的主要類型為：", a: "液化性", o: ["凝固性", "液化性", "乾酪樣", "脂肪壞死"], e: "【病理-基礎】CNS 傾向液化。" },
+    { q: "下列哪項指標最能反映急性的廣泛組織損傷？", a: "AST 顯著上升", o: ["BUN 上升", "AST 顯著上升", "膽固醇上升", "USG 下降"], e: "【病理-基礎】AST 分佈廣，嚴重受損時會釋放。" },
+    { q: "關於化生 (Metaplasia) 的敘述，何者正確？", a: "通常是可逆的適應性改變", o: ["是不可逆的細胞死亡", "通常是可逆的適應性改變", "僅發生在神經組織", "代表癌症已經轉移"], e: "【病理-基礎】。" }
+] },
+            "p8": { title: "08 病毒性病理", questions: [
+    // 基礎 (10)
+    { q: "病毒感染細胞後，在胞核或胞漿內形成的特殊結構稱為：", a: "Inclusion bodies", o: ["Councilman bodies", "Inclusion bodies", "Negri bodies (專指)", "Russell bodies"], e: "【病毒病理】包涵體是病毒成分或細胞產物的聚集。" },
+    { q: "下列何種病毒感染會在神經細胞質內形成 Negri bodies？", a: "Rabies virus", o: ["Distemper virus", "Rabies virus", "Parvovirus", "Herpesvirus"], e: "【病毒病理】狂犬病病毒的特徵性嗜酸性質內包涵體。" },
+    { q: "常見於疱疹病毒 (Herpesvirus) 感染細胞核內的嗜酸性包涵體稱為：", a: "Cowdry type A", o: ["Cowdry type A", "Negri bodies", "Bollinger bodies", "Guarnieri bodies"], e: "【病毒病理】這是疱疹病毒的重要診斷特徵。" },
+    { q: "「融合細胞 (Syncytia / Multi-nucleated giant cells)」常見於哪類病毒感染？", a: "副黏液病毒 (Paramyxovirus)", o: ["小 DNA 病毒", "副黏液病毒 (Paramyxovirus)", "圓環病毒", "腺病毒"], e: "【病毒病理】如犬瘟熱病毒引起的細胞融合。" },
+    { q: "下列何種病毒感染後，最容易在細胞核內見到明顯的包涵體？", a: "Adenovirus", o: ["Poxvirus", "Rabies virus", "Adenovirus", "Rotavirus"], e: "【病毒病理】DNA 病毒多在核內複製並形成核內包涵體。" },
+    { q: "關於「細胞病變效應 (Cytopathic effect, CPE)」的敘述，正確的是：", a: "病毒感染導致細胞形態改變或死亡的現象", o: ["病毒感染促進細胞正常生長", "病毒感染導致細胞形態改變或死亡的現象", "僅發生在體外細胞培養", "專指腫瘤細胞的增生"], e: "【病毒病理】包含變性、壞死、包涵體形成等。" },
+    { q: "痘病毒 (Poxvirus) 感染時，典型的包涵體出現在何處？", a: "細胞質內", o: ["細胞核內", "細胞質內", "線粒體內", "高基氏體內"], e: "【病毒病理】痘病毒雖然是 DNA 病毒，但在胞漿內複製。" },
+    { q: "雞痘 (Fowl pox) 的特徵性胞漿內包涵體稱為：", a: "Bollinger bodies", o: ["Bollinger bodies", "Negri bodies", "Cowdry bodies", "Councilman bodies"], e: "【病毒病理】痘病毒在禽類形成的包涵體名稱。" },
+    { q: "病毒導致細胞凋亡 (Apoptosis) 的主要目的是：", a: "機體清除受感染細胞的防禦反應", o: ["促進病毒大量擴散", "機體清除受感染細胞的防禦反應", "增加營養供應", "修復病毒 DNA"], e: "【病毒病理】但也有些病毒會誘發凋亡以利散佈。" },
+    { q: "下列何種病毒會導致明顯的淋巴細胞耗損與萎縮？", a: "Parvovirus (CPV)", o: ["Parvovirus (CPV)", "Poxvirus", "Papillomavirus", "Herpesvirus"], e: "【病毒病理】小 DNA 病毒攻擊分裂旺盛的淋巴與腸粘膜細胞。" },
+    // 進階 (10)
+    { q: "犬瘟熱 (Distemper) 病毒可在下列哪些位置形成包涵體？", a: "細胞核內與細胞質內皆可", o: ["僅限細胞核內", "僅限細胞質內", "細胞核內與細胞質內皆可", "僅限紅血球內"], e: "【病毒病理】CDV 具有核內與質內包涵體雙重特性。" },
+    { q: "關於圓環病毒二型 (PCV2) 的組織病理特徵，下列何者正確？", a: "淋巴組織出現肉芽腫性炎與葡萄串樣胞漿包涵體", o: ["典型的化膿性肺炎", "淋巴組織出現肉芽腫性炎與葡萄串樣胞漿包涵體", "腦部出現嚴重的出血性梗塞", "肝細胞內見大量核內包涵體"], e: "【病毒病理】PCV2 會在巨噬細胞質內形成 Botryoid inclusion bodies。" },
+    { q: "傳染性喉氣管炎 (ILT) 病毒在呼吸道上皮細胞形成的包涵體位於：", a: "細胞核內", o: ["細胞核內", "細胞質內", "核糖體", "血管內皮"], e: "【病毒病理】疱疹病毒引起的核內包涵體。" },
+    { q: "Guarnieri bodies 是下列何種病毒感染的特徵？", a: "Vaccinia virus (痘病毒)", o: ["Adenovirus", "Vaccinia virus (痘病毒)", "Parvovirus", "Reovirus"], e: "【病毒病理】痘病毒在胞漿內形成的酸性包涵體。" },
+    { q: "有些病毒會使細胞週期停留在 S 期，主要原因是：", a: "提供病毒 DNA 複製所需的原料與環境", o: ["防止細胞分裂", "提供病毒 DNA 複製所需的原料與環境", "促進細胞產生抗體", "誘導細胞分化"], e: "【病毒病理】這有利於病毒基因組的擴增。" },
+    { q: "關於病毒性肺炎的組織學特徵，下列何者最常見？", a: "間質性肺炎 (Interstitial pneumonia)", o: ["化膿性支氣管肺炎", "間質性肺炎 (Interstitial pneumonia)", "纖維素性胸膜肺炎", "乾酪樣壞死"], e: "【病毒病理】病毒多侵犯肺泡間質，導致其增厚與淋巴球浸潤。" },
+    { q: "乳頭狀瘤病毒 (Papillomavirus) 引發細胞變化的機制主要是：", a: "干擾細胞週期調控蛋白如 p53 和 Rb", o: ["直接破壞細胞膜", "干擾細胞週期調控蛋白如 p53 和 Rb", "消耗細胞內的 ATP", "抑制細胞蛋白質合成"], e: "【病毒病理】這常導致細胞過度增生，甚至發展成惡性腫瘤。" },
+    { q: "下列哪種病毒感染會導致血管內皮受損，進而引發嚴重的出血性病變？", a: "African Swine Fever Virus", o: ["Rotavirus", "African Swine Fever Virus", "Warts virus", "Calicivirus"], e: "【病毒病理】嗜內皮性病毒會引起彌漫性出血。" },
+    { q: "所謂「包涵體性肝炎 (Inclusion body hepatitis)」在家禽主要是由何者引起？", a: "Adenovirus", o: ["Retrovirus", "Adenovirus", "Coronavirus", "Paramyxovirus"], e: "【病毒病理】肝細胞內可見顯著的大型核內包涵體。" },
+    { q: "病毒導致細胞「空泡變性 (Koilocytosis)」常見於：", a: "Papillomavirus", o: ["Papillomavirus", "Rabies virus", "Poxvirus", "Parvovirus"], e: "【病毒病理】核周圍出現透亮的空泡區。" },
+    // 綜合 (5)
+    { q: "器官原基完全未形成稱為：", a: "Agenesis", o: ["Hypoplasia", "Agenesis", "Atrophy", "Aplasia"], e: "【病理-基礎】。" },
+    { q: "下列何種壞死好發於腦部？", a: "液化性", o: ["凝固性", "液化性", "乾酪樣", "脂肪壞死"], e: "【病理-基礎】。" },
+    { q: "檳榔肝 (Nutmeg liver) 的成因為：", a: "慢性肝瘀血", o: ["急性肝炎", "慢性肝瘀血", "脂肪肝", "膽汁淤積"], e: "【病理-基礎】。" },
+    { q: "傷口癒合中提供抗張強度的是：", a: "膠原蛋白", o: ["血小板", "膠原蛋白", "白蛋白", "纖維素"], e: "【病理-基礎】。" },
+    { q: "轉移性鈣化通常伴隨：", a: "高血鈣", o: ["低血鈣", "高血鈣", "正常血鈣", "維生素 C 缺乏"], e: "【病理-基礎】。" }
+] },
+            "p9": { title: "09 腫瘤", questions: [
+    // 基礎 (10)
+    { q: "良性腫瘤與惡性腫瘤最絕對的區別特徵為何？", a: "有無遠端轉移 (Metastasis)", o: ["生長速度快慢", "有無遠端轉移 (Metastasis)", "細胞核的大小", "有無包囊 (Capsule)"], e: "【腫瘤學】轉移是惡性腫瘤最明確的特徵。" },
+    { q: "來源於「間質組織 (Mesenchymal tissue)」的惡性腫瘤，名稱通常後綴為：", a: "Sarcoma", o: ["Oma", "Carcinoma", "Sarcoma", "Adenoma"], e: "【腫瘤學】間質性惡性腫瘤稱為肉瘤 (Sarcoma)。" },
+    { q: "來源於「上皮組織 (Epithelial tissue)」的惡性腫瘤，名稱通常後綴為：", a: "Carcinoma", o: ["Oma", "Carcinoma", "Sarcoma", "Adenoma"], e: "【腫瘤學】上皮性惡性腫瘤稱為癌 (Carcinoma)。" },
+    { q: "關於良性腫瘤的敘述，下列何者正確？", a: "分化良好且通常具有包囊", o: ["生長迅速且具侵襲性", "分化良好且通常具有包囊", "常發生血行性轉移", "細胞異型性極高"], e: "【腫瘤學】良性腫瘤通常膨脹性生長，不侵入周邊組織。" },
+    { q: "惡性腫瘤細胞喪失分化特徵，呈現高度原始且異型的狀態，稱為：", a: "Anaplasia", o: ["Dysplasia", "Metaplasia", "Anaplasia", "Hyperplasia"], e: "【腫瘤學】間變 (Anaplasia) 是惡性的細胞學特徵。" },
+    { q: "肉瘤 (Sarcoma) 最主要的轉移路徑通常是：", a: "血行性轉移 (Hematogenous)", o: ["淋巴性轉移", "血行性轉移 (Hematogenous)", "接觸性轉移", "種植性轉移"], e: "【腫瘤學】肉瘤傾向經由靜脈擴散至肺臟等器官。" },
+    { q: "腺癌 (Adenocarcinoma) 是指來源於何種結構的惡性腫瘤？", a: "腺體或分泌性上皮", o: ["骨組織", "神經膠質細胞", "腺體或分泌性上皮", "脂肪組織"], e: "【腫瘤學】如乳腺癌、腸腺癌。" },
+    { q: "下列哪一種腫瘤名稱聽起來像良性，實質上卻多為惡性？", a: "Lymphoma", o: ["Adenoma", "Fibroma", "Lymphoma", "Lipoma"], e: "【腫瘤學】淋巴瘤、黑色素瘤 (Melanoma) 在命名上雖結尾為 oma，但多具惡性特徵。" },
+    { q: "腫瘤細胞對周邊組織的直接破壞與伸入，稱為：", a: "Invasion", o: ["Invasion", "Metastasis", "Promotion", "Initiation"], e: "【腫瘤學】侵襲 (Invasion) 是惡性腫瘤局部擴散的方式。" },
+    { q: "關於「腫瘤分期 (Staging)」的描述，主要依據是：", a: "腫瘤的大小與擴散範圍", o: ["細胞的分化程度", "核分裂相的數量", "腫瘤的大小與擴散範圍", "病人的年齡"], e: "【腫瘤學】分期 (Staging) 是依據 TNM 系統評估臨床擴展程度。" },
+    // 進階 (10)
+    { q: "腫瘤發生的「起始 (Initiation)」階段，核心變化是：", a: "產生不可逆的基因突變", o: ["細胞大量增生", "產生不可逆的基因突變", "血管新生形成", "發生遠端轉移"], e: "【腫瘤學】Initiator 導致 DNA 永久受損。" },
+    { q: "下列何種基因屬於「抑癌基因 (Tumor suppressor gene)」，受損後易引發癌症？", a: "p53", o: ["ras", "myc", "p53", "erbB-2"], e: "【腫瘤學】p53 是細胞的守門人，負責監控 DNA 損傷。" },
+    { q: "關於「副腫瘤症候群 (Paraneoplastic syndrome)」的敘述，何者正確？", a: "是由於腫瘤分泌激素或細胞因子引起的遠端影響", o: ["是由於腫瘤直接壓迫導致的臨床症狀", "是由於腫瘤分泌激素或細胞因子引起的遠端影響", "僅發生在良性腫瘤", "與免疫系統無關"], e: "【腫瘤學】如淋巴瘤分泌 PTHrP 導致的高血鈣症。" },
+    { q: "在犬皮膚常見的「肥大細胞瘤 (Mast cell tumor)」，其分級主要依據是：", a: "Patnaik 或 Kiupel 分級系統", o: ["腫瘤的直徑大小", "Patnaik 或 Kiupel 分級系統", "飼主的觀察時間", "腫瘤的顏色深淺"], e: "【腫瘤學】依據顆粒數量、核異型性與組織結構分級。" },
+    { q: "腫瘤導致機體極度消瘦、虛弱與貧血的狀態稱為：", a: "Cachexia", o: ["Atrophy", "Cachexia", "Anaplasia", "Dysplasia"], e: "【腫瘤學】惡體質，由 TNF-alpha 等細胞因子引起。" },
+    { q: "下列何種化學介質是腫瘤誘發「血管新生 (Angiogenesis)」最重要的因子？", a: "VEGF", o: ["Insulin", "VEGF", "Glucagon", "Thyroxine"], e: "【腫瘤學】腫瘤分泌 VEGF 以建立血供維持生長。" },
+    { q: "關於黑色素瘤 (Melanoma) 的敘述，下列何者正確？", a: "口腔與指間的黑色素瘤通常具高度惡性", o: ["皮膚上有色素沉著的一定是惡性", "口腔與指間的黑色素瘤通常具高度惡性", "僅發生於有色素的動物", "在馬屬動物通常進展極快"], e: "【腫瘤學】在犬，口腔黑色素瘤預後極差。" },
+    { q: "畸胎瘤 (Teratoma) 通常來源於：", a: "多個胚層的原始生殖細胞", o: ["單一器官的上皮細胞", "多個胚層的原始生殖細胞", "血管內皮細胞", "脂肪細胞"], e: "【腫瘤學】病灶內可包含毛髮、骨骼、肌肉等不同組織。" },
+    { q: "「原位癌 (Carcinoma in situ)」是指：", a: "惡性上皮細胞尚未突破基底膜", o: ["已經發生遠端轉移的癌症", "惡性上皮細胞尚未突破基底膜", "良性的腺體腫瘤", "來源於平滑肌的腫瘤"], e: "【腫瘤學】這屬於癌症的極早期，尚未侵入間質。" },
+    { q: "關於腫瘤分級 (Grading) 的敘述，主要依據是：", a: "細胞異型性與核分裂相的頻率", o: ["腫瘤的重量", "細胞異型性與核分裂相的頻率", "有無侵犯鄰近淋巴結", "對化療藥物的反應"], e: "【腫瘤學】分級反映細胞的惡性度與分化狀態。" },
+    // 綜合 (5)
+    { q: "細胞凋亡路徑中的執行者蛋白酶為：", a: "Caspases", o: ["Caspases", "Amylase", "Lipase", "Trypsin"], e: "【病理-基礎】。" },
+    { q: "組織受損後由纖維組織取代稱為：", a: "Fibrosis / 疤痕形成", o: ["再生", "Fibrosis / 疤痕形成", "化生", "肥大"], e: "【病理-基礎】。" },
+    { q: "下列何者不屬於可逆性變化？", a: "核溶解", o: ["水變性", "核溶解", "脂肪變性", "黏液變性"], e: "【病理-基礎】核的改變代表壞死。" },
+    { q: "第一型超敏反應主要由何種抗體介導？", a: "IgE", o: ["IgG", "IgM", "IgA", "IgE"], e: "【病理-基礎】立即型過敏。" },
+    { q: "等張尿的尿比重範圍通常為：", a: "1.008 - 1.012", o: ["1.001 - 1.007", "1.008 - 1.012", "1.020 - 1.030", "1.040 - 1.050"], e: "【實診-基礎】代表腎濃縮稀釋功能喪失。" }
+] }
+        }
     },
     "phar": {
-        title: "藥理學 Pharmacology",
-        questions: [
-            { q: "下列關於 Atropine 的機轉敘述，何者正確？", a: "競爭性拮抗 Muscarinic receptors", o: ["興奮副交感神經", "競爭性拮抗 Muscarinic receptors", "興奮 Alpha receptors", "抑制乙醯膽鹼酯酶"], e: "Atropine 是 M 受體拮抗劑。" },
-            { q: "有機磷中毒時，動物出現流涎、縮瞳與震顫，主因是：", a: "抑制 AChE 活性", o: ["抑制 AChE 活性", "阻斷 Nicotinic receptors", "興奮 Beta 受體", "加速 ACh 代謝"], e: "有機磷抑制 AChE 導致 ACh 累積。" },
-            { q: "下列何者是交感神經節後神經元釋放的主要神經傳遞物質？", a: "Norepinephrine", o: ["Acetylcholine", "Norepinephrine", "Serotonin", "GABA"], e: "絕大多數交感節後纖維釋放 NE。" },
-            { q: "Pilocarpine 在臨床上主要用於改善何種症狀？", a: "Glaucoma", o: ["Asthma", "Glaucoma", "Tachycardia", "Diarrhea"], e: "Pilocarpine 縮瞳可降低眼壓。" },
-            { q: "下列何種藥物常用於緩解氣喘引起之支氣管收縮？", a: "Albuterol", o: ["Propranolol", "Albuterol", "Atropine", "Neostigmine"], e: "Albuterol 是選擇性 Beta-2 興奮劑。" },
-            { q: "Digoxin 主要透過何種機轉增加心肌收縮力？", a: "抑制 Na+/K+-ATPase", o: ["抑制 Na+/K+-ATPase", "興奮 Beta-1 受體", "阻斷鈣離子通道", "活化腺苷酸環化酶"], e: "抑制鈉鉀幫浦增加胞內鈣濃度。" },
-            { q: "下列何種藥物是常用的強效利尿劑 (Loop diuretic)？", a: "Furosemide", o: ["Mannitol", "Furosemide", "Spironolactone", "Chlorothiazide"], e: "Furosemide 作用於亨利氏環上升支。" },
-            { q: "Warfarin 的抗凝血作用機轉為：", a: "拮抗 Vitamin K", o: ["活化抗凝血酶 III", "拮抗 Vitamin K", "溶解已形成的血栓", "抑制血小板凝集"], e: "Warfarin 抑制 Vit K 循環利用。" },
-            { q: "Neostigmine 可用於治療重症肌無力，其機轉為：", a: "可逆性抑制 AChE", o: ["直接興奮 N 受體", "可逆性抑制 AChE", "阻斷副交感神經", "增加鈣離子回收"], e: "增加突觸間隙的 ACh 濃度。" },
-            { q: "Propranolol 屬於何種性質之藥物？", a: "非選擇性 Beta blocker", o: ["選擇性 Alpha-1 blocker", "非選擇性 Beta blocker", "選擇性 Beta-1 agonist", "M 受體興奮劑"], e: "Propranolol 同時阻斷 Beta-1 與 Beta-2。" },
-            { q: "(進階) 有機磷中毒的專一復能劑為：", a: "2-PAM (Pralidoxime)", o: ["Atropine", "2-PAM (Pralidoxime)", "Naloxone", "Diazepam"], e: "2-PAM 可將被結合的 AChE 重新活化。" },
-            { q: "(進階) 下列何者為選擇性 Alpha-1 受體興奮劑，常用於鼻粘膜消腫？", a: "Phenylephrine", o: ["Phenylephrine", "Prazosin", "Yohimbine", "Dobutamine"], e: "Phenylephrine 引起血管收縮。" },
-            { q: "(進階) Enalapril 屬於何種分類之強心/降壓藥？", a: "ACE inhibitor", o: ["Beta blocker", "ACE inhibitor", "Calcium channel blocker", "Phosphodiesterase inhibitor"], e: "Enalapril 抑制血管收縮素轉化酶。" },
-            { q: "(進階) 下列何種藥物常用於治療貓的肥大性心肌病以降低心率？", a: "Diltiazem", o: ["Epinephrine", "Diltiazem", "Dopamine", "Lidocaine"], e: "Diltiazem 是鈣離子通道阻斷劑。" },
-            { q: "(進階) Lidocaine 在心血管系統中主要用於：", a: "治療心室性心律不整", o: ["治療心衰竭", "治療心室性心律不整", "增加血壓", "預防血栓"], e: "Lidocaine 是 Ib 類抗心律不整藥。" },
-            { q: "(進階) 關於 Spironolactone 的敘述，何者正確？", a: "為保鉀型利尿劑且具醛固酮拮抗作用", o: ["作用於亨利氏環", "會導致嚴重低血鉀", "為保鉀型利尿劑且具醛固酮拮抗作用", "屬於滲透性利尿劑"], e: "Spironolactone 是醛固酮拮抗劑。" },
-            { q: "(進階) 綿羊最容易發生何種微量元素中毒導致溶血危象？", a: "Copper", o: ["Iron", "Copper", "Selenium", "Zinc"], e: "羊對銅極為敏感。" },
-            { q: "(進階) 下列哪種抗生素對馬具有嚴重心肌毒性？", a: "Monensin", o: ["Penicillin", "Monensin", "Enrofloxacin", "Gentamicin"], e: "離子型抗生素對馬具致命毒性。" },
-            { q: "(進階) 治療心臟停止的首選急救藥物為：", a: "Epinephrine", o: ["Atropine", "Epinephrine", "Lidocaine", "Heparin"], e: "腎上腺素具強心與升壓作用。" },
-            { q: "(進階) 下列何者是 Alpha-2 受體興奮劑，常用於小動物鎮靜？", a: "Dexmedetomidine", o: ["Acepromazine", "Dexmedetomidine", "Pancuronium", "Naloxone"], e: "Dexmedetomidine 是高度選擇性 Alpha-2 興奮劑。" },
-            { q: "(綜合) 關於藥物的治療指數 (TI)，下列敘述何者正確？", a: "數值越大代表藥物越安全", o: ["數值越小代表藥物越安全", "數值越大代表藥物越安全", "與毒性無關", "指數固定為 1 代表最理想"], e: "TI = LD50 / ED50。" },
-            { q: "(綜合) 藥物在肝臟中進行代謝，最主要的氧化酶系統為：", a: "Cytochrome P450", o: ["Amylase", "Cytochrome P450", "Cholinesterase", "Polymerase"], e: "CYP450 是藥物代謝核心。" },
-            { q: "(綜合) 藥物的半衰期是指：", a: "血漿藥物濃度下降一半所需時間", o: ["藥物完全排除所需時間", "血漿藥物濃度下降一半所需時間", "藥物達到最高濃度的時間", "藥物開始作用的時間"], e: "半衰期決定給藥間隔。" },
-            { q: "(綜合) 下列哪種給藥途徑的生物可用率理論上為 100%？", a: "IV", o: ["PO", "IM", "SC", "IV"], e: "靜脈注射直接進入血液循環。" },
-            { q: "(綜合) 所謂「首渡效應」最主要發生在何種給藥途徑？", a: "PO", o: ["PO", "IV", "IM", "Topical"], e: "口服藥物經門脈進入肝臟會先被代謝。" }
-        ]
+        title: "藥理學全範圍",
+        newItems: [
+    // --- 1-10: 自主神經系統整合 (ANS Integration) ---
+    { q: "一隻患有青光眼且同時患有氣喘的犬隻，下列何種藥物絕對禁忌使用？", a: "Propranolol", o: ["Atropine", "Propranolol", "Pilocarpine", "Epinephrine"], e: "【藥理-ANS】Propranolol 是非選擇性 Beta 阻斷劑，阻斷 Beta-2 會引發嚴重支氣管收縮，氣喘病患禁用。" },
+    { q: "關於有機磷中毒引起的「菸鹼樣症狀 (Nicotinic effects)」，如肌肉震顫，無法被下列何者緩解？", a: "Atropine", o: ["Atropine", "2-PAM", "Pralidoxime", "Diazepam"], e: "【藥理-ANS】Atropine 僅能對抗 M 受體症狀（流涎、縮瞳），對於 N 受體引起的肌肉症狀無效，需使用 2-PAM 復能。" },
+    { q: "關於 Alpha-2 受體興奮劑（如 Xylazine）在貓引發嘔吐的機轉，主要是作用於何處？", a: "化學受體觸發帶 (CRTZ)", o: ["胃粘膜", "化學受體觸發帶 (CRTZ)", "前庭系統", "大腦皮質"], e: "【藥理-ANS】貓對 Alpha-2 興奮劑非常敏感，會刺激嘔吐中樞旁的 CRTZ。" },
+    { q: "下列關於兒茶酚胺 (Catecholamines) 的敘述，何者錯誤？", a: "口服吸收效果極佳，藥效持久", o: ["在體內易被 COMT 代謝", "口服吸收效果極佳，藥效持久", "包括 Epinephrine 與 Dopamine", "具有極短的半衰期"], e: "【藥理-基礎】兒茶酚胺口服極不穩定，易被腸壁與肝臟代謝，通常需注射給藥。" },
+    { q: "在手術麻醉前給予 Atropine 或 Glycopyrrolate 的主要目的為何？", a: "減少呼吸道分泌物並預防反射性心跳過慢", o: ["增強麻醉藥的效果", "減少呼吸道分泌物並預防反射性心跳過慢", "誘導動物進入深層睡眠", "防止手術後的傷口發炎"], e: "【藥理-ANS】利用其抗膽鹼作用來維持心跳並保持呼吸道乾燥。" },
+    { q: "關於「腎上腺素反轉 (Epinephrine reversal)」現象，下列敘述何者正確？", a: "發生於給予 Alpha 阻斷劑後，再給 Epinephrine 會導致血壓下降", o: ["是使用大量 Atropine 後的反應", "發生於給予 Alpha 阻斷劑後，再給 Epinephrine 會導致血壓下降", "指心跳由快轉慢的過程", "是藥物過敏的典型表現"], e: "【藥理-ANS】Alpha 被阻斷後，Epinephrine 僅能表現出 Beta-2 的擴張血管作用。" },
+    { q: "下列哪種藥物可用於緩解馬的慢性阻塞性肺病 (RAO)，且屬於 Beta-2 興奮劑？", a: "Clenbuterol", o: ["Clenbuterol", "Atenolol", "Tropicamide", "Neostigmine"], e: "【藥理-ANS】Clenbuterol 是選擇性 Beta-2 興奮劑，具強效支氣管擴張作用。" },
+    { q: "Pralidoxime (2-PAM) 的藥理作用機制為何？", a: "與被有機磷結合的膽鹼酯酶結合，使其脫離並恢復活性", o: ["直接與乙醯膽鹼競爭受體", "與被有機磷結合的膽鹼酯酶結合，使其脫離並恢復活性", "抑制副交感神經節的傳導", "促進肝臟排除毒素"], e: "【藥理-ANS】2-PAM 為復能劑 (Cholinesterase reactivator)，需在老化 (Aging) 發生前使用。" },
+    { q: "下列何種藥物常用於治療重症肌無力，且其藥效較 Edrophonium 長？", a: "Neostigmine", o: ["Atropine", "Pilocarpine", "Neostigmine", "Xylazine"], e: "【藥理-ANS】Neostigmine 為氨基甲酸鹽類，可逆性抑制 AChE，增加 Nm 受體活性。" },
+    { q: "Beta-1 受體主要分布於心臟，興奮後不會產生下列何種效應？", a: "降低心導管傳導速度", o: ["增加心跳頻率", "增加心肌收縮力", "增加房室結傳導速度", "降低心導管傳導速度"], e: "【藥理-ANS】Beta-1 興奮產生正性頻率、正性肌力與正性傳導效應。" },
+
+    // --- 11-20: 循環系統與利尿劑整合 (Cardiovascular & Diuretics) ---
+    { q: "當強心苷 (Digoxin) 與 Furosemide 同時使用時，最需監控何種生化指標以防毒性？", a: "血鉀濃度", o: ["血鈣濃度", "血鉀濃度", "血鎂濃度", "血糖濃度"], e: "【藥理-綜合】Furosemide 易致低血鉀，這會增強 Digoxin 與鈉鉀幫浦的結合，引發中毒。" },
+    { q: "關於 Enalapril 的藥理作用，下列敘述何者正確？", a: "透過抑制 ACE 減少血管收縮素 II 的生成", o: ["直接阻斷 Beta-1 受體", "透過抑制 ACE 減少血管收縮素 II 的生成", "活化副交感神經以降低心跳", "直接作用於腎小管增加鈉排出"], e: "【藥理-循環】Enalapril 是 ACE 抑制劑，具降壓與減輕心臟後負荷的功能。" },
+    { q: "Lidocaine 在處理何種心律不整時為首選緊急藥物？", a: "心室性期外收縮 (VPCs)", o: ["房室傳導阻滯", "心房纖顫", "心室性期外收縮 (VPCs)", "竇性心跳過慢"], e: "【藥理-循環】Lidocaine 屬 Ib 類，可縮短心室動作電位時間，治療心室性心律不整。" },
+    { q: "下列何者為保鉀型利尿劑，且其機轉為拮抗醛固酮 (Aldosterone)？", a: "Spironolactone", o: ["Furosemide", "Mannitol", "Spironolactone", "Chlorothiazide"], e: "【藥理-循環】Spironolactone 作用於集尿管，拮抗醛固酮以保留鉀離子。" },
+    { q: "關於強心藥 Pimobendan 的敘述，何者正確？", a: "屬於鈣離子致敏劑並抑制磷酸二酯酶 (PDE-III)", o: ["透過抑制鈉鉀幫浦發揮作用", "屬於鈣離子致敏劑並抑制磷酸二酯酶 (PDE-III)", "僅具收縮作用，不具血管擴張作用", "會顯著增加心肌耗氧量"], e: "【藥理-循環】它是 Inodilator，同時增強心縮與擴張血管。" },
+    { q: "Mannitol 主要透過何種機轉產生利尿作用？", a: "增加腎小管管腔內的滲透壓", o: ["抑制碳酸酐酶", "增加腎小管管腔內的滲透壓", "阻斷醛固酮受體", "抑制鈉鉀共運送體"], e: "【藥理-循環】Mannitol 為滲透性利尿劑，主要用於降低腦壓或眼壓。" },
+    { q: "維生素 K1 用於解救 Warfarin 中毒的原理為何？", a: "作為輔因子促進凝血因子 II, VII, IX, X 的活化", o: ["直接中和毒素分子", "作為輔因子促進凝血因子 II, VII, IX, X 的活化", "增加肝臟血流量", "抑制血小板凝集"], e: "【藥理-循環】Warfarin 抑制環氧化還原酶，補充 K1 可恢復凝血因子活化。" },
+    { q: "下列何種藥物為鈣離子通道阻斷劑，常用於治療貓的肥大性心肌病？", a: "Diltiazem", o: ["Diltiazem", "Lidocaine", "Digoxin", "Dobutamine"], e: "【藥理-循環】Diltiazem 減慢心率並增加心室填充時間。" },
+    { q: "關於多巴胺 (Dopamine) 的敘述，下列何者正確？", a: "低劑量時興奮 D1 受體以增加腎臟血流", o: ["高劑量時會引起嚴重的低血壓", "低劑量時興奮 D1 受體以增加腎臟血流", "僅能作用於 M 受體", "藥效可維持數小時"], e: "【藥理-循環】多巴胺具有劑量相依性的受體選擇性。" },
+    { q: "使用 Enalapril 後最常見的電解質副作用為何？", a: "高血鉀", o: ["低血鉀", "高血鉀", "低血鈣", "高血鈉"], e: "【藥理-循環】抑制醛固酮後會減少鉀的排出。" },
+
+    // --- 21-30: 營養中毒、特殊物種與毒理 (Toxicology & Species) ---
+    { q: "馬攝取 Monensin 中毒時，對何種組織的損害最具有致命性？", a: "心肌", o: ["骨骼肌", "心肌", "肝臟", "腎臟"], e: "【藥理-中毒】馬對離子型抗生素極敏感，造成嚴重的心肌壞死。" },
+    { q: "綿羊發生急性銅中毒時，臨床上最顯著的病變為：", a: "血紅素尿與槍金屬色腎", o: ["嚴重的腦軟化", "血紅素尿與槍金屬色腎", "全肺梗塞", "皮下脂肪壞死"], e: "【藥理-中毒】銅蓄積導致急性溶血危象。" },
+    { q: "關於牛的硝酸鹽 (Nitrate) 中毒，真正的致毒物質為何？", a: "亞硝酸鹽 (Nitrite)", o: ["硝酸鹽本身", "亞硝酸鹽 (Nitrite)", "氨氣", "硫化氫"], e: "【藥理-中毒】瘤胃微生物將硝酸鹽轉為亞硝酸鹽，引發變性血紅素血症。" },
+    { q: "解救牛亞硝酸鹽中毒引起的「巧克力色血液」，應給予：", a: "亞甲藍 (Methylene blue)", o: ["維生素 K", "亞甲藍 (Methylene blue)", "阿托品", "2-PAM"], e: "【藥理-中毒】Methylene blue 作為還原劑將變性血紅素轉回含氧血紅素。" },
+    { q: "關於阿片類藥物拮抗劑，下列何者正確？", a: "Naloxone", o: ["Morphine", "Fentanyl", "Naloxone", "Diazepam"], e: "【藥理-綜合】Naloxone 是鴉片受體的競爭性拮抗劑。" },
+    { q: "下列何種金屬中毒會干擾血紅素合成，導致紅血球出現嗜鹼性點彩 (Basophilic stippling)？", a: "鉛 (Lead)", o: ["銅", "鉛 (Lead)", "鐵", "汞"], e: "【藥理-中毒】鉛中毒會抑制酵素，導致不成熟紅血球釋放點彩。" },
+    { q: "反芻獸攝取蕨類 (Bracken fern) 可能導致的長期病變不包括：", a: "急性肝衰竭", o: ["膀胱血尿 (Enzootic hematuria)", "骨髓抑制", "急性肝衰竭", "視網膜變性"], e: "【藥理-中毒】蕨類毒素主要引起造血抑制與泌尿道腫瘤。" },
+    { q: "馬發生「霉爛甘藷中毒 (Moldy sweet potato)」主要會導致何處損傷？", a: "肺臟 (肺水腫與氣腫)", o: ["肝臟", "腎臟", "肺臟 (肺水腫與氣腫)", "腦部"], e: "【藥理-中毒】4-ipomeanol 是肺毒性物質。" },
+    { q: "犬誤食滅鼠藥 (Brodifacoum) 後，臨床症狀通常何時出現？", a: "2-5 天後 (凝血因子耗盡後)", o: ["立即出現", "2-5 天後 (凝血因子耗盡後)", "兩週後", "僅出現慢性貧血"], e: "【藥理-中毒】這類抗凝血藥物需等現有的凝血因子耗盡才顯現症狀。" },
+    { q: "下列哪種利尿劑會導致「耳毒性 (Ototoxicity)」，需避免與 Aminoglycosides 合用？", a: "Furosemide", o: ["Mannitol", "Furosemide", "Spironolactone", "Chlorothiazide"], e: "【藥理-綜合】環利尿劑具有潛在的聽覺神經損害風險。" },
+
+    // --- 31-40: 藥物動力學與藥效學 (PK/PD) ---
+    { q: "關於分布體積 (Vd) 的敘述，下列何者正確？", a: "Vd 越大代表藥物分布於組織的比例越高", o: ["Vd 小於體重代表藥物主要留在組織", "Vd 越大代表藥物分布於組織的比例越高", "Vd 受藥物極性的影響極小", "Vd 不能用於計算初始劑量"], e: "【藥理-基礎】Vd 反映了藥物在體內的分布廣度。" },
+    { q: "藥物清除率 (Clearance) 的定義為：", a: "單位時間內有多少體積的血漿藥物被完全清除", o: ["單位時間內排除的藥物總重量", "單位時間內有多少體積的血漿藥物被完全清除", "藥物在體內濃度下降一半的時間", "藥物從腸道進入血液的速度"], e: "【藥理-基礎】反映肝腎的排除能力。" },
+    { q: "關於「穩定狀態 (Steady state)」血漿濃度，通常需要幾個半衰期才能達到？", a: "4-5 個", o: ["1 個", "2 個", "4-5 個", "10 個"], e: "【藥理-基礎】連續給藥後，產量與排除平衡的狀態。" },
+    { q: "若藥物 A 的 ED50 為 10mg，LD50 為 100mg，則其治療指數 (TI) 為多少？", a: "10", o: ["0.1", "10", "1000", "90"], e: "【藥理-基礎】TI = LD50 / ED50 = 100 / 10 = 10。" },
+    { q: "關於「第一相反應 (Phase I metabolism)」，不包括下列哪一項？", a: "結合反應 (Conjugation)", o: ["氧化", "還原", "水解", "結合反應 (Conjugation)"], e: "【藥理-基礎】結合反應屬於第二相 (Phase II)。" },
+    { q: "所謂「弱酸性藥物」在下列何種環境中最容易被吸收？", a: "酸性環境 (如胃)", o: ["鹼性環境 (如小腸)", "酸性環境 (如胃)", "中性環境", "與環境 pH 值無關"], e: "【藥理-基礎】酸在酸中不解離，脂溶性高，易通過生物膜。" },
+    { q: "肝酵素誘導 (Enzyme induction) 對藥物的影響通常是：", a: "縮短半衰期，降低藥效", o: ["延長半衰期，增加毒性", "縮短半衰期，降低藥效", "不影響代謝速度", "增加藥物的吸收率"], e: "【藥理-基礎】代謝加快，血中濃度下降。" },
+    { q: "下列關於「競爭性拮抗劑」的特徵，何者錯誤？", a: "會降低藥物的最大效能 (Emax)", o: ["使量效曲線平行右移", "增加激動劑濃度可克服阻斷", "與受體結合具可逆性", "會降低藥物的最大效能 (Emax)"], e: "【藥理-基礎】競爭性拮抗劑不影響 Emax，僅影響 Potency (EC50)。" },
+    { q: "生物可用率 (Bioavailability) 的計算方式是：", a: "口服給藥的 AUC 除以靜脈給藥的 AUC", o: ["口服給藥的 AUC 除以靜脈給藥的 AUC", "靜脈給藥除以口服給藥", "半衰期乘以排除率", "藥物總量除以分布體積"], e: "【藥理-基礎】反映進入體循環的藥物比例。" },
+    { q: "關於藥物與血漿白蛋白結合的意義，下列何者正確？", a: "只有游離態藥物能進入組織發揮藥效", o: ["結合態藥物代謝速度極快", "只有游離態藥物能進入組織發揮藥效", "白蛋白減少會降低游離態藥物濃度", "結合反應是不可逆的"], e: "【藥理-基礎】蛋白結合扮演緩衝與儲存池的角色。" }
+],
+        chapters: {
+            "ph1": { title: "01 自主神經系統 1", questions: [
+    // 基礎 (10)
+    { q: "交感神經系統的節前神經元釋放的主要神經傳遞物質為何？", a: "Acetylcholine", o: ["Norepinephrine", "Acetylcholine", "Epinephrine", "Dopamine"], e: "【藥理-ANS1】自主神經系統（包含交感與副交感）的「節前」神經元均釋放 ACh。" },
+    { q: "分布於骨骼肌運動終板（Neuromuscular junction）的受體類型為：", a: "Nicotinic receptors (Nm)", o: ["Muscarinic receptors", "Nicotinic receptors (Nm)", "Alpha-1 receptors", "Beta-2 receptors"], e: "【藥理-ANS1】Nm 受體調控骨骼肌收縮。" },
+    { q: "下列何種受體主要分布於心肌，興奮後會增加心跳與收縮力？", a: "Beta-1", o: ["Alpha-1", "Alpha-2", "Beta-1", "Beta-2"], e: "【藥理-ANS1】Beta-1 主要位於心臟；Beta-2 主要位於支氣管與血管平滑肌。" },
+    { q: "副交感神經興奮時，對瞳孔的影響為何？", a: "縮瞳 (Miosis)", o: ["散瞳 (Mydriasis)", "縮瞳 (Miosis)", "無視覺影響", "眼球震顫"], e: "【藥理-ANS1】副交感興奮導致環狀肌收縮。" },
+    { q: "下列何者為乙醯膽鹼 (ACh) 的主要滅活方式？", a: "被乙醯膽鹼酯酶 (AChE) 水解", o: ["被單胺氧化酶代謝", "被細胞重新攝取 (Reuptake)", "被乙醯膽鹼酯酶 (AChE) 水解", "經尿液直接排出"], e: "【藥理-ANS1】ACh 的作用終止極快，全靠 AChE 分解。" },
+    { q: "興奮 Alpha-1 受體通常會導致：", a: "周邊血管收縮", o: ["周邊血管擴張", "周邊血管收縮", "支氣管擴張", "胃腸蠕動增加"], e: "【藥理-ANS1】Alpha-1 主要位於血管平滑肌，引起收縮提升血壓。" },
+    { q: "副交感神經節後神經元釋放的物質為何？", a: "Acetylcholine", o: ["Norepinephrine", "Acetylcholine", "Dopamine", "Serotonin"], e: "【藥理-ANS1】副交感節後同樣釋放 ACh 作用於 M 受體。" },
+    { q: "下列何種組織「不具有」豐富的副交感神經支配？", a: "多數周邊血管", o: ["心臟", "多數周邊血管", "胃腸道", "唾液腺"], e: "【藥理-ANS1】多數血管平滑肌主要受交感神經（Alpha-1）調控。" },
+    { q: "所謂的「膽鹼能危象 (Cholinergic crisis)」不包括下列何種症狀？", a: "口乾與便秘", o: ["流涎與流淚", "口乾與便秘", "肌肉震顫", "瞳孔縮小"], e: "【藥理-ANS1】膽鹼能危象是過度興奮副交感與運動神經，會導致分泌物大增。" },
+    { q: "阿托品 (Atropine) 屬於下列何種分類？", a: "M 受體拮抗劑", o: ["M 受體興奮劑", "M 受體拮抗劑", "Alpha 阻斷劑", "膽鹼酯酶活化劑"], e: "【藥理-ANS1】它是經典的抗膽鹼藥物。" },
+    // 進階 (10)
+    { q: "下列何種藥物為擬副交感藥物，可用於治療手術後的腸管麻痺？", a: "Bethanechol", o: ["Atropine", "Bethanechol", "Epinephrine", "Propranolol"], e: "【藥理-ANS1】Bethanechol 具選擇性 M 受體興奮作用，可增加腸胃蠕動。" },
+    { q: "關於受體與第二信使的配對，下列何者正確？", a: "Beta-1 : 增加 cAMP", o: ["Alpha-1 : 減少 cAMP", "Beta-1 : 增加 cAMP", "M2 : 增加 IP3", "Alpha-2 : 增加 cAMP"], e: "【藥理-ANS1】Beta 受體通常經由 Gs 蛋白活化 Adenylate cyclase 產生 cAMP。" },
+    { q: "使用多巴胺 (Dopamine) 時，低劑量下主要作用於何處以增加腎血流？", a: "D1 受體", o: ["Alpha-1 受體", "Beta-1 受體", "D1 受體", "M 受體"], e: "【藥理-ANS1】低劑量多巴胺擴張腎血管與腸間質血管。" },
+    { q: "關於 Alpha-2 受體的生理功能，最重要的是：", a: "抑制突觸前神經元釋放去甲基腎上腺素", o: ["促進胃酸分泌", "抑制突觸前神經元釋放去甲基腎上腺素", "引起支氣管收縮", "增加唾液分泌"], e: "【藥理-ANS1】它是負回饋受體，興奮後會減少交感神經放電。" },
+    { q: "下列何種狀況會引起「去神經超敏感性 (Denervation hypersensitivity)」？", a: "神經受損後，突觸後受體數量代償性增加", o: ["長期使用受體興奮劑後", "神經受損後，突觸後受體數量代償性增加", "使用了過量的拮抗劑", "藥物在體內蓄積"], e: "【藥理-ANS1】上調 (Up-regulation) 現象。" },
+    { q: "Pilocarpine 縮瞳的機轉是作用於虹膜的哪種肌肉？", a: "瞳孔括約肌 (M 受體)", o: ["瞳孔放大肌 (Alpha-1)", "瞳孔括約肌 (M 受體)", "睫狀肌 (Beta-2)", "心肌"], e: "【藥理-ANS1】刺激 M3 受體使括約肌收縮。" },
+    { q: "下列哪一種藥物是間接型的擬交感藥物，可促進 NE 釋放？", a: "Amphetamine", o: ["Epinephrine", "Phenylephrine", "Amphetamine", "Clonidine"], e: "【藥理-ANS1】非直接作用於受體，而是增加傳導物質釋放。" },
+    { q: "關於「雙重支配」器官，當交感與副交感同時受刺激時，心臟通常呈現：", a: "心跳加快", o: ["心跳減慢", "心跳加快", "心跳停止", "無變化"], e: "【藥理-ANS1】心臟主要受交感神經優勢支配。" },
+    { q: "下列何種藥物可用於區分霍納氏症候群 (Horner's syndrome) 的受損位置？", a: "Cocaine 或 Hydroxyamphetamine", o: ["Atropine", "Cocaine 或 Hydroxyamphetamine", "Pilocarpine", "Propranolol"], e: "【藥理-ANS1】利用其促進 NE 釋放或抑制攝取的特性診斷節前或節後損害。" },
+    { q: "骨骼肌上的 N 受體屬於哪一種通道？", a: "配體閘控型離子通道 (Ion channel)", o: ["G 蛋白偶聯受體", "配體閘控型離子通道 (Ion channel)", "酪胺酸激酶受體", "核受體"], e: "【藥理-ANS1】反應極快，產生動作電位。" },
+    // 綜合 (5)
+    { q: "藥物的分布體積 (Vd) 很大，代表該藥物：", a: "廣泛分布於組織中", o: ["主要留在血液中", "廣泛分布於組織中", "無法通過血腦障壁", "代謝速度極慢"], e: "【藥理-基礎】" },
+    { q: "下列哪種給藥途徑最容易受到首渡效應影響？", a: "口服 (PO)", o: ["皮下注射 (SC)", "口服 (PO)", "肌肉注射 (IM)", "靜脈注射 (IV)"], e: "【藥理-基礎】經門脈進入肝臟。" },
+    { q: "半衰期為 4 小時的藥物，停藥後約多久可視為完全清除？", a: "16-20 小時 (4-5個半衰期)", o: ["4 小時", "8 小時", "16-20 小時 (4-5個半衰期)", "40 小時"], e: "【藥理-基礎】" },
+    { q: "藥物產生最大效應的能力稱為：", a: "效能 (Efficacy)", o: ["效價 (Potency)", "效能 (Efficacy)", "親和力", "敏感度"], e: "【藥理-基礎】" },
+    { q: "關於競爭性拮抗劑，下列敘述何者正確？", a: "會使量效曲線平行右移，但最大效應不變", o: ["會降低藥物的最大效應", "會使量效曲線平行右移，但最大效應不變", "與受體結合不可逆", "增加激動劑劑量無法克服其阻斷"], e: "【藥理-基礎】" }
+] },
+            "ph2": { title: "02 自主神經系統 2.0", questions: [
+    // 基礎 (10)
+    { q: "下列何種藥物為直接作用型的擬副交感藥物，常用於治療青光眼？", a: "Pilocarpine", o: ["Atropine", "Pilocarpine", "Epinephrine", "Norepinephrine"], e: "【藥理-ANS 2.0】Pilocarpine 興奮 M 受體導致縮瞳，降低眼內壓。" },
+    { q: "有機磷中毒引起的「SLUDGE」症狀中，字母 S 代表什麼？", a: "Salivation (流涎)", o: ["Sleep (睡眠)", "Salivation (流涎)", "Seizure (癲癇)", "Sweating (出汗)"], e: "【藥理-ANS 2.0】副交感過度興奮會導致分泌物大量增加。" },
+    { q: "阿托品 (Atropine) 的解毒機轉為何？", a: "競爭性拮抗毒蕈鹼受體 (M receptors)", o: ["活化乙醯膽鹼酯酶", "競爭性拮抗毒蕈鹼受體 (M receptors)", "抑制乙醯膽鹼釋放", "直接興奮交感神經"], e: "【藥理-ANS 2.0】它是 M 受體的競爭性拮抗劑。" },
+    { q: "下列何種藥物常用於手術前給藥，以減少呼吸道分泌物並預防心跳過慢？", a: "Glycopyrrolate", o: ["Neostigmine", "Glycopyrrolate", "Pilocarpine", "Bethanechol"], e: "【藥理-ANS 2.0】Glycopyrrolate 是抗膽鹼藥，且不易通過血腦障壁。" },
+    { q: "Bethanechol 在臨床上主要用於何種症狀？", a: "術後腸管或膀胱無力", o: ["急性氣喘", "術後腸管或膀胱無力", "心跳過快", "散瞳檢查"], e: "【藥理-ANS 2.0】它具有高度胃腸道與泌尿道選擇性興奮作用。" },
+    { q: "下列何者為副交感神經節後神經元釋放的化學物質？", a: "Acetylcholine", o: ["Dopamine", "Acetylcholine", "Norepinephrine", "Serotonin"], e: "【藥理-ANS 2.0】副交感全段皆使用 ACh 作為傳導物質。" },
+    { q: "「Edrophonium (Tensilon)」在臨床上主要用於診斷：", a: "重症肌無力", o: ["青光眼", "重症肌無力", "高血壓", "癲癇"], e: "【藥理-ANS 2.0】它是極短效的 AChE 抑制劑。" },
+    { q: "副交感神經興奮對心臟的影響主要為：", a: "心跳減慢 (負性頻率)", o: ["心跳加快", "心跳減慢 (負性頻率)", "收縮力大幅增強", "傳導速度加快"], e: "【藥理-ANS 2.0】透過迷走神經釋放 ACh 作用於 M2 受體。" },
+    { q: "下列哪種藥物會引起散瞳 (Mydriasis)？", a: "Atropine", o: ["Pilocarpine", "Atropine", "Physostigmine", "Bethanechol"], e: "【藥理-ANS 2.0】阻斷瞳孔括約肌的 M 受體導致散瞳。" },
+    { q: "Physostigmine 與 Neostigmine 最大的不同點在於，前者：", a: "可以通過血腦障壁", o: ["作用時間極短", "可以通過血腦障壁", "僅作用於骨骼肌", "不會抑制 AChE"], e: "【藥理-ANS 2.0】Physostigmine 是三級胺，可進入 CNS 處理抗膽鹼藥中毒。" },
+    // 進階 (10)
+    { q: "關於有機磷與 AChE 結合後的「老化 (Aging)」現象，下列敘述何者正確？", a: "一旦老化，2-PAM 即無法將酵素復能", o: ["老化代表毒性自動消失", "一旦老化，2-PAM 即無法將酵素復能", "老化過程通常需要數周", "老化後 ACh 濃度會迅速下降"], e: "【藥理-ANS 2.0】化學鍵結轉為不可逆，解毒劑將失去效力。" },
+    { q: "下列何種抗膽鹼藥物最不常產生中樞神經副作用？", a: "Glycopyrrolate", o: ["Atropine", "Scopolamine", "Glycopyrrolate", "Homatropine"], e: "【藥理-ANS 2.0】它是四級胺，帶電荷不易通過 BBB。" },
+    { q: "毒蕈鹼受體 (M receptors) 分類中，主要分布於胃壁細胞分泌胃酸的是：", a: "M1", o: ["M1", "M2", "M3", "M4"], e: "【藥理-ANS 2.0】M1 位於神經節與胃腺。" },
+    { q: "治療阿托品 (Atropine) 中毒的首選藥物為何？", a: "Physostigmine", o: ["2-PAM", "Physostigmine", "Neostigmine", "Epinephrine"], e: "【藥理-ANS 2.0】需使用能進入大腦的 AChE 抑制劑。" },
+    { q: "下列哪種藥物具有特殊的「逆轉神經肌肉阻斷」作用？", a: "Neostigmine", o: ["Neostigmine", "Atropine", "Pancuronium", "Xylazine"], e: "【藥理-ANS 2.0】增加 ACh 濃度以競爭過非去極化肌肉鬆弛劑。" },
+    { q: "Scopolamine 在獸醫臨床或實驗中，常用於預防：", a: "動暈症與嘔吐", o: ["心房纖顫", "高血壓危象", "動暈症與嘔吐", "糖尿病性腹瀉"], e: "【藥理-ANS 2.0】對嘔吐中樞有較強的抑制作用。" },
+    { q: "有機磷中毒時，造成骨骼肌麻痺的主要機轉是作用於：", a: "Nicotinic receptors (Nm)", o: ["Muscarinic receptors (M2)", "Nicotinic receptors (Nm)", "Alpha-1 receptors", "Beta-1 receptors"], e: "【藥理-ANS 2.0】ACh 過度蓄積在運動終板導致去極化阻斷。" },
+    { q: "關於 Tropicamide 的臨床特性，何者正確？", a: "藥效短，適合門診眼底檢查", o: ["比 Atropine 藥效更持久", "藥效短，適合門診眼底檢查", "僅具縮瞳作用", "會導致嚴重的腹瀉副作用"], e: "【藥理-ANS 2.0】它是短效抗膽鹼藥。" },
+    { q: "下列何者為「不可逆」的 AChE 抑制劑？", a: "Echothiophate", o: ["Neostigmine", "Echothiophate", "Physostigmine", "Edrophonium"], e: "【藥理-ANS 2.0】屬於有機磷類藥物。" },
+    { q: "副交感神經刺激會導致支氣管平滑肌：", a: "收縮", o: ["舒張", "收縮", "無變化", "纖維化"], e: "【藥理-ANS 2.0】這也是為何氣喘患畜禁用擬副交感藥。" },
+    // 綜合 (5)
+    { q: "細胞發生液化性壞死好發於何處？", a: "腦", o: ["心", "肝", "腦", "腎"], e: "【病理】" },
+    { q: "下列何者為可逆性細胞傷害？", a: "脂肪變性", o: ["核溶解", "脂肪變性", "核破碎", "核縮低"], e: "【病理】" },
+    { q: "轉移性鈣化通常與下列何者有關？", a: "高血鈣", o: ["低血鈣", "高血鈣", "正常血鈣", "維生素C缺乏"], e: "【病理】" },
+    { q: "低白蛋白血症最直接導致的水腫機轉是？", a: "膠質滲透壓下降", o: ["靜水壓上升", "膠質滲透壓下降", "通透性增加", "淋巴回流受阻"], e: "【病理】" },
+    { q: "惡性腫瘤最重要的鑑定特徵是？", a: "轉移", o: ["轉移", "生長速度", "發炎", "包囊"], e: "【病理】" }
+] },
+            "ph3": { title: "02.1 自主神經系統 2.1", questions: [
+    // 基礎 (10)
+    { q: "興奮 Beta-2 受體主要會導致下列何種生理反應？", a: "支氣管平滑肌舒張", o: ["心跳減慢", "支氣管平滑肌舒張", "周邊血管強烈收縮", "胃腸蠕動增加"], e: "【藥理-ANS 2.1】Beta-2 興奮導致平滑肌舒張，常用於氣喘治療。" },
+    { q: "去甲基腎上腺素 (Norepinephrine) 主要作用於哪類受體？", a: "Alpha-1 與 Beta-1", o: ["僅限 Beta-2", "Alpha-1 與 Beta-1", "僅限 M 受體", "D1 與 D2"], e: "【藥理-ANS 2.1】NE 對 Beta-2 的作用極弱。" },
+    { q: "下列何種藥物為選擇性 Alpha-1 興奮劑，可用於治療尿失禁？", a: "PPA (Phenylpropanolamine)", o: ["PPA (Phenylpropanolamine)", "Prazosin", "Atropine", "Propranolol"], e: "【藥理-ANS 2.1】增加尿道括約肌張力。" },
+    { q: "Epinephrine 在急救過敏性休克時的主要優點是：", a: "同時興奮 Alpha 與 Beta 受體", o: ["僅興奮副交感神經", "同時興奮 Alpha 與 Beta 受體", "只有縮瞳作用", "藥效可持續數天"], e: "【藥理-ANS 2.1】提升血壓 (Alpha-1) 並擴張氣管 (Beta-2)。" },
+    { q: "下列何者為選擇性 Beta-1 阻斷劑？", a: "Atenolol", o: ["Propranolol", "Atenolol", "Timolol", "Isoproterenol"], e: "【藥理-ANS 2.1】對心臟較具選擇性，對氣管影響較小。" },
+    { q: "Phenylephrine 主要作用在何種受體？", a: "Alpha-1", o: ["Alpha-1", "Alpha-2", "Beta-1", "Beta-2"], e: "【藥理-ANS 2.1】常用於鼻粘膜消腫或散瞳。" },
+    { q: "交感神經興奮對唾液腺的分泌影響通常呈現：", a: "少量且黏稠的唾液", o: ["大量且稀薄的唾液", "少量且黏稠的唾液", "完全停止分泌", "導致流涎"], e: "【藥理-ANS 2.1】與副交感的大量稀薄分泌不同。" },
+    { q: "下列何種受體為「突觸前」負回饋受體，興奮後會抑制 NE 釋放？", a: "Alpha-2", o: ["Alpha-1", "Alpha-2", "Beta-1", "M3"], e: "【藥理-ANS 2.1】Alpha-2 是重要的交感調控開關。" },
+    { q: "Propranolol 會引起何種副作用，因此氣喘病患禁用？", a: "支氣管收縮", o: ["支氣管擴張", "支氣管收縮", "心跳過快", "高血壓危象"], e: "【藥理-ANS 2.1】阻斷 Beta-2 受體導致平滑肌收縮。" },
+    { q: "Xylazine 在獸醫臨床主要作為鎮靜藥，其機轉為何？", a: "Alpha-2 興奮劑", o: ["Alpha-1 阻斷劑", "Alpha-2 興奮劑", "Beta-2 興奮劑", "M 受體拮抗劑"], e: "【藥理-ANS 2.1】興奮 CNS Alpha-2 受體產生鎮靜與鎮痛。" },
+    // 進階 (10)
+    { q: "所謂「腎上腺素反轉 (Epinephrine reversal)」是在何種情況下發生的？", a: "先給予 Alpha 阻斷劑後，再給 Epinephrine", o: ["先給予 Beta 阻斷劑後", "先給予 Alpha 阻斷劑後，再給 Epinephrine", "大劑量口服時", "與 Atropine 混合時"], e: "【藥理-ANS 2.1】此時僅剩 Beta-2 擴張血管作用，導致血壓不升反降。" },
+    { q: "Dobutamine 主要是透過興奮何種受體來增加心輸出量？", a: "Beta-1", o: ["Alpha-1", "Alpha-2", "Beta-1", "Beta-2"], e: "【藥理-ANS 2.1】它是強效的正性肌力藥物。" },
+    { q: "下列關於 Isoproterenol 的敘述，何者正確？", a: "非選擇性 Beta 興奮劑", o: ["選擇性 Alpha 興奮劑", "非選擇性 Beta 興奮劑", "會導致血壓顯著升高", "僅作用於多巴胺受體"], e: "【藥理-ANS 2.1】同時興奮 Beta-1 與 Beta-2。" },
+    { q: "治療嗜鉻細胞瘤引發的高血壓危象，應選用下列何者？", a: "Phentolamine", o: ["Phentolamine", "Epinephrine", "Atropine", "Dobutamine"], e: "【藥理-ANS 2.1】需使用非選擇性 Alpha 阻斷劑。" },
+    { q: "下列何種藥物常用於改善馬的慢性阻塞性肺病 (RAO/Heaves)？", a: "Clenbuterol", o: ["Propranolol", "Clenbuterol", "Atenolol", "Pilocarpine"], e: "【藥理-ANS 2.1】它是長效的選擇性 Beta-2 興奮劑。" },
+    { q: "Alpha-2 受體興奮劑引起的嘔吐，在下列哪種動物最常見？", a: "貓", o: ["犬", "貓", "馬", "豬"], e: "【藥理-ANS 2.1】貓對 Xylazine 引發的嘔吐反應非常敏感。" },
+    { q: "關於 Prazosin 的藥理用途，主要在於：", a: "降血壓與減輕心臟後負荷", o: ["增加心跳速率", "降血壓與減輕心臟後負荷", "治療氣喘", "急救休克"], e: "【藥理-ANS 2.1】它是選擇性 Alpha-1 阻斷劑。" },
+    { q: "下列哪種藥物可作為 Xylazine 的專一性反轉劑 (拮抗劑)？", a: "Yohimbine", o: ["Atropine", "Yohimbine", "Naloxone", "Neostigmine"], e: "【藥理-ANS 2.1】Yohimbine 或 Atipamezole 均為 Alpha-2 拮抗劑。" },
+    { q: "交感神經對肝臟的主要代謝影響為：", a: "促進肝醣分解，增加血糖", o: ["促進脂肪合成", "促進肝醣分解，增加血糖", "抑制血糖釋放", "無代謝影響"], e: "【藥理-ANS 2.1】透過 Beta-2 作用增加能量供應。" },
+    { q: "下列何者屬於間接型的擬交感藥物 (Indirect-acting)？", a: "Amphetamine", o: ["Epinephrine", "Phenylephrine", "Amphetamine", "Dopamine"], e: "【藥理-ANS 2.1】它促進神經末梢釋放內源性 NE。" },
+    // 綜合 (5)
+    { q: "檳榔肝 (Nutmeg liver) 肉眼特徵是由何種病變交織而成？", a: "瘀血與脂肪變性", o: ["壞死與鈣化", "瘀血與脂肪變性", "炎症與水腫", "腫瘤與纖維化"], e: "【病理】" },
+    { q: "剛果紅染色呈陽性反應代表何種物質蓄積？", a: "類澱粉蛋白", o: ["脂肪", "類澱粉蛋白", "肝醣", "鐵質"], e: "【病理】" },
+    { q: "下列哪種色素與細胞老化有關？", a: "脂褐素 (Lipofuscin)", o: ["黑色素", "脂褐素 (Lipofuscin)", "膽紅素", "血紅素"], e: "【病理】" },
+    { q: "第一型超敏反應主要參與的抗體是？", a: "IgE", o: ["IgG", "IgM", "IgE", "IgA"], e: "【病理】" },
+    { q: "USG 固定於 1.008-1.012 稱為？", a: "等張尿", o: ["低張尿", "等張尿", "高張尿", "無尿"], e: "【實診】" }
+] },
+            "ph4": { title: "03 ANS4/循環系統 1", questions: [
+    // 基礎 (10)
+    { q: "強心苷 Digoxin 主要抑制心肌細胞膜上的何種酵素？", a: "Na+/K+-ATPase", o: ["Adenylate cyclase", "Na+/K+-ATPase", "Phosphodiesterase", "Cholinesterase"], e: "【藥理-循環】抑制鈉鉀幫浦導致胞內鈣離子間接升高，增強收縮力。" },
+    { q: "Furosemide 在臨床上被歸類為哪一型利尿劑？", a: "環利尿劑 (Loop diuretics)", o: ["滲透性利尿劑", "環利尿劑 (Loop diuretics)", "保鉀型利尿劑", "碳酸酐酶抑制劑"], e: "【藥理-利尿劑】主要作用於亨利氏環粗上升支。" },
+    { q: "下列何種藥物屬於 ACE 抑制劑 (ACEI)？", a: "Enalapril", o: ["Atenolol", "Enalapril", "Diltiazem", "Furosemide"], e: "【藥理-循環】透過抑制血管收縮素轉化酶來降壓並減輕心臟負荷。" },
+    { q: "Mannitol 主要透過何種物理特性發揮利尿作用？", a: "提高腎小管管腔液滲透壓", o: ["抑制鈉離子再吸收", "提高腎小管管腔液滲透壓", "拮抗醛固酮受體", "增加腎絲球濾過率"], e: "【藥理-利尿劑】屬於滲透性利尿劑，常用於降低腦壓或眼壓。" },
+    { q: "Spironolactone 的作用機轉為何？", a: "拮抗醛固酮受體 (Aldosterone antagonist)", o: ["抑制 Na+/K+/2Cl- 共運送體", "拮抗醛固酮受體 (Aldosterone antagonist)", "直接擴張腎血管", "抑制碳酸酐酶"], e: "【藥理-利尿劑】作用於集尿管，具有保鉀效果。" },
+    { q: "心臟受體中，Beta-1 興奮產生的「正性肌力作用」是指：", a: "心肌收縮力增強", o: ["心跳速率加快", "心肌收縮力增強", "心臟傳導速度加快", "心室舒張壓下降"], e: "【藥理-循環】Inotropic effect 指的是收縮力的改變。" },
+    { q: "下列何種藥物為鈣離子致敏劑 (Calcium sensitizer)，常用於犬心衰竭？", a: "Pimobendan", o: ["Digoxin", "Pimobendan", "Amlodipine", "Hydrochlorothiazide"], e: "【藥理-循環】Pimobendan 同時具強心與血管擴張作用 (Inodilator)。" },
+    { q: "Thiazide 類利尿劑（如 Hydrochlorothiazide）的主要作用部位在：", a: "遠曲小管前端", o: ["近曲小管", "亨利氏環下降支", "遠曲小管前端", "集尿管"], e: "【藥理-利尿劑】抑制 NaCl 共運送體。" },
+    { q: "使用強心苷 Digoxin 時，若發生中毒，最常見的電解質異常誘因是：", a: "低血鉀 (Hypokalemia)", o: ["高血鉀", "低血鉀 (Hypokalemia)", "高血鈉", "低血鎂"], e: "【藥理-循環】低鉀會減少鉀與 Digoxin 在幫浦上的競爭，增強其毒性。" },
+    { q: "Dopamine 在高劑量下主要興奮何種受體，導致血壓大幅上升？", a: "Alpha-1", o: ["Alpha-1", "Beta-2", "D1", "M2"], e: "【藥理-循環】高劑量多巴胺會失去選擇性，轉而興奮 Alpha 受體導致血管收縮。" },
+    // 進階 (10)
+    { q: "關於腎素-血管收縮素-醛固酮系統 (RAAS)，下列敘述何者正確？", a: "血管收縮素 II 會導致血管強烈收縮並促進醛固酮釋放", o: ["腎素是由肝臟合成的蛋白質", "血管收縮素 II 會導致血管強烈收縮並促進醛固酮釋放", "ACE 主要在腎臟內運作", "醛固酮會促進鉀離子的回收"], e: "【藥理-循環】RAAS 是調控血壓與水分平衡的核心系統。" },
+    { q: "下列何種藥物常用於治療犬的二尖瓣閉鎖不全，且具減少後負荷的功能？", a: "Enalapril", o: ["Enalapril", "Propranolol", "Atropine", "Lidocaine"], e: "【藥理-循環】ACEI 可減少血管阻力，幫助心臟泵血。" },
+    { q: "Acetazolamide 屬於碳酸酐酶抑制劑，其利尿效果通常：", a: "較弱，且易導致鹼性尿", o: ["極強，優於 Furosemide", "較弱，且易導致鹼性尿", "會引起嚴重的高血糖", "僅作用於亨利氏環"], e: "【藥理-利尿劑】作用於近曲小管，抑制重碳酸根再吸收。" },
+    { q: "當心臟發生急性肺水腫時，靜脈注射何種藥物最能迅速緩解症狀？", a: "Furosemide", o: ["Digoxin", "Furosemide", "Spironolactone", "Enalapril"], e: "【藥理-利尿劑】Furosemide 具強大排尿與靜脈擴張作用。" },
+    { q: "關於 Digoxin 的藥物動力學，其分布體積 (Vd) 通常：", a: "很大，主要分布於骨骼肌", o: ["很小，僅停留在血漿", "很大，主要分布於骨骼肌", "受脂肪組織影響極大", "隨年齡增加而縮小"], e: "【藥理-循環】Digoxin 與骨骼肌蛋白結合力強。" },
+    { q: "使用 Enalapril 可能產生的副作用不包括：", a: "低血鉀", o: ["低血壓", "氮質血症", "高血鉀", "低血鉀"], e: "【藥理-循環】ACEI 減少醛固酮，反而傾向引起高血鉀。" },
+    { q: "下列何種強心藥物會抑制磷酸二酯酶 (PDE-III)，增加胞內 cAMP？", a: "Amrinone / Milrinone", o: ["Digoxin", "Amrinone / Milrinone", "Atropine", "Propranolol"], e: "【藥理-循環】PDE 抑制劑可增強心肌收縮並舒張血管。" },
+    { q: "對於患有慢性腎衰竭的貓，若需控制高血壓，首選的鈣離子通道阻斷劑為：", a: "Amlodipine", o: ["Diltiazem", "Amlodipine", "Verapamil", "Lidocaine"], e: "【藥理-循環】Amlodipine 是貓高血壓的首選藥物。" },
+    { q: "關於利尿劑引起的電解質失衡，Furosemide 最常導致：", a: "低鉀、低氯性代謝性鹼中毒", o: ["高鉀、高鈣血症", "低鉀、低氯性代謝性鹼中毒", "高氯性酸中毒", "高血鈉"], e: "【藥理-利尿劑】離子隨尿液大量排出所致。" },
+    { q: "Nitroglycerin (硝酸甘油) 藥膏在臨床應用時，應注意：", a: "配戴手套以防止操作者血壓下降", o: ["口服效果最佳", "配戴手套以防止操作者血壓下降", "僅能用於治療細菌感染", "不可用於心衰竭"], e: "【藥理-循環】它能透過皮膚迅速吸收導致血管擴張。" },
+    // 綜合 (5)
+    { q: "細胞發生液化性壞死最常見於？", a: "腦", o: ["腎", "心", "腦", "肝"], e: "【病理】" },
+    { q: "水變性時，細胞內蓄積最多的物質是？", a: "水與鈉離子", o: ["蛋白質", "脂肪", "水與鈉離子", "類澱粉"], e: "【病理】" },
+    { q: "第一型超敏反應是由哪種抗體介導？", a: "IgE", o: ["IgM", "IgG", "IgE", "IgA"], e: "【病理】" },
+    { q: "USG 持續固定在 1.010 左右稱為？", a: "等張尿", o: ["低張尿", "等張尿", "高張尿", "無尿"], e: "【實診】" },
+    { q: "下列何者為惡性腫瘤的特徵？", a: "遠端轉移", o: ["生長慢", "有包囊", "遠端轉移", "分化良好"], e: "【病理】" }
+] },
+            "ph5": { title: "04 循環系統 2/營養中毒 1", questions: [
+    // 基礎 (10)
+    { q: "Lidocaine 屬於哪一類的抗心律不整藥物？", a: "Ib 類 (鈉離子通道阻斷劑)", o: ["Ia 類", "Ib 類 (鈉離子通道阻斷劑)", "II 類 (Beta blocker)", "IV 類 (CCB)"], e: "【藥理-循環】Ib 類專用於心室性心律不整。" },
+    { q: "Warfarin 作為抗凝血藥，其主要拮抗的是：", a: "維生素 K", o: ["維生素 A", "維生素 K", "維生素 C", "維生素 E"], e: "【藥理-循環】抑制維生素 K 的循環活化，影響凝血因子生成。" },
+    { q: "Heparin (肝素) 的抗凝血作用機轉主要是活化體內的：", a: "Antithrombin III", o: ["Plasminogen", "Antithrombin III", "Vitamin K", "Platelets"], e: "【藥理-循環】增強抗凝血酶對凝血酵素的抑制。" },
+    { q: "馬攝取 Monensin 中毒的主要靶器官為何？", a: "心肌", o: ["肝臟", "腎臟", "心肌", "大腦"], e: "【藥理-中毒】離子型抗生素對馬具高度心肌毒性。" },
+    { q: "下列何種藥物為鈣離子通道阻斷劑，常用於控制心房纖顫的心率？", a: "Diltiazem", o: ["Lidocaine", "Diltiazem", "Quinidine", "Aspirin"], e: "【藥理-循環】IV 類抗心律不整藥。" },
+    { q: "Aspirin 在心血管疾病中低劑量使用的目的是：", a: "抑制血小板凝集", o: ["增加心肌收縮力", "抑制血小板凝集", "溶解已形成的血栓", "降低膽固醇"], e: "【藥理-循環】不可逆抑制 COX-1 減少 TXA2。" },
+    { q: "關於解救 Warfarin 中毒，首選的藥物是：", a: "維生素 K1", o: ["維生素 K3", "維生素 K1", "亞甲藍", "硫酸阿托品"], e: "【藥理-循環】K1 效果最確實且安全。" },
+    { q: "Quinidine 屬於哪一類抗心律不整藥，常用於馬的心房纖顫？", a: "Ia 類", o: ["Ia 類", "Ib 類", "Ic 類", "III 類"], e: "【藥理-循環】Ia 類可延長動作電位時程。" },
+    { q: "離子型抗生素（如 Monensin）的中毒機制與何種離子運輸異常有關？", a: "鈉、鉀、鈣等陽離子", o: ["氯離子", "鈉、鉀、鈣等陽離子", "重碳酸根", "磷酸根"], e: "【藥理-中毒】破壞細胞膜內外的陽離子平衡。" },
+    { q: "當心臟發生「心室纖顫」時，藥物治療通常效果有限，應優先使用：", a: "電擊除顫", o: ["靜注 Lidocaine", "電擊除顫", "口服 Digoxin", "肌肉注射 Atropine"], e: "【藥理-循環】心室纖顫為緊急醫療狀況。" },
+    // 進階 (10)
+    { q: "下列哪種藥物屬於 III 類抗心律不整藥，主要阻斷鉀離子通道？", a: "Sotalol", o: ["Lidocaine", "Sotalol", "Procainamide", "Diltiazem"], e: "【藥理-循環】Sotalol 兼具 Beta 阻斷與 K 通道阻斷作用。" },
+    { q: "關於 Clopidogrel 的敘述，何者正確？", a: "拮抗血小板上的 ADP 受體", o: ["抑制環氧化酶", "拮抗血小板上的 ADP 受體", "直接抑制凝血酵素", "增加前列腺素 I2"], e: "【藥理-循環】常用於貓血栓病的預防。" },
+    { q: "組織纖溶酶原活化劑 (tPA) 的主要臨床用途為：", a: "溶解已形成的血栓 (溶栓)", o: ["預防血小板凝集", "溶解已形成的血栓 (溶栓)", "增加凝血因子產量", "治療血友病"], e: "【藥理-循環】促進 Plasmin 形成以裂解纖維素。" },
+    { q: "馬對 Monensin 的 LD50 約為多少，反映其極高敏感性？", a: "2-3 mg/kg", o: ["2-3 mg/kg", "20-30 mg/kg", "100 mg/kg", "500 mg/kg"], e: "【藥理-中毒】相較於牛、家禽，馬極度不耐受。" },
+    { q: "維生素 K1 在治療抗凝血滅鼠藥中毒時，應建議何種給藥途徑最安全且有效？", a: "口服 (與脂肪食物併用)", o: ["靜脈快速注射", "口服 (與脂肪食物併用)", "肌肉注射", "皮下注射"], e: "【藥理-中毒】靜脈注射易引發過敏性休克。" },
+    { q: "下何種情況會增加 Lidocaine 中毒的風險？", a: "嚴重的肝功能受損", o: ["腎結石", "嚴重的肝功能受損", "高血糖", "骨折"], e: "【藥理-循環】Lidocaine 主要在肝臟代謝。" },
+    { q: "Amiodarone 是強效的抗心律不整藥，但長期使用可能產生何種副作用？", a: "甲狀腺功能異常", o: ["低血糖", "甲狀腺功能異常", "增加骨密度", "促進毛髮生長"], e: "【藥理-循環】含有碘原子，可能干擾甲狀腺素代謝。" },
+    { q: "關於「鞍狀血栓 (Saddle thrombus)」的治療，抗凝血藥物的主要目的是：", a: "防止血栓進一步擴大", o: ["溶解現有的巨大血栓", "防止血栓進一步擴大", "增加後肢肌肉收縮", "完全取代外科手術"], e: "【藥理-循環】抗凝血劑無法溶解舊血栓，只能預防新血栓。" },
+    { q: "Beta 阻斷劑 (如 Sotalol) 在治療肥大性心肌病時，主要優點是：", a: "減慢心率以增加心室填充量", o: ["直接增加心肌收縮力", "減慢心率以增加心室填充量", "消除肺水腫", "增加尿液排出"], e: "【藥理-循環】透過延長舒張期改善血流。" },
+    { q: "下列何種狀況不適合使用 Heparin 治療？", a: "已有活動性大出血的患畜", o: ["彌漫性血管內凝血 (DIC)", "已有活動性大出血的患畜", "肺栓塞預防", "洗腎時的抗凝血"], e: "【藥理-循環】抗凝血劑會加重現有的出血。" },
+    // 綜合 (5)
+    { q: "慢性右心衰竭會導致肝臟出現何種病變？", a: "檳榔肝 (Nutmeg liver)", o: ["肝硬化", "檳榔肝 (Nutmeg liver)", "肝膿瘍", "肝癌"], e: "【病理】" },
+    { q: "下列哪種色素與細胞老化有關？", a: "脂褐素 (Lipofuscin)", o: ["黑色素", "脂褐素 (Lipofuscin)", "膽紅素", " hemosiderin"], e: "【病理】" },
+    { q: "剛果紅染色陽性呈蘋果綠螢光，診斷為：", a: "類澱粉變性", o: ["脂肪變性", "類澱粉變性", "水變性", "肝醣沉積"], e: "【病理】" },
+    { q: "漏出液與滲出液的主要區別在於：", a: "蛋白質含量與比重", o: ["液體的顏色", "蛋白質含量與比重", "液體的量", "液體的位置"], e: "【實診】" },
+    { q: "細胞凋亡路徑中的核心執行蛋白酶是：", a: "Caspases", o: ["Amylase", "Caspases", "Lipase", "Trypsin"], e: "【病理】" }
+] },
+            "ph6": { title: "05 營養中毒 2", questions: [
+    // 基礎 (10)
+    { q: "鉛中毒 (Lead poisoning) 時，紅血球抹片常可見到何種特徵？", a: "嗜鹼性點彩 (Basophilic stippling)", o: ["Heinz bodies", "嗜鹼性點彩 (Basophilic stippling)", "Howell-Jolly bodies", "靶細胞"], e: "【藥理-中毒】鉛干擾血紅素合成，導致核糖體殘留。" },
+    { q: "綿羊對何種微量元素極為敏感，蓄積後會引發急性溶血危象？", a: "銅 (Copper)", o: ["鐵", "銅 (Copper)", "鋅", "鉛"], e: "【藥理-中毒】銅釋放進入血液會破壞紅血球膜。" },
+    { q: "牛發生硝酸鹽 (Nitrate) 中毒時，血液顏色呈現：", a: "巧克力褐色", o: ["鮮紅色", "巧克力褐色", "淡粉紅色", "黑色"], e: "【藥理-中毒】亞硝酸鹽將血紅素轉變為變性血紅素 (Methemoglobin)。" },
+    { q: "解救亞硝酸鹽中毒引發的變性血紅素血症，應給予：", a: "亞甲藍 (Methylene blue)", o: ["維生素 K", "亞甲藍 (Methylene blue)", "阿托品", "2-PAM"], e: "【藥理-中毒】小劑量亞甲藍具還原作用。" },
+    { q: "長期攝取蕨類 (Bracken fern) 會導致牛出現何種特徵性病變？", a: "膀胱血尿 (Enzootic hematuria)", o: ["急性肝壞死", "膀胱血尿 (Enzootic hematuria)", "嚴重便秘", "皮膚角化過度"], e: "【藥理-中毒】蕨類毒素 ptaquiloside 具致癌與造血抑制作用。" },
+    { q: "下列何種物質是解救鉛中毒的首選螯合劑？", a: "Ca-EDTA", o: ["Atropine", "Ca-EDTA", "2-PAM", "Naloxone"], e: "【藥理-中毒】鈣磷酸鈉二鈉 (Ca-EDTA) 可結合血中鉛排除。" },
+    { q: "黃麴毒素 (Aflatoxin) 主要損害下列哪一個器官？", a: "肝臟", o: ["肝臟", "腎臟", "心臟", "大腦"], e: "【藥理-中毒】導致肝硬化、出血或肝癌。" },
+    { q: "犬誤食含「鋅 (Zinc)」的硬幣或藥膏，最顯著的症狀是：", a: "急性溶血性貧血", o: ["肌肉震顫", "急性溶血性貧血", "失明", "皮膚紅疹"], e: "【藥理-中毒】過量鋅會導致嚴重的血管內溶血。" },
+    { q: "所謂「槍金屬色腎 (Gun-metal kidney)」常見於何種中毒？", a: "綿羊銅中毒", o: ["牛鉛中毒", "綿羊銅中毒", "豬黃麴毒素中毒", "犬鋅中毒"], e: "【藥理-中毒】溶血產生的血紅素沉著在腎小管。" },
+    { q: "關於砷 (Arsenic) 中毒的特徵，正確的是：", a: "嚴重的胃腸粘膜出血與水腫", o: ["僅造成骨骼發育不良", "嚴重的胃腸粘膜出血與水腫", "引起慢性咳嗽", "導致牙齒黃染"], e: "【藥理-中毒】急性砷中毒主要呈現劇烈胃腸炎。" },
+    // 進階 (10)
+    { q: "維生素 E 與硒 (Selenium) 缺乏，在幼豬常引起何種病變？", a: "桑葚心 (Mulberry heart disease)", o: ["白肌病", "桑葚心 (Mulberry heart disease)", "肝硬化", "佝僂症"], e: "【藥理-營養】引起心肌出血與壞死。" },
+    { q: "下列關於有機氟乙酸鈉 (1080 滅鼠藥) 中毒的敘述，何者正確？", a: "抑制 TCA 循環中的烏頭酸酶", o: ["干擾維生素 K 活性", "抑制 TCA 循環中的烏頭酸酶", "導致肌肉永久收縮", "造成嚴重溶血"], e: "【藥理-中毒】能量代謝中斷導致神經與心臟症狀。" },
+    { q: "解救鉛中毒時，使用 Thiamine (維生素 B1) 的主要作用是：", a: "減少中樞神經系統的損害", o: ["螯合重金屬", "減少中樞神經系統的損害", "促進腎臟排泄", "增加食慾"], e: "【藥理-中毒】Thiamine 對鉛中毒引起的腦病有保護作用。" },
+    { q: "甜苜蓿 (Sweet clover) 中毒導致的出血，其機轉與何者相似？", a: "Warfarin 中毒", o: ["鉛中毒", "Warfarin 中毒", "阿斯匹靈中毒", "有機磷中毒"], e: "【藥理-中毒】含有 Dicoumarol，拮抗維生素 K。" },
+    { q: "牛攝取過量尿素 (Urea) 中毒，真正產生毒性的物質是：", a: "氨氣 (Ammonia)", o: ["尿酸", "氨氣 (Ammonia)", "硝酸鹽", "氰化物"], e: "【藥理-中毒】瘤胃中分解過快產生大量氨，引發鹼中毒。" },
+    { q: "馬發生「霉爛玉米腦軟化症」是由何種黴菌毒素引起？", a: "Fumonisin B1", o: ["Aflatoxin", "Fumonisin B1", "Ochratoxin", "Zearalenone"], e: "【藥理-中毒】導致大腦白質液化性壞死。" },
+    { q: "關於 Strychnine (番木鱉鹼) 中毒的機轉，何者正確？", a: "拮抗脊髓中的甘胺酸 (Glycine) 受體", o: ["抑制乙醯膽鹼酯酶", "拮抗脊髓中的甘胺酸 (Glycine) 受體", "興奮 GABA 受體", "阻斷鈉離子通道"], e: "【藥理-中毒】失去抑制性傳導，導致強直性驚厥。" },
+    { q: "下列何種螯合劑最適合用於「汞 (Mercury)」中毒？", a: "BAL (Dimercaprol)", o: ["Ca-EDTA", "BAL (Dimercaprol)", "Thiamine", "Vitamin K"], e: "【藥理-中毒】BAL 具雙硫基，與重金屬結合力強。" },
+    { q: "硒 (Selenium) 中毒在馬與牛的慢性表現，最特徵的是：", a: "掉毛與蹄殼變形", o: ["嚴重下痢", "掉毛與蹄殼變形", "視網膜脫落", "牙齒過度生長"], e: "【藥理-中毒】Alkali disease。" },
+    { q: "關於氰化物 (Cyanide) 中毒的敘述，正確的是：", a: "抑制細胞色素氧化酶，導致組織無法利用氧", o: ["靜脈血顏色變暗", "抑制細胞色素氧化酶，導致組織無法利用氧", "解毒劑為亞甲藍", "僅影響消化系統"], e: "【藥理-中毒】組織缺氧但血液含氧量高，呈現櫻桃紅色血。" },
+    // 綜合 (5)
+    { q: "右心衰竭引起的肺部變化主要是？", a: "無顯著肺水腫", o: ["嚴重肺水腫", "無顯著肺水腫", "肺纖維化", "肺氣腫"], e: "【病理】肺水腫源於左心衰竭。" },
+    { q: "含鐵血黃素使用何種染色呈藍色？", a: "普魯士藍", o: ["剛果紅", "普魯士藍", "蘇丹三號", "PAS"], e: "【病理】" },
+    { q: "下列何者為不可逆細胞損傷？", a: "核縮低", o: ["脂肪變性", "核縮低", "水變性", "玻璃樣變"], e: "【病理】" },
+    { q: "再生性貧血抹片不應見到：", a: "小細胞性紅血球", o: ["網織球", "多染性紅血球", "有核紅血球", "小細胞性紅血球"], e: "【實診】小細胞通常代表缺鐵性非再生性。" },
+    { q: "狂犬病在神經細胞形成的包涵體位於：", a: "細胞質", o: ["細胞核", "細胞質", "線粒體", "高基氏體"], e: "【病理】" }
+] }
+        }
     },
     "disease": {
-        title: "疾病學 Disease",
-        questions: [
-            { q: "家禽馬立克病 (Marek's Disease) 的主要病原為何？", a: "Herpesvirus", o: ["Retrovirus", "Herpesvirus", "Coronavirus", "Poxvirus"], e: "馬立克病由疱疹病毒引起。" },
-            { q: "豬瘟 (Classical Swine Fever) 在脾臟典型的解剖病變為：", a: "Infarction", o: ["Abscess", "Infarction", "Atrophy", "Hypertrophy"], e: "豬瘟常見脾邊緣梗塞。" },
-            { q: "雞隻出現明顯的華氏囊腫大與出血，應懷疑何種疾病？", a: "IBD (Gumboro)", o: ["ND", "AI", "IBD (Gumboro)", "ILT"], e: "傳染性華氏囊病。" },
-            { q: "豬呼吸道綜合症中，所謂的「藍耳病」正式名稱為：", a: "PRRS", o: ["PRRS", "PCV2", "FMD", "APP"], e: "豬繁殖與呼吸綜合症。" },
-            { q: "口蹄疫 (FMD) 主要感染下列哪類動物？", a: "偶蹄類", o: ["單蹄類", "偶蹄類", "家禽", "犬貓"], e: "FMD 感染豬、牛、羊等。" },
-            { q: "家禽流行性感冒 (AI) 的病原屬於哪一科？", a: "Orthomyxoviridae", o: ["Paramyxoviridae", "Orthomyxoviridae", "Picorna", "Reoviridae"], e: "AI 屬於正黏液病毒科。" },
-            { q: "豬赤痢的主要病原為：", a: "Brachyspira hyodysenteriae", o: ["E. coli", "Salmonella", "Brachyspira hyodysenteriae", "Clostridium"], e: "螺旋體引起血便。" },
-            { q: "豬隻嚴重的萎縮性鼻炎 (AR) 由何者引起？", a: "Pasteurella multocida", o: ["Streptococcus", "Pasteurella multocida", "Staphylococcus", "Erysipelas"], e: "AR 由產毒巴氏桿菌等引起。" },
-            { q: "家禽新城病 (ND) 的特徵性病變包括：", a: "腺胃乳頭出血", o: ["腺胃乳頭出血", "法氏囊萎縮", "羽毛囊腫瘤", "關節腫大"], e: "ND 常見腺胃乳頭出血。" },
-            { q: "豬丹毒在皮膚典型的病變呈現：", a: "鑽石形紅斑", o: ["水泡", "鑽石形紅斑", "黑色結痂", "黃膿皰"], e: "特徵性的菱形疹塊。" },
-            { q: "(進階) 豬圓環病毒二型引起的組織病理特徵為：", a: "淋巴組織出現多核巨細胞與包涵體", o: ["支氣管肺炎", "淋巴組織出現多核巨細胞與包涵體", "化膿性腦炎", "纖維素性心包炎"], e: "PCV2 造成淋巴流失與肉芽腫反應。" },
-            { q: "(進階) 傳染性喉氣管炎 (ILT) 可見：", a: "核內包涵體", o: ["質內包涵體", "核內包涵體", "關節炎", "腎腫大"], e: "ILT 具核內包涵體。" },
-            { q: "(進階) 豬傳染性胸膜肺炎 (APP) 典型的病理位置為：", a: "肺臟背側葉發生纖維素性胸膜肺炎", o: ["肺臟前下葉", "肺臟背側葉發生纖維素性胸膜肺炎", "心外膜炎", "全肺氣腫"], e: "APP 好發於肺背側葉。" },
-            { q: "(進階) 豬副嗜血桿菌病典型的三漿膜炎是指：", a: "心包炎、胸膜炎、腹膜炎", o: ["肺炎、腸炎、腎炎", "心包炎、胸膜炎、腹膜炎", "關節炎、腦炎、皮炎", "中耳炎、鼻炎"], e: "特徵為多發性纖維素性漿膜炎。" },
-            { q: "(進階) 會導致貧血與造血組織萎縮的雞隻免疫抑制疾病是？", a: "CAV", o: ["ND", "CAV", "IB", "AI"], e: "家禽貧血病毒。" },
-            { q: "(進階) 豬偽狂犬病在懷孕母豬最主要的表現為：", a: "流產、死產或木乃伊胎", o: ["嚴重腹瀉", "流產、死產或木乃伊胎", "皮膚疹塊", "後肢癱瘓"], e: "PR 病毒會導致生殖障礙。" },
-            { q: "(進階) 家禽白血病主要由哪類病毒引起？", a: "Retrovirus", o: ["Poxvirus", "Retrovirus", "Herpesvirus", "Adenovirus"], e: "反轉錄病毒引起淋巴細胞增生。" },
-            { q: "(進階) 下列哪種豬病會出現「扣狀潰瘍」？", a: "豬霍亂 (豬副傷寒)", o: ["豬丹毒", "豬瘟", "豬霍亂 (豬副傷寒)", "豬赤痢"], e: "沙門氏菌感染特徵。" },
-            { q: "(進階) 雞隻感染 IB 變異株，常會出現何種臟器受損？", a: "Kidney", o: ["Kidney", "Spleen", "Liver", "Bursa"], e: "腎型 IB 會導致尿酸鹽沉著。" },
-            { q: "(進階) 豬流行性腹瀉 (PED) 對何種年齡層致死率最高？", a: "1週齡內仔豬", o: ["1週齡內仔豬", "肥育豬", "母豬", "公豬"], e: "PED 對新生仔豬具極高死亡率。" },
-            { q: "(綜合) 狂犬病在組織病理下可見的特徵結構為：", a: "Negri bodies", o: ["Guarnieri bodies", "Negri bodies", "Bollinger bodies", "Cowdry A"], e: "神經細胞質內的 Negri 小體。" },
-            { q: "(綜合) 會引起牛羊流產且人類出現波浪熱的是：", a: "Brucellosis", o: ["Tuberculosis", "Brucellosis", "Leptospirosis", "Listeriosis"], e: "布氏桿菌病。" },
-            { q: "(綜合) 弓蟲病的最終宿主為何？", a: "貓科動物", o: ["豬", "人類", "貓科動物", "囓齒類"], e: "貓是唯一終宿主。" },
-            { q: "(綜合) 下列何種病原具抗酸性染色特性？", a: "Mycobacterium", o: ["Brucella", "Mycobacterium", "Pasteurella", "Salmonella"], e: "分枝桿菌。" },
-            { q: "(綜合) 鉤端螺旋體主要透過何種途徑傳播？", a: "尿液污染", o: ["空氣飛沫", "尿液污染", "直接接觸", "蚊蟲叮咬"], e: "受感染動物尿液污染環境是主因。" }
-        ]
+        title: "疾病學全範圍",
+        newItems: [
+    // --- 1-10: 家禽疾病整合與鑑別 ---
+    { q: "關於家禽馬立克病 (Marek's Disease) 與淋巴白血病 (Lymphoid Leukosis) 的鑑別，下列敘述何者正確？", a: "馬立克病常見周邊神經腫大，白血病則無", o: ["兩者皆由疱疹病毒引起", "馬立克病常見周邊神經腫大，白血病則無", "白血病常在 6 週齡以下發病", "兩者皆會導致華氏囊濾泡間質增生"], e: "【疾病-家禽】馬立克病具嗜神經性，會造成坐骨神經、迷走神經腫大；淋巴白血病主要影響華氏囊。" },
+    { q: "一雞群出現高度呼吸困難，剖檢發現氣管粘膜出血並有乾酪樣栓子，且組織切片見核內包涵體，診斷為：", a: "傳染性喉氣管炎 (ILT)", o: ["新城病 (ND)", "傳染性喉氣管炎 (ILT)", "家禽流行性感冒 (AI)", "傳染性支氣管炎 (IB)"], e: "【疾病-家禽】ILT 為疱疹病毒感染，特徵為氣管出血性炎症與合胞體內的核內包涵體。" },
+    { q: "傳染性華氏囊病 (IBD) 患雞最主要的死亡原因為何？", a: "嚴重的脫水與腎臟尿酸鹽沉著", o: ["急性心肌梗塞", "嚴重的脫水與腎臟尿酸鹽沉著", "肝臟大範圍壞死", "肺部纖維化"], e: "【疾病-家禽】IBD 導致法氏囊受損及免疫抑制，繼發的腎臟損害與脫水是主因。" },
+    { q: "下列關於禽流感 (AI) 病毒 H5N1 亞型的敘述，何者錯誤？", a: "病毒僅在呼吸道上皮複製，不進入血液", o: ["屬於正黏液病毒科", "具高致病性且可傳染人類", "病毒僅在呼吸道上皮複製，不進入血液", "可引起腺胃乳頭出血"], e: "【疾病-家禽】高致病性禽流感 (HPAI) 具全身性嗜性，會引發敗血症與多器官出血。" },
+    { q: "雞隻感染傳染性腦脊髓炎 (AE) 後，特徵性的病理變化位於何處？", a: "中樞神經系統的神經元親鉻質溶解 (Chromatolysis)", o: ["小腦組織的液化性壞死", "中樞神經系統的神經元親鉻質溶解 (Chromatolysis)", "大腦皮質的黑色素沉著", "脊髓動脈壁的鈣化"], e: "【疾病-家禽】AE 病毒引起神經元受損，但肉眼通常無明顯病變。" },
+    { q: "關於禽痘 (Fowl Pox) 的皮膚型與白喉型，其共同的細胞特徵為何？", a: "上皮細胞質內出現大型嗜酸性包涵體", o: ["細胞核內見 Cowdry A 型包涵體", "上皮細胞質內出現大型嗜酸性包涵體", "大量淋巴球浸潤間質", "多核巨細胞形成"], e: "【疾病-家禽】Bollinger bodies 位於胞質內，為痘病毒感染特徵。" },
+    { q: "雞毒黴漿菌 (MG) 感染後，若併發大腸桿菌病，最常見的漿膜病變為何？", a: "纖維素性氣囊炎與心包炎", o: ["化膿性腦膜炎", "纖維素性氣囊炎與心包炎", "出血性腸炎", "乾酪樣輸卵管炎"], e: "【疾病-家禽】MG 引起的慢性呼吸道病 (CRD) 常見明顯的氣囊混濁與纖維素滲出。" },
+    { q: "下列何種家禽寄生蟲疾病會導致盲腸出血及肝臟出現「火山口狀」壞死灶？", a: "組織滴蟲病 (Histomoniasis)", o: ["盲腸球蟲病", "組織滴蟲病 (Histomoniasis)", "蛔蟲感染", "絛蟲感染"], e: "【疾病-家禽】又稱黑頭病，由 Histomonas meleagridis 引起。" },
+    { q: "關於家禽白血病 (AL) 的傳播方式，下列何者對防疫威脅最大？", a: "經由卵傳送的垂直感染", o: ["經由卵傳送的垂直感染", "飲水污染的水平感染", "人員走動的機械傳播", "蚊蟲叮咬的媒介傳播"], e: "【疾病-家禽】反轉錄病毒可嵌入基因組，透過卵進行高效率的垂直傳播。" },
+    { q: "雞隻感染傳染性支氣管炎 (IB) 呼吸道型後，常見的病變為：", a: "氣管分叉處見到漿液性或乾酪樣滲出物", o: ["氣管粘膜大範圍壞死脫落", "氣管分叉處見到漿液性或乾酪樣滲出物", "腺胃乳頭顯著出血", "鼻甲骨嚴重萎縮"], e: "【疾病-家禽】IB 主要侵犯上呼吸道，與 ILT 的出血性病變不同。" },
+
+    // --- 11-20: 豬病整合與鑑別 ---
+    { q: "非洲豬瘟 (ASF) 與經典豬瘟 (CSF) 在臨床病理上最主要的區別為何？", a: "ASF 病毒主要在巨噬細胞胞質複製；CSF 在胞質複製但病原不同", o: ["ASF 會導致脾梗塞，CSF 則否", "ASF 病毒主要在巨噬細胞胞質複製；CSF 在胞質複製但病原不同", "CSF 具高度傳染性，ASF 僅散發", "兩者皆可透過高效疫苗完全控制"], e: "【疾病-豬病】兩者臨床極難區分，ASF 為大型 DNA 病毒，CSF 為微小 RNA 病毒 (Pestivirus)。" },
+    { q: "豬偽狂犬病 (PR) 在成年肥育豬最常見的表現為何？", a: "輕微至中度的呼吸道症狀", o: ["致死性的划水動作", "輕微至中度的呼吸道症狀", "嚴重的鑽石形疹塊", "全身性皮膚水泡"], e: "【疾病-豬病】PR 隨年齡增加症狀減輕，幼豬為腦炎，母豬為流產，肥育豬多為呼吸道型。" },
+    { q: "豬呼吸道綜合症 (PRDC) 中，作為「開門者」最常先侵犯肺泡巨噬細胞的病毒是：", a: "豬繁殖與呼吸綜合症病毒 (PRRSV)", o: ["豬流感病毒 (SIV)", "豬繁殖與呼吸綜合症病毒 (PRRSV)", "豬圓環病毒 (PCV2)", "豬假性狂犬病病毒"], e: "【疾病-豬病】藍耳病病毒破壞免疫屏障，導致細菌易於繼發感染。" },
+    { q: "關於豬丹毒桿菌 (Erysipelothrix) 引起的敗血症，脾臟的病變為何？", a: "脾臟顯著腫大且質地如橡皮 (Rubber spleen)", o: ["脾邊緣出血性梗塞", "脾臟顯著腫大且質地如橡皮 (Rubber spleen)", "脾包膜出現白色壞死點", "脾臟極度萎縮"], e: "【疾病-豬病】急性豬丹毒呈現典型的敗血脾腫，質地較具彈性。" },
+    { q: "豬副傷寒 (Salmonellosis) 引起的慢性腸炎，其病灶「扣狀潰瘍」最常分佈於：", a: "盲腸與結腸", o: ["十二指腸", "空腸與迴腸", "盲腸與結腸", "胃底部"], e: "【疾病-豬病】沙門氏菌引起的淋巴組織壞死結痂，呈現特徵性扣狀。" },
+    { q: "下列哪種疾病會導致豬隻出現明顯的「觀星 (Star gazing)」或「頭頸後仰」？", a: "鏈球菌性腦膜炎 (Streptococcosis)", o: ["豬赤痢", "鏈球菌性腦膜炎 (Streptococcosis)", "豬萎縮性鼻炎", "豬喘氣病"], e: "【疾病-豬病】化膿性腦膜炎壓迫神經系統產生的臨床特徵。" },
+    { q: "關於豬流行性腹瀉 (PED) 的致病機制，下列何者正確？", a: "病毒導致小腸絨毛嚴重萎縮，引發吸收不良性下痢", o: ["病毒分泌腸毒素刺激離子分泌", "病毒導致小腸絨毛嚴重萎縮，引發吸收不良性下痢", "主要侵害大腸粘膜引起出血", "引起胃粘膜大範圍潰瘍"], e: "【疾病-豬病】冠狀病毒破壞小腸上皮，導致營養與水分無法吸收。" },
+    { q: "豬傳染性胸膜肺炎 (APP) 在急性期導致死亡的主因是：", a: "細菌毒素引發的出血性壞死性肺炎與內毒素休克", o: ["嚴重的貧血", "細菌毒素引發的出血性壞死性肺炎與內毒素休克", "氣管被黏液完全堵塞", "全身淋巴結化膿"], e: "【疾病-豬病】APP 產生外毒素 (Apx I, II, III)，對肺組織具強大破壞力。" },
+    { q: "下列何種豬隻病毒性疾病，會導致淋巴結呈現「大理石樣」出血？", a: "非洲豬瘟 (ASF)", o: ["豬偽狂犬病", "非洲豬瘟 (ASF)", "豬喘氣病", "豬流行性流產"], e: "【疾病-豬病】ASF 引起的強烈血管損傷導致淋巴結嚴重出血。" },
+    { q: "關於豬萎縮性鼻炎 (AR) 的防疫，下列敘述何者正確？", a: "必須同時控制波氏桿菌與產毒型巴氏桿菌", o: ["僅需針對病毒進行疫苗注射", "必須同時控制波氏桿菌與產毒型巴氏桿菌", "只要補充維生素 D 即可痊癒", "是一種不可傳染的代謝病"], e: "【疾病-豬病】AR 是由 Bordetella 與 Pasteurella 協同感染引起的傳染病。" },
+
+    // --- 21-30: 反芻獸、反芻與人畜共通 ---
+    { q: "關於牛結核病 (Bovine Tuberculosis) 的敘述，下列何者正確？", a: "病原具抗酸性，病灶呈現典型乾酪樣壞死與鈣化", o: ["僅侵犯肺臟，不影響淋巴結", "病原具抗酸性，病灶呈現典型乾酪樣壞死與鈣化", "主要由革蘭氏陽性球菌引起", "屬於一種急性的化膿性炎症"], e: "【疾病-綜合】結核分枝桿菌引起典型的慢性肉芽腫性炎。" },
+    { q: "反芻獸發生「炭疽 (Anthrax)」急性死亡時，下列哪項處置最重要？", a: "嚴禁解剖屍體，直接焚燒或深埋", o: ["立即剖檢確認脾臟腫大", "嚴禁解剖屍體，直接焚燒或深埋", "採集大量血液樣本送實驗室", "進行全群抗生素預防"], e: "【疾病-綜合】炭疽桿菌接觸空氣會形成抗性極強的芽孢，嚴禁開屍。" },
+    { q: "關於鉤端螺旋體 (Leptospirosis) 感染動物後的排毒途徑，何者最為重要？", a: "經由尿液排出污染環境", o: ["經由唾液傳播", "經由尿液排出污染環境", "經由糞便排毒", "經由皮膚脫落物傳播"], e: "【疾病-綜合】病原常寄居於腎小管，隨尿液排出，為主要傳染源。" },
+    { q: "布氏桿菌 (Brucella) 具有嗜紅細胞糖 (Erythritol) 的特性，這與下列哪種臨床表現有關？", a: "流產與生殖系統病變", o: ["嚴重的神經損傷", "流產與生殖系統病變", "劇烈的出血性腸炎", "慢性關節腫大"], e: "【疾病-綜合】胎盤與生殖組織富含紅細胞糖，吸引細菌在此大量繁殖。" },
+    { q: "下列關於弓蟲 (Toxoplasma gondii) 的敘述，何者錯誤？", a: "人類是其唯一終宿主", o: ["貓科動物排出卵囊", "人類是其唯一終宿主", "可經由胎盤垂直感染胎兒", "中間宿主包含幾乎所有溫血動物"], e: "【疾病-綜合】貓科動物是唯一的終宿主，人類僅為中間宿主。" },
+    { q: "牛發生「日本血吸蟲」感染時，蟲體主要寄居於何處？", a: "腸系膜靜脈", o: ["肝內膽管", "腸系膜靜脈", "肺泡腔", "左心室"], e: "【疾病-綜合】蟲卵隨血流回肝導致肝硬化。" },
+    { q: "反芻獸攝取蕨類 (Bracken fern) 可能導致的長期病變為何？", a: "膀胱血管瘤與血尿 (Enzootic hematuria)", o: ["急性肝衰竭", "膀胱血管瘤與血尿 (Enzootic hematuria)", "嚴重便秘", "視網膜黑色素沉著"], e: "【疾病-綜合/藥理】蕨類毒素 ptaquiloside 具致癌性，誘發膀胱腫瘤。" },
+    { q: "關於李斯特菌 (Listeriosis) 引起的腦病，特徵性的組織變化為：", a: "延腦與腦橋出現微小膿瘍 (Microabscesses)", o: ["全腦軟化與液化", "延腦與腦橋出現微小膿瘍 (Microabscesses)", "神經細胞核內包涵體", "大範圍的類澱粉沉積"], e: "【疾病-綜合】李斯特菌具嗜神經性，常引起非對稱性腦幹微小膿瘍。" },
+    { q: "牛瘟 (Rinderpest) 病毒與小反芻獸疫 (PPR) 病毒在組織學上的共同特點為：", a: "形成融合細胞 (Syncytia) 與胞內包涵體", o: ["導致嚴重的骨髓增生", "形成融合細胞 (Syncytia) 與胞內包涵體", "引起大量纖維素性胸膜炎", "僅在血管內皮增殖"], e: "【疾病-綜合】皆屬於副黏液病毒科，具典型的細胞病變。" },
+    { q: "所謂「Q 熱 (Q fever)」的主要病原及其傳播媒介為何？", a: "Coxiella burnetii，主要經由吸入氣膠傳染", o: ["Coxiella burnetii，主要經由吸入氣膠傳染", "Rickettsia，由蚊子傳染", "Chlamydia，由飲水傳染", "Mycoplasma，由直接接觸傳染"], e: "【疾病-綜合】Q 熱為重要的人畜共通病，具高傳染性與穩定性。" },
+
+    // --- 31-40: 臨床病理與綜合鑑別診斷 ---
+    { q: "當血液生化檢查發現 ALP 顯著上升，但 GGT 正常，在貓應優先懷疑何種疾病？", a: "肝臟脂質沉著症 (Hepatic lipidosis)", o: ["肝外膽管阻塞", "肝臟脂質沉著症 (Hepatic lipidosis)", "急性中毒性肝炎", "肝硬化末期"], e: "【疾病-綜合】此為貓脂肪肝特有的酵素分離 (Enzyme dissociation) 現象。" },
+    { q: "下列哪種情況產生的胸水屬於「滲出液 (Exudate)」？", a: "貓傳染性腹膜炎 (FIP) 引起的胸膜炎", o: ["右心衰竭引發的胸水", "低白蛋白血症導致的胸水", "貓傳染性腹膜炎 (FIP) 引起的胸膜炎", "淋巴管阻塞引發的乳糜胸"], e: "【疾病-綜合】FIP 引起血管炎導致高蛋白、多細胞的滲出液。" },
+    { q: "關於糖尿病 (Diabetes mellitus) 患畜出現白內障的機制，主要是因為：", a: "葡萄糖在晶狀體內轉化為山梨醇導致滲透壓升高", o: ["黑色素在晶狀體沉著", "葡萄糖在晶狀體內轉化為山梨醇導致滲透壓升高", "鈣離子大量在晶狀體鈣化", "晶狀體發生液化性壞死"], e: "【疾病-綜合】山梨醇累積吸水導致晶狀體纖維腫大斷裂。" },
+    { q: "「桑葚心 (Mulberry heart disease)」在豬隻的成因為何？", a: "維生素 E 與硒缺乏", o: ["豬丹毒桿菌感染", "維生素 E 與硒缺乏", "鏈球菌性心內膜炎", "食鹽中毒"], e: "【疾病-綜合/藥理】導致心肌與心外膜廣泛性出血與壞死。" },
+    { q: "關於犬瘟熱 (Distemper) 引發的「硬腳掌病」，其病理本質為何？", a: "鼻部與腳墊皮膚的上皮角化過度", o: ["腳墊發生嚴重的真菌感染", "鼻部與腳墊皮膚的上皮角化過度", "真皮層的大量纖維化", "皮下脂肪的液化性壞死"], e: "【疾病-綜合】CDV 具嗜上皮性，干擾上皮細胞正常代謝。" },
+    { q: "下列何種疾病會導致「腎皮質」出現多發性白色點狀病灶 (所謂的 White spotted kidney)？", a: "牛的鉤端螺旋體病", o: ["豬的圓環病毒感染", "牛的鉤端螺旋體病", "雞的痛風", "犬的慢性腎炎"], e: "【疾病-綜合】由 Leptospira 引起的局部間質性腎炎。" },
+    { q: "反芻獸發生「臌脹 (Bloat)」死亡後，剖檢見到食道有明顯的「抹殺線 (Bloat line)」，其成因為：", a: "胸內與頸部食道間的壓力差導致粘膜充血分界", o: ["食道肌肉的死後僵直", "胸內與頸部食道間的壓力差導致粘膜充血分界", "逆流胃酸對食道的腐蝕", "寄生蟲移動的路徑"], e: "【疾病-綜合】腹內壓升高擠壓胸腔，導致胸前食道瘀血而胸內食道蒼白。" },
+    { q: "關於「庫興氏症 (Cushing's disease)」在犬隻常見的皮膚變化，不包括：", a: "皮膚高度增厚與毛髮增生", o: ["雙側對稱性脫毛", "皮膚變薄與血管顯露", "皮膚高度增厚與毛髮增生", "皮膚鈣化 (Calcinosis cutis)"], e: "【疾病-綜合】糖皮質激素過多會導致膠原蛋白減少（皮膚變薄）與毛囊萎縮。" },
+    { q: "下列哪種病毒感染會導致「小腦發育不全」，且與攻擊顆粒細胞層有關？", a: "貓瘟病毒 (FPV) 或 牛病毒性腹瀉病毒 (BVDV)", o: ["犬瘟熱病毒", "貓瘟病毒 (FPV) 或 牛病毒性腹瀉病毒 (BVDV)", "狂犬病病毒", "口蹄疫病毒"], e: "【疾病-綜合】病毒攻擊分裂旺盛的細胞，干擾小腦正常發育。" },
+    { q: "「牛創傷性心包炎」通常繼發於何種疾病？", a: "創傷性網胃炎", o: ["急性肺炎", "創傷性網胃炎", "瓣膜性心內膜炎", "肝膿瘍"], e: "【疾病-綜合】異物穿透網胃壁經橫膈刺入心包膜。" }
+],
+        chapters: {
+            "d1": { title: "家禽疾病", questions: [
+    // 基礎 (10)
+    { q: "馬立克病 (Marek's Disease) 典型的組織病理特徵為何？", a: "坐骨神經內出現大小不一的多形性淋巴球浸潤", o: ["法氏囊內大量出血", "坐骨神經內出現大小不一的多形性淋巴球浸潤", "腺胃乳頭顯著萎縮", "肝細胞內見核內包涵體"], e: "【疾病-家禽】馬立克病會引起周邊神經腫大與淋巴瘤。" },
+    { q: "雞隻發生傳染性華氏囊病 (Gumboro) 時，華氏囊肉眼觀的變化為何？", a: "腫大、水腫，嚴重時呈現臘腸狀出血", o: ["體積縮小、呈現乾酪樣壞死", "腫大、水腫，嚴重時呈現臘腸狀出血", "完全缺失", "呈現綠色壞死斑"], e: "【疾病-家禽】IBD 早期會導致法氏囊極度水腫與出血。" },
+    { q: "新城病 (Newcastle Disease) 病毒屬於下列哪一科？", a: "Paramyxoviridae (副黏液病毒科)", o: ["Orthomyxoviridae", "Paramyxoviridae (副黏液病毒科)", "Coronaviridae", "Herpesviridae"], e: "【疾病-家禽】ND 病毒為 APMV-1。" },
+    { q: "傳染性喉氣管炎 (ILT) 在組織學上最具診斷價值的病變為：", a: "喉氣管上皮細胞內出現核內包涵體", o: ["氣管粘膜上見質內包涵體", "喉氣管上皮細胞內出現核內包涵體", "肺泡壁顯著纖維化", "法氏囊萎縮"], e: "【疾病-家禽】ILT 為疱疹病毒感染，會產生典型的核內包涵體。" },
+    { q: "關於家禽流行性感冒 (AI) 的敘述，下列何者正確？", a: "病原具血球凝集素 (H) 與神經胺酸酶 (N) 兩種抗原", o: ["病原具血球凝集素 (H) 與神經胺酸酶 (N) 兩種抗原", "僅感染雞隻，不具人畜共通性", "病毒主要在細胞質複製", "抗生素治療效果顯著"], e: "【疾病-家禽】流感病毒依 H 與 N 亞型分類，且部分具高致病性與跨物種傳染性。" },
+    { q: "雞痘 (Fowl pox) 的特徵病變 Bollinger bodies 位於細胞的何處？", a: "細胞質內", o: ["細胞核內", "細胞質內", "線粒體內", "高基氏體內"], e: "【疾病-家禽】痘病毒在胞漿內複製。" },
+    { q: "下列哪一種家禽疾病會導致腎臟腫大並有顯著的尿酸鹽沉著？", a: "腎型傳染性支氣管炎 (IB)", o: ["馬立克病", "腎型傳染性支氣管炎 (IB)", "家禽白血病", "雞痘"], e: "【疾病-家禽】冠狀病毒變異株可引起間質性腎炎與內臟痛風。" },
+    { q: "家禽白血病 (Avian Leukosis) 的主要病原分類為：", a: "Retrovirus (反轉錄病毒)", o: ["Adenovirus", "Retrovirus (反轉錄病毒)", "Poxvirus", "Herpesvirus"], e: "【疾病-家禽】引起淋巴增生性疾病。" },
+    { q: "雞隻感染 Pullorum disease (雞白痢) 的主要病原為何？", a: "Salmonella Pullorum", o: ["E. coli", "Salmonella Pullorum", "Pasteurella multocida", "Mycoplasma gallisepticum"], e: "【疾病-家禽】造成雛雞高死亡率與白色下痢。" },
+    { q: "關於雞球蟲病 (Coccidiosis) 的敘述，何者正確？", a: "由 Eimeria 屬原蟲引起，導致嚴重的出血性腸炎", o: ["由細菌引起，抗生素無效", "由 Eimeria 屬原蟲引起，導致嚴重的出血性腸炎", "主要侵犯呼吸道", "不會透過糞口路徑傳染"], e: "【疾病-家禽】球蟲寄生於腸道上皮细胞。" },
+    // 進階 (10)
+    { q: "關於雞傳染性貧血 (CIA) 病毒，下列敘述何者正確？", a: "攻擊骨髓造血細胞導致全血球減少與胸腺萎縮", o: ["引起嚴重的神經症狀", "攻擊骨髓造血細胞導致全血球減少與胸腺萎縮", "為一種大型 DNA 病毒", "僅透過水平傳染"], e: "【疾病-家禽】CIAV 是極小的單股環狀 DNA 病毒。" },
+    { q: "下列哪種疾病會引起家禽的「蛋殼頂端異常 (EAA)」？", a: "Mycoplasma synoviae (MS)", o: ["IBD", "Mycoplasma synoviae (MS)", "ND", "ILT"], e: "【疾病-家禽】滑液黴漿菌除關節炎外，也會影響輸卵管導致蛋殼異常。" },
+    { q: "產蛋下降症候群 (EDS-76) 的病原為何？", a: "Adenovirus (腺病毒)", o: ["Adenovirus (腺病毒)", "Coronavirus", "Paramyxovirus", "Retrovirus"], e: "【疾病-家禽】導致產蛋率驟降與軟殼蛋。" },
+    { q: "雞隻感染傳染性支氣管炎 (IB) 後，輸卵管發生永久性損傷導致的後果為：", a: "形成所謂的「偽產蛋雞 (False layers)」", o: ["卵巢癌變", "形成所謂的「偽產蛋雞 (False layers)」", "永久性失明", "蛋黃變色"], e: "【疾病-家禽】幼雞受損後雖然發育成熟但不排卵入輸卵管。" },
+    { q: "關於禽霍亂 (Fowl Cholera) 的描述，正確的是：", a: "由 Pasteurella multocida 引起的急性出血性敗血症", o: ["為病毒性疾病", "由 Pasteurella multocida 引起的急性出血性敗血症", "僅發生在幼齡雞", "肉眼觀見法氏囊腫大"], e: "【疾病-家禽】導致肝臟多發性針尖狀壞死點與漿膜面出血。" },
+    { q: "下列何者是區分 ND 與 AI 強毒株在呼吸道病變上的關鍵？", a: "兩者極難單純靠肉眼區分，需靠實驗室診斷", o: ["ND 僅引起下呼吸道感染", "兩者極難單純靠肉眼區分，需靠實驗室診斷", "AI 絕不引起腺胃出血", "ND 不會引起顏面水腫"], e: "【疾病-家禽】臨床症狀重疊度極高。" },
+    { q: "雞毒黴漿菌 (MG) 主要引起的臨床病變為何？", a: "慢性呼吸道疾病 (CRD) 伴隨氣囊炎", o: ["嚴重的血便", "慢性呼吸道疾病 (CRD) 伴隨氣囊炎", "後肢癱瘓", "肝臟腫瘤"], e: "【疾病-家禽】" },
+    { q: "所謂「包涵體性肝炎 (IBH)」通常與下列何者感染有關？", a: "Fowl Adenovirus serotype 4", o: ["Fowl Adenovirus serotype 4", "IB 病毒", "ILT 病毒", "ND 病毒"], e: "【疾病-家禽】肝細胞核內見大型嗜鹼性或嗜酸性包涵體。" },
+    { q: "家禽腦脊髓炎 (AE) 主要發生在何種年齡層？", a: "1-3 週齡雛雞", o: ["1-3 週齡雛雞", "換羽期老雞", "開產蛋雞", "育肥火雞"], e: "【疾病-家禽】引起震顫與神經症狀。" },
+    { q: "雞隻出現盲腸腫大，切開後見內容物充滿血液，最可能是：", a: "Eimeria tenella 感染", o: ["大腸桿菌感染", "Eimeria tenella 感染", "沙門氏菌感染", "維生素 K 缺乏"], e: "【疾病-家禽】盲腸球蟲的特徵性病變。" },
+    // 綜合 (5)
+    { q: "下列哪種色素與細胞老化有關？", a: "Lipofuscin", o: ["Melanin", "Lipofuscin", "Hemosiderin", "Bilirubin"], e: "【病理】。" },
+    { q: "阿托品 (Atropine) 屬於哪類藥物？", a: "M 受體拮抗劑", o: ["Alpha 興奮劑", "M 受體拮抗劑", "Beta 阻斷劑", "AChE 抑制劑"], e: "【藥理】。" },
+    { q: "再生性貧血抹片最顯著特徵？", a: "網織球增加", o: ["大小一致", "網織球增加", "低血紅素", "核溶解"], e: "【實診】。" },
+    { q: "壞死組織被肉芽組織取代稱為：", a: "機化", o: ["鈣化", "機化", "化生", "萎縮"], e: "【病理】。" },
+    { q: "器官完全未發育原基稱為：", a: "Agenesis", o: ["Hypoplasia", "Agenesis", "Atrophy", "Aplasia"], e: "【病理】。" }
+] },
+            "d2": { title: "豬病", questions: [
+    // 基礎 (10)
+    { q: "經典豬瘟 (CSF) 在脾臟最具診斷價值的特徵病變為何？", a: "脾邊緣黑紅色出血性梗塞", o: ["脾臟高度腫大化膿", "脾邊緣黑紅色出血性梗塞", "出現大量白色壞死點", "脾包膜纖維素性炎"], e: "【疾病-豬病】邊緣隆起的梗塞是豬瘟的高度特徵。" },
+    { q: "關於豬繁殖與呼吸綜合症 (PRRS / 藍耳病) 的敘述，何者正確？", a: "導致母豬流產及仔豬間質性肺炎", o: ["僅引起皮膚疹塊", "導致母豬流產及仔豬間質性肺炎", "由細菌引起", "主要引起嚴重出血性腸炎"], e: "【疾病-豬病】PRRSV 攻擊巨噬細胞，引發呼吸與生殖障礙。" },
+    { q: "豬偽狂犬病 (PR) 的病原屬於哪一類病毒？", a: "Herpesvirus (疱疹病毒)", o: ["Pestivirus", "Herpesvirus (疱疹病毒)", "Poxvirus", "Circovirus"], e: "【疾病-豬病】由豬疱疹病毒一型引起。" },
+    { q: "豬丹毒 (Swine Erysipelas) 在皮膚的特徵性疹塊形狀為：", a: "鑽石形 (菱形)", o: ["圓形", "鑽石形 (菱形)", "不規則帶狀", "地圖狀"], e: "【疾病-豬病】由 Erysipelothrix rhusiopathiae 引起。" },
+    { q: "下列何種豬病會導致「扣狀潰瘍 (Button ulcers)」出現在盲結腸？", a: "豬霍亂 (沙門氏菌感染)", o: ["豬丹毒", "豬霍亂 (沙門氏菌感染)", "豬瘟", "豬赤痢"], e: "【疾病-豬病】沙門氏菌引起的結腸淋巴小結壞死。" },
+    { q: "口蹄疫 (FMD) 的主要臨床特徵為：", a: "口腔、蹄部與乳房出現水泡", o: ["嚴重的神經划水動作", "口腔、蹄部與乳房出現水泡", "皮膚鑽石形紅斑", "呼吸困難與鼻部畸形"], e: "【疾病-豬病】" },
+    { q: "豬萎縮性鼻炎 (AR) 主要是由下列哪一對病原共同作用引起？", a: "Bordetella bronchiseptica 與 Pasteurella multocida", o: ["E. coli 與 Salmonella", "Bordetella bronchiseptica 與 Pasteurella multocida", "APP 與 Streptococcus", "Mycoplasma 與 PRRSV"], e: "【疾病-豬病】產毒型巴氏桿菌是導致鼻甲骨萎縮的關鍵。" },
+    { q: "豬流行性腹瀉 (PED) 的病原屬於哪一科？", a: "Coronaviridae (冠狀病毒科)", o: ["Pestivirus", "Coronaviridae (冠狀病毒科)", "Rotavirus", "Calicivirus"], e: "【疾病-豬病】導致新生仔豬嚴重水樣下痢與脫水。" },
+    { q: "豬傳染性胸膜肺炎 (APP) 最典型的病解特徵為：", a: "肺臟背側葉發生局部纖維素性出血性肺炎", o: ["全肺性間質性肺炎", "肺臟背側葉發生局部纖維素性出血性肺炎", "氣管內充填膿汁", "肺門淋巴結高度鈣化"], e: "【疾病-豬病】APP 好發於肺臟後葉背側。" },
+    { q: "豬圓環病毒二型 (PCV2) 引發 PMWS 的關鍵細胞學變化為何？", a: "淋巴組織內出現多核巨細胞與質內包涵體", o: ["肝細胞核內包涵體", "淋巴組織內出現多核巨細胞與質內包涵體", "紅血球內出現焦蟲", "中性球發生空泡變性"], e: "【疾病-豬病】造成淋巴耗損與肉芽腫性炎症。" },
+    // 進階 (10)
+    { q: "關於非洲豬瘟 (ASF) 與經典豬瘟 (CSF) 的區別，下列敘述何者正確？", a: "ASF 病毒較大且為 DNA 病毒，CSF 為 RNA 病毒", o: ["兩者皆可由疫苗完全預防", "ASF 病毒較大且為 DNA 病毒，CSF 為 RNA 病毒", "CSF 會導致脾梗塞，ASF 不會", "ASF 僅透過飛沫傳染"], e: "【疾病-豬病】ASF 病毒構造複雜且目前缺乏有效疫苗。" },
+    { q: "豬副嗜血桿菌病 (Glasser's disease) 常發生在何種時機？", a: "斷奶後離乳豬的環境應激", o: ["出生當天的初乳缺乏", "斷奶後離乳豬的環境應激", "肥育後期的營養過剩", "母豬分娩前"], e: "【疾病-豬病】這是一種應激誘發的全身性漿膜炎。" },
+    { q: "下列何種疾病會導致豬隻出現「划水動作 (Paddling)」與劇烈抽搐？", a: "鏈球菌腦膜炎或偽狂犬病", o: ["豬赤痢", "鏈球菌腦膜炎或偽狂犬病", "豬傳染性胃腸炎", "萎縮性鼻炎"], e: "【疾病-豬病】神經症狀是這兩者的臨床特徵。" },
+    { q: "豬黴漿菌肺炎 (Mycoplasmal pneumonia) 典型的肺部肉眼觀病變為：", a: "肺臟前下葉出現對稱性的肉樣實變", o: ["全肺部高度充血水腫", "肺臟前下葉出現對稱性的肉樣實變", "肺臟表面出現大量白色結節", "肺臟背側葉纖維素性粘連"], e: "【疾病-豬病】又稱地方性肺炎 (SEP)，病變位於心葉與尖葉。" },
+    { q: "關於豬赤痢 (Swine Dysentery) 的敘述，下列何者錯誤？", a: "病原主要侵害小腸，導致絨毛萎縮", o: ["導致大腸粘膜出血、壞死與大量黏液", "病原主要侵害小腸，導致絨毛萎縮", "患畜排出含有血液與粘液的糞便", "病原為一種螺旋體"], e: "【疾病-豬病】豬赤痢嚴格侷限在「大腸」。" },
+    { q: "豬傳染性胃腸炎 (TGE) 與 PED 最主要的臨床差異在於：", a: "兩者極難區分，需透過實驗室 RT-PCR 鑑別", o: ["TGE 只感染母豬", "兩者極難區分，需透過實驗室 RT-PCR 鑑別", "PED 絕不引起嘔吐", "TGE 不會導致仔豬死亡"], e: "【疾病-豬病】同為冠狀病毒，症狀高度相似。" },
+    { q: "豬水腫病 (Edema disease) 的致病機轉為何？", a: "大腸桿菌產生的志賀樣毒素 (Stx2e) 損傷小血管", o: ["維生素 E 嚴重缺乏導致心肌受損", "大腸桿菌產生的志賀樣毒素 (Stx2e) 損傷小血管", "飼料中食鹽含量過高", "病毒感染導致淋巴回流受阻"], e: "【疾病-豬病】毒素導致眼瞼、胃壁與腸系膜水腫。" },
+    { q: "關於豬丹毒的慢性型表現，最常見的損害位於：", a: "心瓣膜 (贅生性心內膜炎) 與關節", o: ["腎小球", "心瓣膜 (贅生性心內膜炎) 與關節", "大腦皮質", "輸卵管"], e: "【疾病-豬病】慢性型會形成菜花樣的贅生性心內膜炎。" },
+    { q: "豬細小病毒 (PPV) 感染懷孕母豬的主要特徵為：", a: "SMEDI 症候群 (死產、木乃伊胎、胚胎死亡等)", o: ["嚴重的呼吸道感染", "SMEDI 症候群 (死產、木乃伊胎、胚胎死亡等)", "乳房炎", "皮膚大量水泡"], e: "【疾病-豬病】主要影響繁殖成績，對母豬本身無明顯症狀。" },
+    { q: "下列哪種抗生素對治療豬赤痢 (Swine Dysentery) 效果較佳？", a: "Tiamulin", o: ["Penicillin", "Tiamulin", "Gentamicin", "Streptomycin"], e: "【疾病-豬病】截短側耳類抗生素對螺旋體具良好活性。" },
+    // 綜合 (5)
+    { q: "細胞凋亡過程中活化的核心酵素？", a: "Caspases", o: ["Amylase", "Caspases", "Lipase", "Polymerase"], e: "【病理】。" },
+    { q: "Furosemide 的主要作用部位？", a: "亨利氏環粗上升支", o: ["近曲小管", "亨利氏環粗上升支", "遠曲小管", "集尿管"], e: "【藥理】。" },
+    { q: "區分腎前性與腎性氮質血症的指標？", a: "尿比重 (USG)", o: ["肌酸酐", "尿比重 (USG)", "白蛋白", "血糖"], e: "【實診】。" },
+    { q: "惡性腫瘤最重要的鑑定特徵？", a: "遠端轉移", o: ["生長快", "有包囊", "遠端轉移", "細胞大"], e: "【病理】。" },
+    { q: "第三型光敏感症與何種臟器受損有關？", a: "肝臟", o: ["腎臟", "肝臟", "脾臟", "心臟"], e: "【病理】。" }
+] }
+        }
     },
     "lab": {
-        title: "實驗診斷學 Clinical Path",
-        questions: [
-            { q: "在犬貓，下列哪一個酵素是診斷「肝細胞受損」最敏感的指標？", a: "ALT", o: ["ALP", "ALT", "GGT", "CK"], e: "ALT 對犬貓肝損傷具高度特異性。" },
-            { q: "當血液中出現高濃度的 CK 時，代表何處受損？", a: "肌肉組織", o: ["肝臟", "肌肉組織", "腎臟", "胰臟"], e: "CK 是骨骼肌與心肌受損指標。" },
-            { q: "診斷「膽汁滯留」時，生化會觀察到下列何者顯著上升？", a: "ALP 與 GGT", o: ["ALT 與 AST", "ALP 與 GGT", "BUN 與 CREA", "Albumin"], e: "ALP 與 GGT 是膽管相關指標。" },
-            { q: "氮質血症 (Azotemia) 是指血中何種數值異常升高？", a: "BUN 與 Creatinine", o: ["ALT 與 AST", "BUN 與 Creatinine", "Glucose", "Bilirubin"], e: "含氮代謝廢物累積。" },
-            { q: "尿液檢查中，尿比重 (USG) 主要評估何種功能？", a: "腎臟濃縮功能", o: ["肝臟代謝", "腎臟濃縮功能", "心臟收縮", "胰臟外分泌"], e: "評估腎小管處理能力。" },
-            { q: "下列關於 AST 的敘述，何者正確？", a: "存在於肌肉與肝臟，特異性較 ALT 低", o: ["僅存在於肝臟", "僅存在於肌肉", "存在於肌肉與肝臟，特異性較 ALT 低", "是膽管指標"], e: "AST 在肌肉與肝細胞均有。" },
-            { q: "反芻獸發生肝病時，應看哪種酵素代替 ALT？", a: "GLDH", o: ["ALT", "GLDH", "ALP", "CK"], e: "反芻獸肝細胞缺乏 ALT。" },
-            { q: "低白蛋白血症可能的原因不包括：", a: "嚴重脫水", o: ["肝衰竭", "嚴重蛋白尿", "腸道失蛋白", "嚴重脫水"], e: "脫水會造成白蛋白相對性升高。" },
-            { q: "血液檢體採集後發生「溶血」，會導致何種數值假性升高？", a: "K+", o: ["Na+", "K+", "Cl-", "Glucose"], e: "紅血球內富含鉀離子。" },
-            { q: "尿試紙檢查中「潛血反應」陽性，可能代表？", a: "血尿、血紅素尿或肌紅素尿", o: ["膽紅素尿", "尿糖", "血尿、血紅素尿或肌紅素尿", "蛋白尿"], e: "試紙對過氧化酶活性反應。" },
-            { q: "(進階) 關於「腎前性氮質血症」，通常伴隨？", a: "高尿比重 (USG > 1.030)", o: ["低尿比重", "高尿比重 (USG > 1.030)", "等張尿", "血尿"], e: "腎前性代表腎濃縮功能尚好。" },
-            { q: "(進階) 犬隻發生糖皮質酵素誘導時，會使何種酵素大幅上升？", a: "ALP", o: ["ALT", "AST", "ALP", "GGT"], e: "犬有特殊的類固醇誘導型 ALP。" },
-            { q: "(進階) 評估 GFR 最常用的臨床指標為？", a: "Creatinine", o: ["BUN", "Creatinine", "Uric acid", "Ammonia"], e: "Creatinine 較 BUN 不受飲食影響。" },
-            { q: "(進階) 肌肉破壞後尿液呈紅褐色，離心後上清液仍紅且無紅血球，此為？", a: "Myoglobinuria", o: ["Hematuria", "Hemoglobinuria", "Myoglobinuria", "Bilirubinuria"], e: "肌紅素尿來自肌肉破壞。" },
-            { q: "(進階) 下列哪種抗凝固劑最適合用於「血液生化檢查」？", a: "Heparin", o: ["EDTA", "Heparin", "Citrate", "Fluoride"], e: "EDTA 會螯合鈣影響生化。" },
-            { q: "(進階) 貓隻發生「脂肪肝」時，生化特徵常為？", a: "ALP 顯著升高但 GGT 正常", o: ["ALP 正常但 GGT 高", "ALP 顯著升高但 GGT 正常", "ALT 正常", "CK 升高"], e: "貓脂肪肝的特徵性 ALP-GGT 分離。" },
-            { q: "(進階) 下列何者是區分漏出液與滲出液的關鍵？", a: "總蛋白質含量與比重", o: ["膽固醇", "總蛋白質含量與比重", "葡萄糖", "鉀離子"], e: "滲出液蛋白質與比重較高。" },
-            { q: "(進階) 當動物發生胰臟炎時，常用於輔助診斷的酵素？", a: "Amylase 與 Lipase", o: ["ALT 與 AST", "Amylase 與 Lipase", "ALP 與 GGT", "BUN"], e: "澱粉酶與脂肪酶。" },
-            { q: "(進階) 關於「等張尿」，其尿比重範圍為？", a: "1.008 - 1.012", o: ["1.001 - 1.007", "1.008 - 1.012", "1.015 - 1.025", "> 1.035"], e: "代表腎臟失去濃縮能力。" },
-            { q: "(進階) 肝功能受損時，下列哪項數值會傾向下降？", a: "Albumin 與 BUN", o: ["Bilirubin", "Albumin 與 BUN", "Ammonia", "Bile acids"], e: "肝臟合成功能下降。" },
-            { q: "(綜合) 血液中血小板數量減少，主要引起？", a: "點狀出血 (Petechiae)", o: ["大片血腫", "點狀出血 (Petechiae)", "貧血", "黃疸"], e: "血小板負責初期止血。" },
-            { q: "(綜合) 「再生性貧血」在血片檢查中最顯著特徵是出現？", a: "Reticulocytes", o: ["Target cells", "Reticulocytes", "Heinz bodies", "Spherocytes"], e: "代表骨髓代償反應。" },
-            { q: "(綜合) 所謂的「左偏反應」是指何種細胞增加？", a: "不成熟的中性球 (Band cells)", o: ["單核球", "淋巴球", "不成熟的中性球 (Band cells)", "嗜酸性球"], e: "代表嚴重的急性發炎。" },
-            { q: "(綜合) 糖尿病動物尿檢中，除了尿糖還常出現？", a: "Ketone bodies", o: ["Ketone bodies", "Bilirubin", "Crystals", "Hemoglobin"], e: "脂肪代謝產生酮體。" },
-            { q: "(綜合) 下列何種電解質異常最容易引起致死性心律不整？", a: "Hyperkalemia", o: ["Hyponatremia", "Hyperkalemia", "Hypocalcemia", "Hyperchloremia"], e: "高血鉀對心臟極度危險。" }
-        ]
-    },
-    "comp": {
-        title: "2/26 綜合模擬測驗",
-        questions: [
-            { q: "神經細胞質內觀察到 Negri bodies，最可能的診斷為：", a: "Rabies", o: ["Distemper", "Rabies", "Pseudorabies", "JE"], e: "【病理】狂犬病的特徵性包涵體。" },
-            { q: "關於 Atropine 的敘述何者正確？", a: "競爭性拮抗毒蕈鹼受體", o: ["導致縮瞳流涎", "競爭性拮抗毒蕈鹼受體", "降低心跳", "治療重症肌無力"], e: "【藥理】阻斷副交感神經作用。" },
-            { q: "豬赤痢的主要病原？", a: "Brachyspira hyodysenteriae", o: ["Salmonella", "Brachyspira hyodysenteriae", "Clostridium", "E. coli"], e: "【疾病】螺旋體引起出血性腸炎。" },
-            { q: "中性球出現「左偏反應」代表？", a: "不成熟的帶狀核球增加", o: ["造血受損", "不成熟的帶狀核球增加", "網織球增加", "過度分葉"], e: "【實診】代表急性發炎需求大，骨髓釋放不成熟細胞。" },
-            { q: "良性與惡性腫瘤最主要的區別特徵？", a: "遠端轉移的能力", o: ["生長速度", "是否存在包囊", "遠端轉移的能力", "腫瘤的大小"], e: "【病理】轉移是惡性最明確的特徵。" },
-            { q: "心臟停止首選急劇強心藥物？", a: "Epinephrine", o: ["Dopamine", "Epinephrine", "Lidocaine", "Digoxin"], e: "【藥理】具強效升壓與強心作用。" },
-            { q: "何者導致萎縮性鼻炎 (AR)？", a: "Pasteurella multocida (產毒型)", o: ["Mycoplasma", "Pasteurella multocida (產毒型)", "APP", "豬丹毒"], e: "【疾病】產毒型巴氏桿菌破壞鼻甲骨結構。" },
-            { q: "關於滲出液的敘述何者正確？", a: "通常與發炎有關且比重較高", o: ["蛋白質含量較低", "通常與發炎有關且比重較高", "比重小於 1.018", "與滲透壓無關"], e: "【實診】源於血管通透性增加。" },
-            { q: "與「器官原基完全未形成」最相關的術語是？", a: "Agenesis", o: ["Hypoplasia", "Agenesis", "Atrophy", "Dysplasia"], e: "【病理】Agenesis 指原基缺失。" },
-            { q: "Digoxin 主要抑制何處發揮正性肌力？", a: "Na+/K+-ATPase", o: ["Calcium channel", "Na+/K+-ATPase", "Adenylate cyclase", "PDE"], e: "【藥理】抑制鈉鉀幫浦增加胞內鈣。" },
-            { q: "豬瘟剖檢特徵中，脾臟常見？", a: "脾邊緣出現出血性梗塞", o: ["化膿性炎", "脾邊緣出現出血性梗塞", "白色壞死點", "脾萎縮"], e: "【疾病】邊緣梗塞是 CSF 特徵。" },
-            { q: "等張尿 (1.008 - 1.012) 代表？", a: "腎臟完全喪失濃縮與稀釋功能", o: ["濃縮功能優良", "腎臟完全喪失濃縮與稀釋功能", "飲水過量", "脫水狀態"], e: "【實診】尿液與原尿性質相同。" },
-            { q: "關於類澱粉變性的敘述，何者正確？", a: "剛果紅染色後在偏光顯微鏡下呈蘋果綠螢光", o: ["發生在細胞內", "剛果紅染色後在偏光顯微鏡下呈蘋果綠螢光", "導致心臟體積變小", "是生理性老化"], e: "【病理】具特異性蘋果綠螢光。" },
-            { q: "馬攝取 Monensin 最常引發何種病變？", a: "心肌壞死與心衰竭", o: ["腎衰竭", "心肌壞死與心衰竭", "貧血", "急性肝衰竭"], e: "【藥理】對馬具高度心肌毒性。" },
-            { q: "華氏囊病 (IBD) 主要攻擊何種細胞？", a: "B 淋巴球", o: ["T 淋巴球", "B 淋巴球", "巨噬細胞", "嗜鹼性球"], e: "【疾病】攻擊發育中的 B 細胞。" },
-            { q: "高血脂檢體主要物理干擾？", a: "光學法測定吸光值", o: ["電極感應", "光學法測定吸光值", "酵素活性", "蛋白沉澱"], e: "【實診】乳糜微粒造成散射。" },
-            { q: "中性球穿過血管壁進入組織的過程稱為？", a: "Emigration / Diapedesis", o: ["Phagocytosis", "Emigration / Diapedesis", "Chemotaxis", "Opsonization"], e: "【病理】專指跨越血管邊界的動作。" },
-            { q: "Dexmedetomidine 的藥理作用為何？", a: "Alpha-2 興奮劑，具鎮靜與止痛", o: ["Acepromazine 同類", "Alpha-2 興奮劑，具鎮靜與止痛", "Diazepam 同類", "Ketamine 同類"], e: "【藥理】具良好鎮靜止痛效果。" },
-            { q: "豬傳染性胸膜肺炎 (APP) 典型病變？", a: "肺背側葉纖維素性壞死性肺炎", o: ["間質性肺炎", "肺背側葉纖維素性壞死性肺炎", "全肺氣腫", "透明膜形成"], e: "【疾病】後葉背側纖維素性炎。" },
-            { q: "反芻獸急性肝壞死首選酵素？", a: "GLDH", o: ["ALT", "GLDH", "ALP", "Amylase"], e: "【實診】其肝細胞內 GLDH 含量豐富。" },
-            { q: "關於液化性壞死的敘述，下列何者正確？", a: "好發於中樞神經系統，且常伴隨膿瘍形成", o: ["常見於心、腎缺血梗塞", "好發於中樞神經系統，且常伴隨膿瘍形成", "組織結構保持影子樣", "典型的例子是結核感染"], e: "【病理】CNS 脂質高且基質少，壞死後易液化。" },
-            { q: "Warfarin 主要是拮抗何種維生素？", a: "Vitamin K", o: ["Vitamin A", "Vitamin K", "Vitamin E", "Vitamin D"], e: "【藥理】抑制凝血因子活化。" },
-            { q: "幼豬感染偽狂犬病最主要表現？", a: "嚴重神經症狀與高死亡率", o: ["疹塊關節炎", "嚴重神經症狀與高死亡率", "慢性流產", "嚴重血便"], e: "【疾病】引起致死性腦炎。" },
-            { q: "再生性貧血抹片除網織球外可見？", a: "多染性與有核紅血球", o: ["小細胞低血紅素", "多染性與有核紅血球", "大小一致", "MCV 下降"], e: "【實診】代表骨髓正積極代償。" },
-            { q: "慢性右心衰竭引發體循環瘀血，何者「最不可能」出現？", a: "Pulmonary edema", o: ["Ascites", "Nutmeg liver", "Pulmonary edema", "Peripheral edema"], e: "【病理】肺水腫通常由左心衰竭引起。" },
-            { q: "下列何種藥物為選擇性 Beta-2 興奮劑？", a: "Terbutaline", o: ["Propranolol", "Terbutaline", "Atropine", "Phenylephrine"], e: "【藥理】常用於舒張支氣管。" },
-            { q: "關於 PCV2 引起的 PMWS 何者錯誤？", a: "主要引發化膿性支氣管肺炎", o: ["淋巴球耗損", "質內包涵體", "主要引發化膿性支氣管肺炎", "明顯消瘦"], e: "【疾病】引起的是間質性肺炎，非化膿性。" },
-            { q: "貓脂肪肝典型生化特徵？", a: "ALP 顯著升高但 GGT 正常", o: ["ALT 正常", "ALP 顯著升高但 GGT 正常", "BUN 下降", "低血糖"], e: "【實診】具特徵性酵素分離現象。" },
-            { q: "何種鈣化常與血鈣或血磷異常升高有關？", a: "Metastatic calcification", o: ["Dystrophic calcification", "Metastatic calcification", "Calcinosis", "Ossification"], e: "【病理】轉移性鈣化源於全身代謝異常。" },
-            { q: "Furosemide 主要作用部位？", a: "亨利氏環粗上升支", o: ["近曲小管", "亨利氏環粗上升支", "遠曲小管", "集尿管"], e: "【藥理】抑制鈉鉀氯共運送體。" },
-            { q: "新城病強毒株感染時，腺胃可見？", a: "腺胃乳頭頂端出血", o: ["粘膜充血無出血", "腺胃乳頭頂端出血", "粘膜高度增厚", "腺胃萎縮"], e: "【疾病】具診斷意義的特徵病變。" },
-            { q: "區分腎前性與腎性氮質血症最具價值指標？", a: "尿比重 (USG)", o: ["Creatinine 濃度", "尿比重 (USG)", "白蛋白", "AST"], e: "【實診】評估腎臟濃縮功能。" },
-            { q: "血栓與死後凝血塊的區別，正確的是？", a: "血栓質地較堅實，表面粗糙且具方向性", o: ["血栓通常不黏連血管壁", "死後血塊可見 Lines of Zahn", "血栓質地較堅實，表面粗糙且具方向性", "雞油樣是紅血球凝集"], e: "【病理】血栓質地堅實且與內皮黏連。" },
-            { q: "何種電解質異常最易誘發 Digoxin 毒性？", a: "Hypokalemia", o: ["Hypernatremia", "Hypokalemia", "Hypophosphatemia", "Hypermagnesemia"], e: "【藥理】低血鉀增強 Digoxin 在鈉鉀幫浦上的結合力。" },
-            { q: "馬立克病的主要病原分類？", a: "Herpesvirus", o: ["Retrovirus", "Herpesvirus", "Coronavirus", "Adenovirus"], e: "【疾病】疱疹病毒引起淋巴增生。" },
-            { q: "犬 ALT 與 AST 同時顯著升高意義？", a: "急性肝細胞損傷或壞死", o: ["膽汁滯留", "急性肝細胞損傷或壞死", "腎衰竭", "肌肉損傷"], e: "【實診】代表肝細胞完整性受損。" },
-            { q: "慢性左心衰竭引起的肺瘀血中，「心衰竭細胞」為何？", a: "含有含鐵血黃素的肺泡巨噬細胞", o: ["含有含鐵血黃素的肺泡巨噬細胞", "脂肪變性的肺泡上皮", "含有黑色素的細胞", "透明變性的間質細胞"], e: "【病理】吞噬紅血球代謝產物的巨噬細胞。" },
-            { q: "有機磷中毒的主要分子機轉？", a: "不可逆抑制乙醯膽鹼酯酶", o: ["興奮副交感受體", "不可逆抑制乙醯膽鹼酯酶", "阻斷 N 受體", "抑制 NE 釋放"], e: "【藥理】導致乙醯膽鹼大量累積。" },
-            { q: "豬流行性腹瀉 (PED) 由何種病毒引起？", a: "Coronavirus", o: ["Rotavirus", "Coronavirus", "Pestivirus", "Circovirus"], e: "【疾病】冠狀病毒引起水樣下痢。" },
-            { q: "CK 數值異常升高代表受損組織為？", a: "骨骼肌或心肌", o: ["肝臟", "骨骼肌或心肌", "胰臟", "腎上腺"], e: "【實診】肌肉受損專一指標。" }
-        ]
+        title: "實驗診斷學全範圍",
+        newItems: [
+    // --- 1-10: 肝膽系統與物種差異整合 ---
+    { q: "關於貓脂質沈著症 (Hepatic lipidosis) 的生化特徵，下列敘述何者正確？", a: "ALP 顯著上升且 GGT 正常或微升", o: ["ALT 與 AST 皆維持正常", "ALP 顯著上升且 GGT 正常或微升", "總膽紅素通常不會上升", "主要表現為低血糖與高血氮"], e: "【實診-肝膽】這是貓脂肪肝特有的「酵素分離現象」，主要是因為貓肝細胞內 GGT 含量較低。" },
+    { q: "一隻患有庫興氏症 (Cushing's disease) 的犬隻，其生化檢查中最常見的酵素變化為何？", a: "類醇誘導型 ALP (C-ALP) 大量增加", o: ["ALT 顯著上升但 ALP 正常", "類醇誘導型 ALP (C-ALP) 大量增加", "CK 數值因肌肉萎縮而下降", "澱粉酶與脂肪酶同時升高"], e: "【實診-肝膽】犬隻具有特殊的類固醇誘導型 ALP 異構酶，長期皮質醇刺激會導致其大幅上升。" },
+    { q: "在診斷「肝外膽管阻塞」時，下列哪一組指標的靈敏度與特異性最高？", a: "ALP, GGT 與總膽紅素", o: ["ALT, AST 與 CK", "ALP, GGT 與總膽紅素", "BUN, CREA 與尿比重", "白蛋白與球蛋白比例"], e: "【實診-肝膽】膽汁滯留指標 (ALP, GGT) 搭配膽紅素是診斷膽管系統阻塞的關鍵組合。" },
+    { q: "關於反芻獸肝損傷的偵測，為何 ALT 不是理想指標？", a: "反芻獸肝細胞內 ALT 含量極低", o: ["ALT 在反芻獸血漿中半衰期過長", "反芻獸肝細胞內 ALT 含量極低", "ALT 僅存在於反芻獸的腎臟", "反芻獸的 ALT 不會被自動分析儀測得"], e: "【實診-肝膽】物種差異：犬貓看 ALT；反芻獸與馬應選用肝臟特異性更高的 GLDH 或 SDH。" },
+    { q: "關於 SDH (Sorbitol dehydrogenase) 的臨床應用特性，下列何者錯誤？", a: "在血漿中非常穩定，可室溫放置三天", o: ["對馬與牛的肝細胞受損具高度特異性", "在血漿中非常穩定，可室溫放置三天", "半衰期極短", "是偵測急性肝壞死的首選"], e: "【實診-肝膽】SDH 非常不穩定，檢體採集後需立即冰浴並儘速量測或冷凍保存。" },
+    { q: "下列哪一種黃疸分類最常表現為「未結合型膽紅素 (Indirect)」顯著升高？", a: "溶血性黃疸 (肝前性)", o: ["膽管阻塞性黃疸", "溶血性黃疸 (肝前性)", "慢性肝硬化", "肝吸蟲感染"], e: "【實診-肝膽】大量溶血產生過多膽紅素，超過肝臟將其轉化為結合型的處理能力。" },
+    { q: "門脈體循環分流 (PSS) 患畜在進食兩小時後的膽汁酸 (Bile acids) 測試通常會呈現：", a: "數值顯著升高", o: ["數值降至極低", "數值顯著升高", "維持與空腹相同", "完全測不到數值"], e: "【實診-肝膽】PSS 導致門脈血液繞過肝臟，腸道回收的膽汁酸直接進入體循環導致血中濃度激增。" },
+    { q: "當機體發生「低白蛋白血症」且同時伴隨「高血氨」時，最應優先考慮哪種器官功能衰竭？", a: "肝臟", o: ["腎臟", "肝臟", "胰臟", "心臟"], e: "【實診-肝膽】肝臟是合成白蛋白與執行尿素循環（將氨轉為尿素）的唯一場所。" },
+    { q: "關於 GGT (Gamma-glutamyl transferase) 的敘述，下列何者正確？", a: "在馬的膽汁滯留診斷中比 ALP 更敏感", o: ["僅存在於肌肉細胞內", "在馬的膽汁滯留診斷中比 ALP 更敏感", "上升代表急性腎衰竭", "主要用於區分溶血與出血"], e: "【實診-肝膽】大動物（馬、牛）診斷膽管系統疾病時，GGT 的可靠度高於 ALP。" },
+    { q: "長期服用 Phenobarbital (抗癲癇藥) 的犬隻，其生化數據常出現何種變化？", a: "ALP 與 ALT 因肝酵素誘導而升高", o: ["ALT 下降而 ALP 升高", "ALP 與 ALT 因肝酵素誘導而升高", "CK 顯著上升", "所有肝酵素皆正常"], e: "【實診-肝膽】藥物會誘導肝微粒體酵素合成，導致 ALT 與 ALP 數值假性或病理性升高。" },
+
+    // --- 11-20: 泌尿系統與氮質血症整合 ---
+    { q: "關於腎前性氮質血症 (Pre-renal azotemia) 的敘述，下列何者正確？", a: "伴隨高尿比重 (犬 > 1.030, 貓 > 1.035)", o: ["尿比重固定在 1.008 - 1.012", "伴隨高尿比重 (犬 > 1.030, 貓 > 1.035)", "Creatinine 數值通常維持正常", "主因是腎小管上皮壞死"], e: "【實診-泌尿】腎前性由脫水或血容量不足引起，此時腎小管功能尚好，能極度濃縮尿液。" },
+    { q: "下列哪一種狀況會導致血液中肌酸酐 (Creatinine) 的基準值顯著降低？", a: "極度消瘦或肌肉量嚴重不足", o: ["攝取大量肉類食物後", "極度消瘦或肌肉量嚴重不足", "急性心肌梗塞", "嚴重的脫水"], e: "【實診-泌尿】肌酸酐是由肌肉內的磷酸肌酸代謝產生，其總產量與個體全身肌肉總量成正比。" },
+    { q: "關於尿試紙中的「潛血反應」陽性，下列哪項解釋最不完整？", a: "僅代表尿中含有紅血球 (血尿)", o: ["尿中含有紅血球", "尿中含有游離血紅素", "尿中含有肌紅素", "僅代表尿中含有紅血球 (血尿)"], e: "【實診-泌尿】潛血反應偵測的是過氧化酶活性，無法區分血尿、血紅素尿或肌紅素尿。" },
+    { q: "一隻脫水犬隻的生化顯示 BUN 升高，USG 為 1.010，此現象稱為：", a: "腎性氮質血症 (或合併腎衰竭)", o: ["單純腎前性氮質血症", "生理性多尿", "腎性氮質血症 (或合併腎衰竭)", "腎後性阻塞"], e: "【實診-泌尿】脫水時應出現高濃縮尿，若出現等張尿（1.008-1.012）代表腎臟已失去濃縮能力。" },
+    { q: "SDMA (對稱二甲基精胺酸) 作為腎功能指標，其相較於肌酸酐最大的優點是：", a: "在腎功能喪失 25% 時即上升，且不受肌肉量影響", o: ["僅在末期腎衰竭才會升高", "在腎功能喪失 25% 時即上升，且不受肌肉量影響", "可用於區分細菌性膀胱炎", "能直接量測腎小球的壓力"], e: "【實診-泌尿】SDMA 是目前偵測早期慢性腎病 (CKD) 最敏感的生化指標之一。" },
+    { q: "關於管型 (Casts) 在尿沈渣中的意義，下列何者代表「最嚴重的慢性損傷」？", a: "蠟樣管型 (Waxy casts)", o: ["透明管型", "顆粒管型", "細胞管型", "蠟樣管型 (Waxy casts)"], e: "【實診-泌尿】蠟樣管型代表尿液在腎小管內長期停滯，反映腎單位嚴重受損與末期病變。" },
+    { q: "在糖尿病患畜的尿液中，除了尿糖外，最常因脂肪酸代謝異常而出現：", a: "酮體 (Ketones)", o: ["膽紅素", "酮體 (Ketones)", "草酸鈣結晶", "亞硝酸鹽"], e: "【實診-泌尿】缺乏胰島素導致能量代謝轉向脂肪氧化，產生大量酮體。" },
+    { q: "UPC (尿蛋白/肌酸酐比值) 的臨床主要用途為何？", a: "定量評估蛋白尿的嚴重程度，且不受尿液濃度的干擾", o: ["診斷尿路感染的細菌量", "定量評估蛋白尿的嚴重程度，且不受尿液濃度的干擾", "計算每日總排尿量", "評估肝臟合成蛋白的能力"], e: "【實診-泌尿】UPC 是診斷絲球體疾病（如腎絲球腎炎）的重要量化指標。" },
+    { q: "當貓發生尿道阻塞 (FLUTD) 時，最致命的電解質異常通常為何？", a: "高鉀血症 (Hyperkalemia)", o: ["低鈣血症", "高鉀血症 (Hyperkalemia)", "低鈉血症", "高氯血症"], e: "【實診-泌尿】鉀離子無法排出導致心臟毒性，是急性腎後性尿毒症死亡的主因。" },
+    { q: "範康尼氏症候群 (Fanconi syndrome) 的尿檢特徵為何？", a: "血糖正常但出現顯著尿糖", o: ["尿液 pH 值極酸", "血糖正常但出現顯著尿糖", "出現大量紅血球管型", "尿比重極高"], e: "【實診-泌尿】近曲小管重吸收功能全面障礙，導致葡萄糖、胺基酸等流失。" },
+
+    // --- 21-30: 血液學、肌肉與樣本干擾整合 ---
+    { q: "檢體發生「溶血」對下列哪一項生化指標的影響最小？", a: "鈉離子 (Na+)", o: ["鉀離子 (K+)", "AST (天門冬胺酸轉胺酶)", "LDH (乳酸去氫酶)", "鈉離子 (Na+)"], e: "【實診-酵素】鉀、AST、LDH 在紅血球內濃度極高，溶血會大幅干擾；鈉離子主要分佈在細胞外。" },
+    { q: "當 CK 與 AST 同時顯著升高，但 ALT 與 GGT 正常時，最可能的意義為何？", a: "骨骼肌或心肌受損", o: ["急性肝細胞炎", "骨骼肌或心肌受損", "膽管阻塞", "腎衰竭"], e: "【實診-肌肉】CK 具肌肉特異性，結合 AST 升高可確診肌肉損傷並排除肝臟因素。" },
+    { q: "所謂「左偏反應 (Left shift)」是指中性球出現何種變化，代表急性嚴重炎症？", a: "不成熟的帶狀核球 (Band cells) 比例增加", o: ["分葉過度的老熟細胞增加", "不成熟的帶狀核球 (Band cells) 比例增加", "白血球總數顯著下降", "出現大量中毒性顆粒"], e: "【實診-血液】代表骨髓正在緊急釋放儲存池中的未成熟細胞以應對消耗。" },
+    { q: "關於再生性貧血 (Regenerative anemia) 的血片觀察，下列何者最不具代表性？", a: "小細胞性紅血球 (Microcytosis)", o: ["多染性紅血球 (Polychromasia)", "網織球 (Reticulocytes) 增加", "出現有核紅血球", "小細胞性紅血球 (Microcytosis)"], e: "【實診-血液】小細胞性通常代表缺鐵性貧血（非再生性）；再生性貧血通常呈現大細胞性 (Macrocytosis)。" },
+    { q: "高血脂 (Lipemia) 檢體對分光光度法測定數據產生的物理干擾，主要是因為：", a: "乳糜微粒導致光線散射與吸收誤差", o: ["抑制酵素活性", "乳糜微粒導致光線散射與吸收誤差", "直接破壞試劑分子", "造成電極表面結垢"], e: "【實診-基礎】油脂顆粒會使光路受阻，導致多數吸光度法量測的數值假性升高。" },
+    { q: "若使用 EDTA 紫頭管採集的血液進行生化檢查，哪項數據會出現「致命性錯誤」？", a: "血鈣極低且血鉀極高", o: ["血糖極低", "血鈣極低且血鉀極高", "ALT 顯著升高", "膽固醇顯著降低"], e: "【實診-基礎】EDTA 螯合鈣離子（測不到鈣）且本身含鉀（鉀值飆高）。" },
+    { q: "關於「滲出液 (Exudate)」與「漏出液 (Transudate)」的鑑別，下列何者正確？", a: "滲出液通常蛋白質 > 3.0 g/dL 且比重 > 1.018", o: ["漏出液含有大量發炎細胞", "滲出液通常蛋白質 > 3.0 g/dL 且比重 > 1.018", "漏出液的比重通常高於滲出液", "兩者皆與血管通透性無關"], e: "【實診-綜合】滲出液源於發炎導致的血管漏洞，富含蛋白與細胞。" },
+    { q: "犬隻發生胰臟炎時，臨床上偵測「特異性脂肪酶」的最佳方法是：", a: "Spec cPL (犬胰臟脂肪酶免疫活性)", o: ["傳統血清澱粉酶量測", "Spec cPL (犬胰臟脂肪酶免疫活性)", "尿液脂肪酶檢測", "肝臟超音波"], e: "【實診-綜合】傳統 Amylase/Lipase 缺乏特異性，cPL 是目前臨床公認的首選指標。" },
+    { q: "關於血清白蛋白與球蛋白比例 (A/G ratio) 下降，最常見於：", a: "慢性發炎導致球蛋白增加", o: ["急性脫水導致血液濃縮", "慢性發炎導致球蛋白增加", "攝取過多優質蛋白", "肝臟過度合成白蛋白"], e: "【實診-肝膽】慢性抗原刺激會引發多株性球蛋白上升，導致比例失衡。" },
+    { q: "肌肉損傷釋放的「肌紅素」與溶血釋放的「血紅素」，在血漿顏色上的判別特徵為：", a: "肌紅素尿時血漿通常清澈；血紅素尿時血漿呈粉紅色", o: ["兩者皆會使血漿變黑", "肌紅素尿時血漿通常清澈；血紅素尿時血漿呈粉紅色", "血紅素不會進入尿液", "肌紅素會與白蛋白緊密結合"], e: "【實診-肌肉】肌紅素分子極小且不與蛋白結合，迅速排入尿中，血漿保持清澈。" },
+
+    // --- 31-40: 綜合與酸鹼平衡判讀 ---
+    { q: "下列哪一種電解質異常最容易發生在「阿迪森氏症 (Addison's disease)」患畜？", a: "低鈉高鉀血症 (Na/K ratio < 27)", o: ["高鈉低鉀", "低鈉高鉀血症 (Na/K ratio < 27)", "高鈣低磷", "低氯高鈉"], e: "【實診-綜合】缺乏醛固酮導致腎臟無法回收鈉並排除鉀。" },
+    { q: "長期劇烈嘔吐（如幽門阻塞）最常導致何種酸鹼平衡失調？", a: "代謝性鹼中毒 (Metabolic alkalosis)", o: ["代謝性酸中毒", "代謝性鹼中毒 (Metabolic alkalosis)", "呼吸性酸中毒", "呼吸性鹼中毒"], e: "【實診-綜合】大量流失富含鹽酸 (HCl) 的胃液所致。" },
+    { q: "關於糖尿病酮酸中毒 (DKA) 的酸鹼狀態，通常表現為：", a: "高陰離子間隙 (Anion Gap) 的代謝性酸中毒", o: ["正常陰離子間隙的鹼中毒", "高陰離子間隙 (Anion Gap) 的代謝性酸中毒", "呼吸性鹼中毒代償", "單純的低氯性酸中毒"], e: "【實診-綜合】酮體為酸性物質，會消耗重碳酸根並增加陰離子間隙。" },
+    { q: "在評價再生性貧血時，馬 (Horse) 具有哪一項特殊的血液學特徵？", a: "周邊血液中絕不出現網織球", o: ["網織球數量極多", "周邊血液中絕不出現網織球", "紅血球大小分布極廣", "常出現大量有核紅血球"], e: "【實診-血液】物種差異：馬的網織球留在骨髓內成熟，不釋放到外周血，需靠骨髓穿刺評估。" },
+    { q: "下列何種管型 (Casts) 在健康犬貓的尿液中偶爾可見少量？", a: "透明管型 (Hyaline casts)", o: ["蠟樣管型", "透明管型 (Hyaline casts)", "紅血球管型", "脂肪管型"], e: "【實診-泌尿】劇烈運動或發燒後可能出現少量透明管型，不一定代表腎衰竭。" },
+    { q: "關於血紅素 (Hemoglobin) 測定，若檢體發生「脂血」，會導致：", a: "血紅素值假性升高", o: ["血紅素值假性降低", "血紅素值假性升高", "不影響結果", "導致紅血球計數增加"], e: "【實診-基礎】脂血干擾吸光法測定，會讓儀器誤判血紅素濃度過高，進而使 MCHC 數值出現異常。" },
+    { q: "貓發生 FIP (傳染性腹膜炎) 時，其胸水中的蛋白質特性通常為：", a: "總蛋白極高 (>3.5 g/dL) 且球蛋白比例極高", o: ["總蛋白極低 (<2.0 g/dL)", "總蛋白極高 (>3.5 g/dL) 且球蛋白比例極高", "主要成分為乳糜微粒", "完全不含發炎細胞"], e: "【實診-綜合】FIP 引起的血管炎滲出液富含免疫球蛋白，具高度診斷價值。" },
+    { q: "關於應激血像 (Stress leukogram) 的特徵，下列敘述何者正確？", a: "成熟中性球增加、淋巴球減少、嗜酸性球減少", o: ["中性球減少、淋巴球增加", "成熟中性球增加、淋巴球減少、嗜酸性球減少", "出現大量不成熟中性球", "單核球顯著消失"], e: "【實診-血液】由皮質醇 (Cortisol) 引起，口訣：SMILED (Neutrophilia, Lymphopenia, Eosinopenia)。" },
+    { q: "下列何種結晶 (Crystals) 常見於中毒性的「急性腎小管壞死」，如乙二醇中毒？", a: "草酸鈣結晶 (Calcium oxalate monohydrate)", o: ["磷酸銨鎂結晶", "草酸鈣結晶 (Calcium oxalate monohydrate)", "尿酸銨結晶", "膽紅素結晶"], e: "【實診-泌尿】乙二醇代謝物與鈣結合形成草酸鈣，刺狀或柵欄狀結晶具高度特異性。" },
+    { q: "關於生化檢查中「血糖」的採檢，若無法立即送檢，應使用哪一種抗凝固劑？", a: "氟化鈉 (Sodium fluoride)", o: ["EDTA", "肝素", "氟化鈉 (Sodium fluoride)", "檸檬酸鈉"], e: "【實診-基礎】氟離子可抑制糖解作用，防止紅血球在管內繼續消耗葡萄糖。" }
+],
+        chapters: {
+            "l1": { title: "臨床酵素", questions: [
+    // 基礎 (10)
+    { q: "下列哪一種抗凝固劑會透過螯合鈣離子來抑制凝血，因此不適合做生化鈣量測？", a: "EDTA (紫頭管)", o: ["Heparin (綠頭管)", "EDTA (紫頭管)", "Citrate (藍頭管)", "Fluoride (灰頭管)"], e: "【實診-基礎】EDTA 強力結合鈣離子，會導致生化數據中的鈣值極低。" },
+    { q: "關於酵素的「半衰期」，下列何者正確？", a: "反映酵素從血液中被清除的速度", o: ["反映酵素在細胞內的濃度", "反映酵素從血液中被清除的速度", "半衰期越長代表酵素敏感度越高", "所有物種的同種酵素半衰期皆相同"], e: "【實診-基礎】如 ALP 在貓的半衰期極短，因此稍微上升即具臨床意義。" },
+    { q: "血液檢體採集後應儘快分離血清，主要是為了防止：", a: "紅血球內的物質釋放或代謝消耗", o: ["白血球數量增加", "紅血球內的物質釋放或代謝消耗", "血小板發生凝集", "膽紅素濃度因避光而升高"], e: "【實診-基礎】如血糖會隨時間被紅血球消耗掉。" },
+    { q: "下列何種酵素屬於「誘導型酵素 (Induced enzymes)」，常在膽道受壓時合成？", a: "ALP 與 GGT", o: ["ALT 與 AST", "ALP 與 GGT", "CK 與 LDH", "AMY 與 LIP"], e: "【實診-基礎】細胞受損釋放的是漏出型；ALP/GGT 是受刺激後增生的誘導型。" },
+    { q: "高血脂檢體造成生化分析誤差的主要物理機轉是：", a: "光線散射與吸收干擾", o: ["抑制酵素化學反應", "光線散射與吸收干擾", "稀釋血漿成分", "損壞機器電極"], e: "【實診-基礎】乳糜微粒使檢體混濁，干擾分光光度計的判讀。" },
+    { q: "正常情況下，血漿中酵素的來源不包括：", a: "正常分泌進入血液的消化酵素", o: ["細胞正常代謝脫落", "細胞膜通透性改變流出", "正常分泌進入血液的消化酵素", "細胞壞死釋放"], e: "【實診-基礎】消化酵素如澱粉酶通常在管腔運作，進入血中多為異常。" },
+    { q: "下列哪種環境因素對大部分臨床酵素的活性影響最大？", a: "溫度", o: ["濕度", "溫度", "氣壓", "噪音"], e: "【實診-基礎】酵素測定必須在恆溫（通常 37度）下進行。" },
+    { q: "「左偏反應 (Left shift)」是指血液中出現何種細胞？", a: "不成熟的帶狀核中性球", o: ["成熟的分葉核中性球", "不成熟的帶狀核中性球", "大量的網織球", "多形性的淋巴球"], e: "【實診-基礎】代表骨髓正在緊急應對發炎需求。" },
+    { q: "血清 (Serum) 與血漿 (Plasma) 的主要區別在於血清不含：", a: "纖維蛋白原 (Fibrinogen)", o: ["白蛋白", "纖維蛋白原 (Fibrinogen)", "電解質", "脂質"], e: "【實診-基礎】血清是血液凝固後剩餘的液體，纖維蛋白原已轉為血塊。" },
+    { q: "黃疸檢體對生化測定主要的干擾在於：", a: "顏色干擾 (光波吸收)", o: ["酸鹼值大幅變動", "顏色干擾 (光波吸收)", "酵素失活", "蛋白質沉澱"], e: "【實診-基礎】高濃度的膽紅素會干擾特定波長的吸光值測定。" },
+    // 進階 (10)
+    { q: "關於 ALP 異構酶 (Isoenzymes)，下列何者正確？", a: "犬具有特殊的類固醇誘導型異構酶", o: ["所有組織產生的 ALP 皆具有相同半衰期", "犬具有特殊的類固醇誘導型異構酶", "腸道產生的 ALP 是血中主要來源", "胎盤型 ALP 僅存在於雄性動物"], e: "【實診-基礎】這使得 ALP 在犬庫興氏症診斷中極具價值。" },
+    { q: "溶血檢體導致 LDH 假性上升的幅度通常比 ALT：", a: "大得多", o: ["小得多", "大得多", "完全相同", "無法預測"], e: "【實診-基礎】紅血球內 LDH 的濃度比血漿高出數百倍。" },
+    { q: "下列哪一種酵素的測定值最容易受到「脂血 (Lipemia)」的正面干擾？", a: "膽紅素 (Bilirubin)", o: ["鈉離子", "膽紅素 (Bilirubin)", "血糖", "尿素氮"], e: "【實診-基礎】脂血會假性提升多種吸光法測定的數據。" },
+    { q: "若要量測血液中的「氨 (Ammonia)」，檢體應如何處理？", a: "立即冰浴送檢並在 30 分鐘內分離", o: ["放置室溫 24 小時後量測", "立即冰浴送檢並在 30 分鐘內分離", "加入強酸保存", "使用加熱後的血清"], e: "【實診-基礎】氨極不穩定且易受環境污染或紅血球產氨干擾。" },
+    { q: "關於 SDH (Sorbitol dehydrogenase) 的臨床意義，下列何者正確？", a: "它是大動物 (馬、牛) 偵測肝壞死的優良指標", o: ["它主要存在於肌肉組織", "它是大動物 (馬、牛) 偵測肝壞死的優良指標", "它的血中半衰期非常長 (約 7 天)", "它與膽汁滯留高度相關"], e: "【實診-基礎】SDH 對大動物肝臟具高度特異性，但極不穩定。" },
+    { q: "下列哪一項不是造成「偽性高血鉀」的原因？", a: "嚴重的脫水", o: ["抽血時過度擠壓", "檢體嚴重溶血", "嚴重的脫水", "血小板數量極高 (血清測定時)"], e: "【實診-基礎】脫水造成的是真實的高血鉀。" },
+    { q: "關於測定酵素活性時的「零級反應期」，定義為：", a: "反應速率與受質濃度無關，僅隨酵素量增加", o: ["反應速率隨時間逐漸變慢", "反應速率與受質濃度無關，僅隨酵素量增加", "酵素完全失活的時期", "受質濃度過低導致反應停止"], e: "【實診-基礎】臨床測定皆利用此期來定量酵素活性。" },
+    { q: "使用含有氟化鈉 (Sodium fluoride) 的灰頭管，主要目的是：", a: "抑制糖解作用以維持血糖穩定", o: ["防止血液凝固", "抑制糖解作用以維持血糖穩定", "增強酵素活性", "防止細菌滋生"], e: "【實診-基礎】氟離子抑制糖解酶。" },
+    { q: "下列何者為評估「胰臟外分泌功能」最敏感的生化指標？", a: "PLI (胰臟脂肪酶免疫活性)", o: ["Amylase", "PLI (胰臟脂肪酶免疫活性)", "ALP", "AST"], e: "【實診-基礎】PLI 較傳統的澱粉酶與脂肪酶更具器官特異性。" },
+    { q: "關於膽汁酸 (Bile acids) 的測定，下列何種操作最為理想？", a: "測定空腹與進食後兩小時的數值", o: ["僅測定隨機一次數值", "測定空腹與進食後兩小時的數值", "連續收集 24 小時尿液", "必須配合大劑量維生素注射"], e: "【實診-基礎】進食後測定的「動態測試」對肝功能更具診斷價值。" },
+    // 綜合 (5)
+    { q: "細胞發生凝固性壞死最常見於？", a: "腎梗塞", o: ["腦梗塞", "腎梗塞", "膿瘍", "胰臟炎"], e: "【病理】。" },
+    { q: "下列何者是惡性腫瘤特徵？", a: "轉移", o: ["分化良好", "有包囊", "生長慢", "轉移"], e: "【病理】。" },
+    { q: "第一型超敏反應參與的細胞主要是？", a: "肥大細胞", o: ["T細胞", "肥大細胞", "巨噬細胞", "中性球"], e: "【病理】。" },
+    { q: "慢性左心衰竭引發肺瘀血會出現？", a: "心衰竭細胞", o: ["西米脾", "心衰竭細胞", "脂肪肝", "草莓膽囊"], e: "【病理】。" },
+    { q: "Furosemide 屬於哪一類藥物？", a: "環利尿劑", o: ["環利尿劑", "強心劑", "降壓劑", "止痛劑"], e: "【藥理】。" }
+] },
+            "l2": { title: "肝膽系統", questions: [
+    // 基礎 (10)
+    { q: "在犬貓，下列何種酵素對「肝細胞細胞質受損」具有最高的特異性？", a: "ALT", o: ["AST", "ALT", "ALP", "CK"], e: "【實診-肝膽】ALT 主要存在於犬貓肝細胞胞質，釋出代表完整性受損。" },
+    { q: "黃疸（Jaundice）時，肉眼觀察最明顯的部位不包括：", a: "骨骼肌", o: ["鞏膜 (眼睛白色處)", "粘膜 (如牙齦)", "皮膚", "骨骼肌"], e: "【實診-肝膽】黃疸是膽紅素沉積在含彈力纖維的組織。" },
+    { q: "關於 ALP (鹼性磷酸酶) 的敘述，何者正確？", a: "它是反映膽汁滯留的誘導型酵素", o: ["它是反映肝細胞壞死的漏出型酵素", "它是反映膽汁滯留的誘導型酵素", "它僅存在於肝臟中", "血中 ALP 下降代表肝硬化"], e: "【實診-肝膽】膽管上皮受壓或類固醇刺激會誘導 ALP 合成。" },
+    { q: "肝功能嚴重受損時，血液中的尿素氮 (BUN) 數值通常會：", a: "下降", o: ["顯著升高", "下降", "不受影響", "隨進食大幅震盪"], e: "【實診-肝膽】肝臟是尿素循環 (Urea cycle) 的唯一場所。" },
+    { q: "下列何種酵素在馬與牛的肝損傷診斷中最具意義？", a: "GLDH", o: ["ALT", "GLDH", "ALP", "AST"], e: "【實診-肝膽】大動物肝細胞富含 GLDH，而 ALT 極少。" },
+    { q: "所謂的「肝後性黃疸」主要由下列何種原因引起？", a: "膽管阻塞 (如膽石)", o: ["大量溶血", "膽管阻塞 (如膽石)", "肝細胞急性壞死", "紅血球寄生蟲感染"], e: "【實診-肝膽】膽汁排出受阻導致結合型膽紅素逆流入血。" },
+    { q: "關於血氨 (Ammonia) 升高的意義，下列何者最不相關？", a: "胰臟外分泌不足", o: ["門脈體循環分流 (PSS)", "末期肝硬化", "胰臟外分泌不足", "尿素循環酵素缺乏"], e: "【實診-肝膽】血氨升高代表肝臟清除含氮廢物能力下降。" },
+    { q: "膽汁酸 (Bile acids) 在體內的循環稱為：", a: "腸肝循環", o: ["肺循環", "腸肝循環", "淋巴循環", "體循環"], e: "【實診-肝膽】95% 的膽汁酸在迴腸被重新吸收回肝臟。" },
+    { q: "GGT (Gamma-glutamyl transferase) 在下列哪種情況下上升最具特異性？", a: "膽汁滯留或膽管增生", o: ["急性肌肉發炎", "膽汁滯留或膽管增生", "腎小球過濾率下降", "胰島素分泌過多"], e: "【實診-肝膽】GGT 是診斷大動物膽汁滯留的優良指標。" },
+    { q: "下列何種物質在肝臟合成，且為維持血漿滲透壓的主力？", a: "Albumin (白蛋白)", o: ["Bilirubin", "Albumin (白蛋白)", "Glucose", "Fibrinogen"], e: "【實診-肝膽】低白蛋白血症是肝功能衰竭的晚期指標。" },
+    // 進階 (10)
+    { q: "關於 AST (Aspartate aminotransferase) 的敘述，何者正確？", a: "存在於肝臟與肌肉，特異性較 ALT 低", o: ["僅存在於肝細胞細胞質", "存在於肝臟與肌肉，特異性較 ALT 低", "上升代表膽管阻塞", "在貓的半衰期比 ALP 短"], e: "【實診-肝膽】AST 分佈較廣，必須配合 CK 或 ALT 判讀。" },
+    { q: "一隻貓 ALP 上升 3 倍，在診斷上的意義比犬上升 3 倍：", a: "更具有臨床指標價值", o: ["較不具價值", "更具有臨床指標價值", "意義完全相同", "僅代表貓有骨骼疾病"], e: "【實診-肝膽】貓 ALP 半衰期極短 (約 6 小時)，輕微上升即代表嚴重病變。" },
+    { q: "所謂「隱性黃疸」是指總膽紅素濃度在什麼範圍？", a: "數值已升高但肉眼尚不可見 (約 1-2 mg/dL)", o: ["數值正常但組織已變黃", "數值已升高但肉眼尚不可見 (約 1-2 mg/dL)", "數值極高且伴隨血尿", "僅在尿中檢出膽紅素"], e: "【實診-肝膽】組織黃染通常需總膽紅素 > 2 mg/dL。" },
+    { q: "關於門脈體循環分流 (PSS) 的生化診斷，哪項測試最準確？", a: "進食後膽汁酸測試", o: ["空腹血糖量測", "進食後膽汁酸測試", "ALT 與 ALP 定位", "總蛋白質量測"], e: "【實診-肝膽】PSS 導致肝臟無法有效回收腸道回流的膽汁酸。" },
+    { q: "下列何種酵素對「鳥類」肝壞死的診斷最敏感？", a: "GLDH 或 AST", o: ["ALT", "GLDH 或 AST", "ALP", "GGT"], e: "【實診-肝膽】鳥類 ALT 不具肝臟特異性。" },
+    { q: "關於結合型與未結合型膽紅素，下列敘述何者正確？", a: "結合型膽紅素具水溶性，可由尿液排出", o: ["未結合型膽紅素是由肝臟製造的", "結合型膽紅素具水溶性，可由尿液排出", "結合型膽紅素會與白蛋白緊密結合", "溶血會導致結合型膽紅素大幅上升"], e: "【實診-肝膽】未結合型 (Indirect) 具脂溶性，需在肝臟結合葡萄糖醛酸變為結合型 (Direct)。" },
+    { q: "肝硬化患畜出現低血糖的原因為：", a: "肝醣儲存與糖質新生功能喪失", o: ["胰島素分泌過多", "肝醣儲存與糖質新生功能喪失", "腎臟葡萄糖重吸收增加", "腸道吸收功能亢進"], e: "【實診-肝膽】肝臟是維持血糖穩定的核心器官。" },
+    { q: "哪一種草食獸在長期禁食 (Fasting) 時，會出現顯著的「生理性黃疸」？", a: "馬", o: ["牛", "馬", "羊", "鹿"], e: "【實診-肝膽】馬禁食會導致膽紅素與轉運蛋白結合受阻。" },
+    { q: "關於高血氨導致的「肝性腦病 (HE)」，鏡下常見的神經變化為：", a: "阿茲海默二型星狀細胞 (Alzheimer type II astrocytosis)", o: ["Negri 小體", "阿茲海默二型星狀細胞 (Alzheimer type II astrocytosis)", "全腦軟化", "神經元內色素沉著"], e: "【實診-肝膽】這是代謝性腦病的特徵細胞。" },
+    { q: "肝功能測試 (Liver function test) 與肝酵素檢測 (Liver enzyme) 的區別為何？", a: "前者評估合成與清除能力 (如膽汁酸、BUN)，後者評估細胞完整性", o: ["兩者完全相同", "前者評估合成與清除能力 (如膽汁酸、BUN)，後者評估細胞完整性", "酵素檢測較昂貴", "酵素檢測僅能在死後進行"], e: "【實診-肝膽】。" },
+    // 綜合 (5)
+    { q: "下列哪種色素與維生素 E 缺乏有關？", a: "蠟樣質 (Ceroid)", o: ["黑色素", "脂褐素", "蠟樣質 (Ceroid)", "膽紅素"], e: "【病理】。" },
+    { q: "馬屬動物 PRAA 引起的臨床特徵？", a: "食道擴張", o: ["氣管狹窄", "食道擴張", "心跳緩慢", "肝腫大"], e: "【病理】。" },
+    { q: "強心苷 Digoxin 毒性發生的誘因？", a: "低血鉀", o: ["高血鉀", "低血鉀", "高血鈉", "低血鎂"], e: "【藥理】。" },
+    { q: "結核病灶典型的壞死類型？", a: "乾酪樣壞死", o: ["液化性", "凝固性", "乾酪樣壞死", "脂肪壞死"], e: "【病理】。" },
+    { q: "下列何者為滲出液特徵？", a: "蛋白質與比重皆高", o: ["比重低", "蛋白質低", "蛋白質與比重皆高", "無細胞"], e: "【實診】。" }
+]},
+            "l3": { title: "肌肉系統", questions: [
+    // 基礎 (10)
+    { q: "診斷肌肉受損最敏感且最具組織特異性的指標酵素為何？", a: "CK (Creatine kinase)", o: ["ALT", "AST", "CK (Creatine kinase)", "LDH"], e: "【實診-肌肉】CK 幾乎完全分佈於骨骼肌與心肌。" },
+    { q: "血液中 CK 的半衰期通常為何？", a: "非常短 (數小時)", o: ["非常長 (約 7 天)", "非常短 (數小時)", "約 24 小時", "永久存在"], e: "【實診-肌肉】CK 上升代表「正在發生」或「剛發生」的損傷。" },
+    { q: "肌肉嚴重受損後，尿液顏色常呈現：", a: "紅褐色或茶色", o: ["清澈透明", "紅褐色或茶色", "乳白色", "鮮黃色"], e: "【實診-肌肉】這是由排出肌紅素 (Myoglobin) 所致。" },
+    { q: "下列何種酵素同時存在於肌肉與肝臟，需配合 CK 判讀？", a: "AST", o: ["ALT", "ALP", "AST", "GGT"], e: "【實診-肌肉】若 AST 升而 CK 正常，則可能來自肝臟。" },
+    { q: "所謂「白肌病 (White muscle disease)」主要是由於缺乏哪種營養素？", a: "維生素 E 或 硒", o: ["維生素 A", "維生素 E 或 硒", "鈣離子", "鐵質"], e: "【實診-肌肉】抗氧化能力不足導致肌肉變性壞死。" },
+    { q: "當 CK 上升但 AST 正常時，代表：", a: "極其急性的輕微肌肉損傷", o: ["慢性肌肉疾病", "極其急性的輕微肌肉損傷", "肝臟功能衰竭", "膽管阻塞"], e: "【實診-肌肉】CK 反應快，AST 反應較慢且持續較久。" },
+    { q: "肌肉損傷釋放出的「肌紅素」在通過腎臟時具有：", a: "腎毒性", o: ["保護腎小管作用", "腎毒性", "促進排尿作用", "無任何影響"], e: "【實診-肌肉】高濃度肌紅素會導致急性腎小管壞死。" },
+    { q: "下列哪種運動會導致生理性的 CK 暫時上升？", a: "劇烈賽跑或長途運輸", o: ["深層睡眠", "劇烈賽跑或長途運輸", "適度進食", "心跳緩慢"], e: "【實診-肌肉】肌肉過度活動導致微損傷。" },
+    { q: "心肌梗塞時，除了 CK 外，下列何者也常作為輔助指標？", a: "cTnI (心肌肌鈣蛋白 I)", o: ["ALT", "BUN", "cTnI (心肌肌鈣蛋白 I)", "ALP"], e: "【實診-肌肉】cTnI 對心肌受損具極高特異性。" },
+    { q: "肌肉變性與壞死在生化上的共同點是：", a: "胞內物質漏出至血液中", o: ["細胞體積縮小", "胞內物質漏出至血液中", "血中鈣離子大幅上升", "血中白蛋白上升"], e: "【實診-肌肉】通透性改變導致酵素逸出。" },
+    // 進階 (10)
+    { q: "關於 CK 異構酶，主要存在於心肌中的是：", a: "CK-MB", o: ["CK-MM", "CK-BB", "CK-MB", "CK-Mt"], e: "【實診-肌肉】MM 在骨骼肌，BB 在腦。" },
+    { q: "若 CK 持續升高超過 24-48 小時不降，臨床意義為何？", a: "肌肉受損因子持續存在 (如持續橫紋肌溶解)", o: ["肌肉已完全癒合", "肌肉受損因子持續存在 (如持續橫紋肌溶解)", "酵素半衰期延長", "動物已恢復健康"], e: "【實診-肌肉】CK 半衰期短，持續高值代表持續損傷。" },
+    { q: "區分血紅素尿 (Hemoglobinuria) 與肌紅素尿 (Myoglobinuria) 的簡易方法為：", a: "觀察血漿顏色 (前者紅，後者清澈)", o: ["觀察尿液顏色", "觀察血漿顏色 (前者紅，後者清澈)", "測定尿液 pH 值", "進行顯微鏡檢查"], e: "【實診-肌肉】血紅素與蛋白結合較緊，留在血中；肌紅素分子小，迅速入尿。" },
+    { q: "貓的 X-linked 肌肉萎縮症 (Dystrophy) 會出現：", a: "CK 數值常態性極度升高 (數十倍)", o: ["CK 數值極度降低", "CK 數值常態性極度升高 (數十倍)", "ALP 顯著升高", "血糖顯著升高"], e: "【實診-肌肉】肌肉結構不穩導致持續性酵素滲漏。" },
+    { q: "維生素 E 缺乏導致的 Zenker's 壞死，在組織學上呈現：", a: "橫紋肌透明變性與凝固性壞死", o: ["肌肉大範圍液化性壞死", "橫紋肌透明變性與凝固性壞死", "脂肪細胞大量浸潤", "纖維母細胞惡性增生"], e: "【實診-肌肉/病理】。" },
+    { q: "下列何種藥物肌肉注射 (IM) 可能造成 CK 假性升高？", a: "任何具刺激性的注射藥物", o: ["葡萄糖水", "任何具刺激性的注射藥物", "生理食鹽水", "維生素 K1"], e: "【實診-肌肉】注射局部肌肉損傷會釋放 CK。" },
+    { q: "當 CK 上升伴隨 AST 上升，且 CK 隨後下降但 AST 仍高，代表：", a: "肌肉損傷已停止，進入修復期", o: ["肌肉正在惡化", "肝臟同時發生壞死", "肌肉損傷已停止，進入修復期", "酵素檢測錯誤"], e: "【實診-肌肉】AST 半衰期較長，會延後恢復正常。" },
+    { q: "關於犬咀嚼肌肌炎 (Masticatory Myositis) 的診斷，哪項最具特異性？", a: "2M 肌纖維抗體檢測", o: ["CK 量測", "2M 肌纖維抗體檢測", "AST 量測", "ALT 量測"], e: "【實診-肌肉】針對咀嚼肌特有的 2M 蛋白產生的自體免疫反應。" },
+    { q: "肌肉損傷引起的高鉀血症是由於：", a: "胞內高濃度的鉀離子隨壞死釋出", o: ["腎臟排泄功能亢進", "胞內高濃度的鉀離子隨壞死釋出", "飲食中鉀攝取過多", "血液中鈉離子流失"], e: "【實診-肌肉/綜合】。" },
+    { q: "肌紅素尿發生時，尿液加入飽和硫酸銨後離心，沉澱物應為：", a: "上清液依然呈現紅色", o: ["上清液變清澈", "上清液依然呈現紅色", "底部出現大量紅血球", "尿液變為藍色"], e: "【實診-肌肉】肌紅素不被飽和硫酸銨沉澱。" },
+    // 綜合 (5)
+    { q: "壞死組織被肉芽組織取代的過程？", a: "機化", o: ["化生", "機化", "再生", "鈣化"], e: "【病理】。" },
+    { q: "阿托品 (Atropine) 副作用？", a: "口渴與散瞳", o: ["流涎", "縮瞳", "口渴與散瞳", "心跳慢"], e: "【藥理】。" },
+    { q: "再生性貧血的指標細胞？", a: "網織球", o: ["分葉核中性球", "網織球", "小細胞", "畸形紅血球"], e: "【實診】。" },
+    { q: "下列何種腫瘤多為惡性？", a: "淋巴瘤", o: ["脂肪瘤", "腺瘤", "淋巴瘤", "纖維瘤"], e: "【病理】。" },
+    { q: "檳榔肝與何種病變有關？", a: "瘀血", o: ["瘀血", "炎症", "外傷", "鈣化"], e: "【病理】。" }
+] },
+            "l4": { title: "泌尿系統", questions: [
+    // 基礎 (10)
+    { q: "評估腎臟「排除含氮廢物」能力最常用的兩項生化指標為何？", a: "BUN 與 Creatinine", o: ["ALT 與 ALP", "BUN 與 Creatinine", "Glucose 與 Albumin", "CK 與 AST"], e: "【實診-泌尿】這兩者上升稱為氮質血症 (Azotemia)。" },
+    { q: "尿比重 (USG) 固定在 1.008 - 1.012 稱為：", a: "等張尿 (Isosthenuria)", o: ["低張尿", "等張尿 (Isosthenuria)", "高張尿", "無尿"], e: "【實診-泌尿】代表腎小管喪失濃縮與稀釋尿液的功能。" },
+    { q: "腎後性氮質血症 (Post-renal azotemia) 最常見的原因為何？", a: "尿道阻塞或膀胱破裂", o: ["脫水與低血壓", "尿道阻塞或膀胱破裂", "腎絲球炎", "攝取過多蛋白質"], e: "【實診-泌尿】排除路徑受阻導致廢物蓄積。" },
+    { q: "關於肌酸酐 (Creatinine) 的敘述，下列何者正確？", a: "產生速率穩定，受飲食影響較小", o: ["主要由肝臟合成排出", "產生速率穩定，受飲食影響較小", "會被腎小管大量重吸收", "隨運動量大幅波動"], e: "【實診-泌尿】相較於 BUN，肌酸酐是評估腎絲球濾過率 (GFR) 較佳的指標。" },
+    { q: "尿液中出現多量蛋白質 (Proteinuria)，最可能的病變位置在：", a: "腎絲球", o: ["腎小管", "腎絲球", "輸尿管", "膀胱"], e: "【實診-泌尿】腎絲球濾過屏障受損會導致大分子蛋白漏出。" },
+    { q: "下列何種管型 (Casts) 代表腎小管上皮發生急性壞死脫落？", a: "上皮細胞管型或顆粒管型", o: ["透明管型", "上皮細胞管型或顆粒管型", "蠟樣管型", "脂肪管型"], e: "【實診-泌尿】管型形成於遠端小管與集尿管。" },
+    { q: "犬隻發生慢性腎衰竭時，血清中何種離子最常顯著升高？", a: "磷 (Phosphorus)", o: ["鈣 (Calcium)", "磷 (Phosphorus)", "鈉 (Sodium)", "氯 (Chloride)"], e: "【實診-泌尿】腎臟排除磷的功能下降，導致高磷血症。" },
+    { q: "正常犬貓尿液中「不應該」出現下列何種成分？", a: "葡萄糖", o: ["尿素", "葡萄糖", "少許草酸鈣結晶", "適量肌酸酐"], e: "【實診-泌尿】血糖超過腎閾值才會出現尿糖。" },
+    { q: "關於尿沈渣檢查，健康的鹼性尿中常見的結晶為何？", a: "磷酸銨鎂 (Struvite)", o: ["草酸鈣", "磷酸銨鎂 (Struvite)", "尿酸銨", "胱胺酸"], e: "【實診-泌尿】常見於犬，又稱鳥糞石。" },
+    { q: "腎小管上皮受損導致的氮質血症稱為：", a: "腎性氮質血症", o: ["腎前性", "腎性氮質血症", "腎後性", "偽性"], e: "【實診-泌尿】。" },
+    // 進階 (10)
+    { q: "關於 SDMA (對稱二甲基精胺酸) 檢測的優點，下列何者正確？", a: "比肌酸酐更早偵測到腎功能衰竭", o: ["僅存在於貓，犬無此指標", "比肌酸酐更早偵測到腎功能衰竭", "不受腎絲球濾過率影響", "與蛋白質攝取量高度正相關"], e: "【實診-泌尿】SDMA 在腎功能喪失約 25% 時即上升，Creatinine 需 75%。" },
+    { q: "尿液 UPC 比值 (Protein/Creatinine ratio) 的主要目的是：", a: "定量尿蛋白流失量並排除尿液濃度影響", o: ["診斷膀胱結石", "定量尿蛋白流失量並排除尿液濃度影響", "評估肝臟合成能力", "偵測尿液中的細菌量"], e: "【實診-泌尿】排除尿液稀釋或濃縮對蛋白定性的干擾。" },
+    { q: "一隻脫水的犬，其 USG 為 1.010，BUN 上升，此代表：", a: "腎功能已受損，無法代償性濃縮尿液", o: ["正常的生理反應", "腎功能已受損，無法代償性濃縮尿液", "飲水量過多", "僅是單純的腎前性脫水"], e: "【實診-泌尿】脫水時 USG 應大於 1.030，否則代表腎功能異常。" },
+    { q: "蠟樣管型 (Waxy casts) 出現在尿沈渣中的臨床意義為何？", a: "代表嚴重的慢性腎病或腎衰竭 (終末期)", o: ["代表急性膀胱炎", "代表嚴重的慢性腎病或腎衰竭 (終末期)", "代表短期運動過度", "代表脫水已改善"], e: "【實診-泌尿】反映管腔內尿液流速極慢，管型長期停留在腎小管內。" },
+    { q: "下列哪種疾病會引起「腎性」高血壓？", a: "慢性腎小管間質肺炎或絲球體炎", o: ["門脈分流", "慢性腎小管間質肺炎或絲球體炎", "低甲狀腺素症", "維生素 D 缺乏"], e: "【實診-泌尿】活化 RAAS 系統。" },
+    { q: "糖尿病患畜出現「酮尿 (Ketonuria)」的主要機轉為：", a: "胰島素缺乏導致脂肪分解過度", o: ["蛋白質分解產生氨", "胰島素缺乏導致脂肪分解過度", "腎小管排泄酮體能力下降", "肝臟糖質新生功能受阻"], e: "【實診-泌尿】脂肪酸代謝產生乙醯乙酸與丙酮。" },
+    { q: "關於範康尼氏症候群 (Fanconi syndrome) 的敘述，正確的是：", a: "近曲小管重吸收功能全面障礙", o: ["集尿管對抗利尿激素無反應", "近曲小管重吸收功能全面障礙", "僅表現為嚴重血尿", "主要影響腎絲球濾過率"], e: "【實診-泌尿】會出現尿糖（血糖正常）、胺基酸尿與電解質流失。" },
+    { q: "所謂「隱性氮質血症 (Occult azotemia)」常見於：", a: "肌肉量極度萎縮的高齡貓", o: ["肥胖的幼犬", "肌肉量極度萎縮的高齡貓", "急性敗血症患畜", "攝取大量飲水的動物"], e: "【實診-泌尿】肌肉少導致 Creatinine 假性正常，掩蓋腎功能衰竭。" },
+    { q: "貓發生尿道阻塞 (FLUTD) 時，最致命的電解質變化為：", a: "高血鉀", o: ["低血鈣", "高血鉀", "低血鈉", "高血鎂"], e: "【實診-泌尿】無法排除鉀離子導致心臟毒性。" },
+    { q: "關於腎絲球腎炎 (Glomerulonephritis)，下列敘述何者正確？", a: "常引發嚴重的低白蛋白血症與水腫", o: ["尿沈渣中可見大量細菌", "常引發嚴重的低白蛋白血症與水腫", " Creatinine 通常在早期顯著上升", "不具備傳染性"], e: "【實診-泌尿】大量蛋白由尿中流失。" },
+    // 綜合 (5)
+    { q: "良性腫瘤與惡性腫瘤之區別特徵？", a: "轉移", o: ["大小", "轉移", "顏色", "發炎"], e: "【病理】。" },
+    { q: "Warfarin 的解毒劑為何？", a: "維生素 K1", o: ["維生素 K1", "阿托品", "2-PAM", "亞甲藍"], e: "【藥理】。" },
+    { q: "豬瘟脾臟病變特徵？", a: "邊緣梗塞", o: ["化膿", "萎縮", "邊緣梗塞", "黑色素沉著"], e: "【疾病】。" },
+    { q: "細胞凋亡的特徵？", a: "不引起發炎", o: ["引起劇烈發炎", "不引起發炎", "質膜破碎", "隨機發生"], e: "【病理】。" },
+    { q: "下列何者為環利尿劑？", a: "Furosemide", o: ["Mannitol", "Spironolactone", "Furosemide", "Acetazolamide"], e: "【藥理】。" }
+]}
+        }
     }
 };
 
 let currentKey = "";
-// 請確保這是您最新部署的網址
+let currentSubject = "";
+let currentType = ""; 
 const scriptURL = 'https://script.google.com/macros/s/AKfycbxE9ihjdZDBp4h3ZiKB_1_fpf8OBpgUzR45JjgwjZnmkwAHSXosoGPPlsgM5oAFJKvJ/exec'; 
 
-function init() {
-    const grid = document.querySelector('.menu-grid');
-    grid.innerHTML = ""; 
-    for(let key in quizDatabase) {
-        const item = quizDatabase[key];
+/**
+ * 顯示二級章節清單
+ */
+function showSubMenu(subject) {
+    currentSubject = subject;
+    document.getElementById('home-view').style.display = "none";
+    document.getElementById('sub-menu-view').style.display = "block";
+    const list = document.getElementById('sub-menu-list');
+    list.innerHTML = "";
+    
+    // 總複習按鈕 (80題邏輯)
+    const mainBtn = document.createElement('button');
+    mainBtn.className = "btn-subject btn-main-all";
+    mainBtn.innerText = `【${quizDatabase[subject].title}】(隨機40+新題40)`;
+    mainBtn.onclick = () => startQuiz(subject, 'main');
+    list.appendChild(mainBtn);
+
+    // 章節按鈕 (固定25題)
+    for(let ch in quizDatabase[subject].chapters) {
         const btn = document.createElement('button');
-        btn.className = "btn-subject " + "btn-" + key;
-        // 這裡只顯示 title，不顯示題數
-        btn.innerText = item.title; 
-        btn.onclick = () => startQuiz(key);
-        grid.appendChild(btn);
+        btn.className = "btn-subject";
+        const count = quizDatabase[subject].chapters[ch].questions.length;
+        btn.innerText = quizDatabase[subject].chapters[ch].title + (count > 0 ? ` (${count}題)` : " (待更新)");
+        btn.onclick = () => count > 0 ? startQuiz(ch, 'sub', subject) : alert("尚未填入題目！");
+        list.appendChild(btn);
     }
 }
 
-function startQuiz(key) {
+/**
+ * 組卷邏輯
+ */
+function startQuiz(key, type, parent = null) {
     currentKey = key;
+    currentType = type;
+    let qs = [];
+
+    if(type === 'main') {
+        // 大章節：從小章節題目池抽 40 題 + 該科新題 40 題
+        let oldPool = [];
+        for(let ch in quizDatabase[key].chapters) {
+            oldPool = oldPool.concat(quizDatabase[key].chapters[ch].questions);
+        }
+        oldPool.sort(() => Math.random() - 0.5);
+        let newPool = [...quizDatabase[key].newItems].sort(() => Math.random() - 0.5);
+        
+        qs = oldPool.slice(0, 40).concat(newPool.slice(0, 40));
+    } else if(type === 'sub') {
+        // 小章節：固定 25 題
+        qs = [...quizDatabase[parent].chapters[key].questions];
+    } else {
+        // 2/26 綜合：從四大科目所有題目中隨機抽 80 題
+        let everything = [];
+        for(let s in quizDatabase) {
+            everything = everything.concat(quizDatabase[s].newItems);
+            for(let c in quizDatabase[s].chapters) everything = everything.concat(quizDatabase[s].chapters[c].questions);
+        }
+        everything.sort(() => Math.random() - 0.5);
+        qs = everything.slice(0, 80);
+    }
+
+    // 最終洗牌題目與選項
+    qs.sort(() => Math.random() - 0.5);
+    renderQuiz(qs);
+}
+
+function renderQuiz(qs) {
     document.getElementById('home-view').style.display = "none";
+    document.getElementById('sub-menu-view').style.display = "none";
     document.getElementById('quiz-view').style.display = "block";
     const container = document.getElementById('quiz-content');
-    container.innerHTML = `<h3>${quizDatabase[key].title}</h3>`;
-    quizDatabase[key].questions.forEach((item, i) => {
+    container.innerHTML = `<h3>測驗開始 (共 ${qs.length} 題)</h3>`;
+    
+    qs.forEach((item, i) => {
         let opts = [...item.o].sort(() => Math.random() - 0.5);
         container.innerHTML += `
-            <div class="q-block">
+            <div class="q-block" data-answer="${item.a}" data-exp="${item.e}" data-qtext="${item.q}">
                 <span class="q-text">${i+1}. ${item.q}</span>
                 <div class="opt-list">${opts.map(o => `
                     <input type="radio" name="q${i}" value="${o}" id="q${i}_${o}">
@@ -285,88 +1042,63 @@ function startQuiz(key) {
 }
 
 function gradeQuiz() {
-    const qs = quizDatabase[currentKey].questions;
+    const blocks = document.querySelectorAll('.q-block');
     let score = 0;
     let wrongReport = "";
     let wrongBatch = [];
 
-    for(let i=0; i<qs.length; i++) {
-        const sel = document.querySelector(`input[name="q${i}"]:checked`);
-        if(!sel) { alert("尚未完成所有題目！"); return; }
-        if(sel.value === qs[i].a) score++;
-        else {
-            let optStr = qs[i].o.map(o => `  - ${o}${o === qs[i].a ? ' (正確)' : ''}`).join("\n");
-            wrongReport += `【第 ${i+1} 題】\n題目：${qs[i].q}\n您的選擇：${sel.value}\n選項：\n${optStr}\n解析：${qs[i].e}\n------------------\n`;
-            wrongBatch.push({ q: qs[i].q, a: qs[i].a, o: qs[i].o, e: qs[i].e, chapter: quizDatabase[currentKey].title });
+    for(let i=0; i<blocks.length; i++) {
+        const b = blocks[i];
+        const sel = b.querySelector(`input[name="q${i}"]:checked`);
+        if(!sel) { alert("尚未答完！"); return; }
+        
+        if(sel.value === b.getAttribute('data-answer')) {
+            score++;
+        } else {
+            const qt = b.getAttribute('data-qtext');
+            const ans = b.getAttribute('data-answer');
+            const ex = b.getAttribute('data-exp');
+            wrongReport += `【第 ${i+1} 題】\n題目：${qt}\n選：${sel.value}\n正：${ans}\n解：${ex}\n---\n`;
+            wrongBatch.push({ q: qt, a: ans, e: ex, chapter: "2/26複習測驗" });
         }
     }
 
-    // 1. 儲存至本地錯題本
     saveToBank(wrongBatch);
+    fetch(scriptURL, { method: 'POST', mode: 'no-cors', body: JSON.stringify({ score: `${score}/${blocks.length}`, chapter: "2/26 模擬", wrongAnswers: wrongReport }) });
 
-    // 2. 執行後台傳送 (強制執行)
-    const payload = {
-        score: score + "/" + qs.length,
-        chapter: quizDatabase[currentKey].title,
-        wrongAnswers: wrongReport || "滿分通過"
-    };
-
-    fetch(scriptURL, {
-        method: 'POST',
-        mode: 'no-cors',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(payload)
-    }).then(() => console.log("Data sent to sheet."));
-
-    // 3. 顯示結果介面
     document.getElementById('quiz-view').style.display = "none";
     document.getElementById('result-view').style.display = "block";
-    document.getElementById('score-text').innerText = `得分：${score} / ${qs.length}`;
-    document.getElementById('report-text').innerText = `=== 測驗報表 ===\n科目：${quizDatabase[currentKey].title}\n成績：${score}/${qs.length}\n時間：${new Date().toLocaleString()}\n\n` + (wrongReport || "滿分通過！");
-
+    document.getElementById('score-text').innerText = `得分：${score} / ${blocks.length}`;
+    document.getElementById('report-text').innerText = wrongReport || "恭喜！滿分通過！";
+    
     const review = document.getElementById('review-content');
-    review.innerHTML = qs.map((item, i) => {
-        const selValue = document.querySelector(`input[name="q${i}"]:checked`).value;
-        const isCorrect = selValue === item.a;
-        return `
-            <div class="q-block">
-                <p><strong>${i+1}. ${item.q}</strong></p>
-                <div class="feedback ${isCorrect ? 'correct' : 'wrong'}">${isCorrect ? '✓ 正確' : '✗ 錯誤，正確答案：' + item.a}</div>
-                <div class="exp">解析：${item.e}</div>
-            </div>
-        `;
+    review.innerHTML = Array.from(blocks).map((b, i) => {
+        const sel = b.querySelector(`input:checked`).value;
+        const correct = b.getAttribute('data-answer');
+        return `<div class="q-block"><p><strong>${i+1}. ${b.getAttribute('data-qtext')}</strong></p>
+                <div class="feedback ${sel===correct?'correct':'wrong'}">${sel===correct?'✓ 正確':'✗ 錯誤，答案：'+correct}</div>
+                <div class="exp">${b.getAttribute('data-exp')}</div></div>`;
     }).join("");
     window.scrollTo(0,0);
 }
 
 function saveToBank(list) {
-    let bank = JSON.parse(localStorage.getItem('vet_wrong_bank')) || [];
-    list.forEach(item => { if(!bank.some(b => b.q === item.q)) bank.push(item); });
-    localStorage.setItem('vet_wrong_bank', JSON.stringify(bank));
+    let bank = JSON.parse(localStorage.getItem('vet_exam_bank')) || [];
+    list.forEach(item => { if(!bank.some(x => x.q === item.q)) bank.push(item); });
+    localStorage.setItem('vet_exam_bank', JSON.stringify(bank));
 }
 
 function showWrongBank() {
     document.getElementById('home-view').style.display = "none";
     document.getElementById('bank-view').style.display = "block";
-    const bank = JSON.parse(localStorage.getItem('vet_wrong_bank')) || [];
-    const content = document.getElementById('bank-content');
-    if(bank.length === 0) content.innerHTML = "<p>目前尚無紀錄。</p>";
-    else {
-        content.innerHTML = bank.map((item, i) => `
-            <div class="q-block">
-                <p><small>[${item.chapter}]</small><br><strong>${i+1}. ${item.q}</strong></p>
-                <ul style="font-size:0.85em; color:#555;">${item.o.map(o => `<li style="${o === item.a ? 'color:green;font-weight:bold;' : ''}">${o}</li>`).join("")}</ul>
-                <div class="exp">解析：${item.e}</div>
-            </div>
-        `).join("");
-    }
+    const bank = JSON.parse(localStorage.getItem('vet_exam_bank')) || [];
+    document.getElementById('bank-content').innerHTML = bank.length ? bank.map(i => `<div class='q-block'><p><strong>${i.q}</strong></p><p style='color:green'>答：${i.a}</p><div class='exp'>${i.e}</div></div>`).join("") : "目前無紀錄";
 }
 
-function clearBank() { if(confirm("確定清空？")) { localStorage.removeItem('vet_wrong_bank'); showWrongBank(); } }
-function copyReport() { const txt = document.getElementById('report-text').innerText; navigator.clipboard.writeText(txt).then(() => alert("已複製！")); }
 function goHome() { location.reload(); }
-
-init();
+function goBackToSub() { document.getElementById('quiz-view').style.display="none"; document.getElementById('sub-menu-view').style.display="block"; }
+function clearBank() { localStorage.removeItem('vet_exam_bank'); showWrongBank(); }
+function copyReport() { navigator.clipboard.writeText(document.getElementById('report-text').innerText); alert("已複製！"); }
 </script>
 </body>
 </html>
